@@ -1,0 +1,16 @@
+## Title: Advanced Filters
+## Author: ingeniousclown and Randactyl
+## Version: 0.7.3.4
+## APIVersion: 100010
+## OptionalDependsOn: ItemSaver InventoryGridView libFilters
+
+lib\LibStub\LibStub.lua
+lib\libFilters\libFilters.lua
+
+AF_Strings.lua
+AF_TextureMap.lua
+AdvancedFilterGroup.lua
+AdvancedFilterData.lua
+AdvancedFilters.lua
+
+extrafilters\LevelFilters.lua

@@ -1,0 +1,283 @@
+local MAJOR, MINOR = "libFilters", 12
+local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
+if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
+--thanks to Seerah for the previous lines and library
+
+version = 12
+
+--some constants for your filters
+LAF_BAGS = 1
+LAF_BANK = 2
+LAF_GUILDBANK = 3
+LAF_STORE = 4
+LAF_DECONSTRUCTION = 5
+LAF_GUILDSTORE = 6
+LAF_MAIL = 7
+LAF_TRADE = 8
+LAF_ENCHANTING_CREATION = 11
+LAF_ENCHANTING_EXTRACTION = 12
+LAF_IMPROVEMENT = 13
+-- this one is to leave an impression of backward compatibility
+LAF_ENCHANTING = LAF_ENCHANTING_EXTRACTION
+
+libFilters.filters = {
+	[LAF_BAGS] = {},
+	[LAF_BANK] = {},
+	[LAF_GUILDBANK] = {},
+	[LAF_STORE] = {},
+	[LAF_DECONSTRUCTION] = {},
+	[LAF_GUILDSTORE] = {},
+	[LAF_MAIL] = {},
+	[LAF_TRADE] = {},
+	[LAF_ENCHANTING_CREATION] = {},
+	[LAF_ENCHANTING_EXTRACTION] = {},
+	[LAF_IMPROVEMENT] = {},
+}
+local filters = libFilters.filters
+
+local enchantingModeToFilterType = {
+	[ENCHANTING_MODE_CREATION] = LAF_ENCHANTING_CREATION,
+	[ENCHANTING_MODE_EXTRACTION] = LAF_ENCHANTING_EXTRACTION,
+}
+
+local function df(...)
+	d(string.format(...))
+end
+
+local function runFilters(filterType, ...)
+	for tag, filter in pairs(filters[filterType]) do
+		if not filter(...) then
+			return false
+		end
+	end
+	return true
+end
+
+-- _inventory_ should be one of:
+--  a) backpack layout fragment with .layoutData
+--  b) inventory table from PLAYER_INVENTORY.inventories
+local function hookAdditionalFilter(filterType, inventory)
+	local layoutData = inventory.layoutData or inventory
+	local originalFilter = layoutData.additionalFilter
+
+	layoutData.libFilters_filterType = filterType
+
+	if type(originalFilter) == "function" then
+		layoutData.additionalFilter = function(slot)
+			return originalFilter(slot) and runFilters(filterType, slot)
+		end
+	else
+		layoutData.additionalFilter = function(slot)
+			return runFilters(filterType, slot)
+		end
+	end
+end
+
+--LAF_DECONSTRUCTION
+--since this is a PreHook using ZO_PreHook, a return of true means don't add
+local function DeconstructionFilter( self, bagId, slotIndex, ... )
+	return not runFilters(LAF_DECONSTRUCTION, bagId, slotIndex)
+end
+
+--LAF_IMPROVEMENT
+--since this is a PreHook using ZO_PreHook, a return of true means don't add
+local function ImprovementFilter( self, bagId, slotIndex, ... )
+	return not runFilters(LAF_IMPROVEMENT, bagId, slotIndex)
+end
+
+--LAF_ENCHANTING
+--since this is a PreHook using ZO_PreHook, a return of true means don't add
+local function EnchantingFilter( self, bagId, slotIndex, ... )
+	local filterType = enchantingModeToFilterType[ENCHANTING.enchantingMode]
+	return filterType and not runFilters(filterType, bagId, slotIndex)
+end
+
+local inventoryUpdaters = {
+	BACKPACK = function()
+		PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
+	end,
+	BANK = function()
+		PLAYER_INVENTORY:UpdateList(INVENTORY_BANK)
+	end,
+	GUILD_BANK = function()
+		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
+	end,
+	DECONSTRUCTION = function()
+		SMITHING.deconstructionPanel.inventory:HandleDirtyEvent()
+	end,
+	IMPROVEMENT = function()
+		SMITHING.improvementPanel.inventory:HandleDirtyEvent()
+	end,
+	ENCHANTING = function()
+		ENCHANTING.inventory:HandleDirtyEvent()
+	end,
+}
+
+local filterTypeToUpdaterName = {
+	[LAF_BAGS] = "BACKPACK",
+	[LAF_BANK] = "BANK",
+	[LAF_GUILDBANK] = "GUILD_BANK",
+	[LAF_STORE] = "BACKPACK",
+	[LAF_DECONSTRUCTION] = "DECONSTRUCTION",
+	[LAF_GUILDSTORE] = "BACKPACK",
+	[LAF_MAIL] = "BACKPACK",
+	[LAF_TRADE] = "BACKPACK",
+	[LAF_ENCHANTING_CREATION] = "ENCHANTING",
+	[LAF_ENCHANTING_EXTRACTION] = "ENCHANTING",
+	[LAF_IMPROVEMENT] = "IMPROVEMENT",
+}
+
+function libFilters:RequestInventoryUpdate( filterType )
+	local updaterName = filterTypeToUpdaterName[filterType]
+	local callbackName = "libFilters_updateInventory_" .. updaterName
+	-- cancel previously scheduled update if any
+	EVENT_MANAGER:UnregisterForUpdate(callbackName)
+	-- register a new one
+	EVENT_MANAGER:RegisterForUpdate(callbackName, 40, function()
+		EVENT_MANAGER:UnregisterForUpdate(callbackName)
+		inventoryUpdaters[updaterName]()
+	end)
+end
+
+--filterCallback must be a function with parameter (slot) and return true/false
+function libFilters:RegisterFilter( filterTag, filterType, filterCallback )
+	--lazily initialize the library
+	if(not self.IS_INITIALIZED) then self:InitializeLibFilters() end
+
+	local callbacks = filters[filterType]
+
+	if not filterTag or not callbacks or type(filterCallback) ~= "function" then
+		df("libFilters: invalid arguments to RegisterFilter (%q, %s, %s)",
+			tostring(filterTag), tostring(filterType), tostring(filterCallback))
+		return
+	end
+
+	if callbacks[filterTag] ~= nil then
+		df("libFilters: %q filterType %s is already in use",
+			tostring(filterTag), tostring(filterType))
+		return
+	end
+
+	callbacks[filterTag] = filterCallback
+	self:RequestInventoryUpdate(filterType)
+end
+
+function libFilters:UnregisterFilter( filterTag, filterType )
+	--lazily initialize the add-on
+	if(not self.IS_INITIALIZED) then self:InitializeLibFilters() end
+
+	if filterType == nil then
+		-- unregister all filters with this tag
+		for filterType, callbacks in pairs(filters) do
+			if callbacks[filterTag] ~= nil then
+				callbacks[filterTag] = nil
+				self:RequestInventoryUpdate(filterType)
+			end
+		end
+	else
+		-- unregister only the specified filter type
+		local callbacks = filters[filterType]
+		if callbacks[filterTag] ~= nil then
+			callbacks[filterTag] = nil
+			self:RequestInventoryUpdate(filterType)
+		end
+	end
+end
+
+function libFilters:IsFilterRegistered( filterTag, filterType )
+	if filterType == nil then
+		-- check whether there's any filter with this tag
+		for filterType, callbacks in pairs(filters) do
+			if callbacks[filterTag] ~= nil then
+				return true
+			end
+		end
+		return false
+	else
+		-- check only the specified filter type
+		local callbacks = filters[filterType]
+		return callbacks[filterTag] ~= nil
+	end
+end
+
+function libFilters:GetCurrentLAF( inventoryType )
+	local inventory = PLAYER_INVENTORY.inventories[inventoryType]
+	local layoutData = PLAYER_INVENTORY.appliedLayout
+
+	if inventoryType == INVENTORY_BACKPACK then
+		if layoutData and layoutData.libFilters_filterType then
+			return layoutData.libFilters_filterType
+		end
+	end
+
+	return inventory.libFilters_filterType
+end
+
+function libFilters:InventoryTypeToLAF( inventoryType )
+	if(inventoryType == INVENTORY_BACKPACK) then
+		return LAF_BAGS
+	elseif(inventoryType == INVENTORY_BANK) then
+		return LAF_BANK
+	elseif(inventoryType == INVENTORY_GUILD_BANK) then
+		return LAF_GUILDBANK
+	end
+
+	return 0
+end
+
+function libFilters:BagIdToLAF( badId )
+	if(bagId == BAG_BACKPACK) then
+		return LAF_BAGS
+	elseif(bagId == BAG_BANK) then
+		return LAF_BANK
+	elseif(bagId == BAG_GUILDBANK) then
+		return LAF_GUILDBANK
+	end
+
+	return 0
+end
+
+function libFilters:InitializeLibFilters()
+	if self.IS_INITIALIZED then return end
+	self.IS_INITIALIZED = true
+
+	-- PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK].additionalFilter
+	-- is reset every time a different backpack layout fragment is shown,
+	-- therefore it needs to be hooked in each fragment's layout data
+	hookAdditionalFilter(LAF_BAGS, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
+	hookAdditionalFilter(LAF_BAGS, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
+	hookAdditionalFilter(LAF_BAGS --[[ correct, not LAF_BANK ]], BACKPACK_BANK_LAYOUT_FRAGMENT)
+	hookAdditionalFilter(LAF_STORE, BACKPACK_STORE_LAYOUT_FRAGMENT)
+	hookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
+	hookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
+	hookAdditionalFilter(LAF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
+
+	-- other inventories seem to never reset additionalFilter
+	hookAdditionalFilter(LAF_BANK, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
+	hookAdditionalFilter(LAF_GUILDBANK, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
+
+	ZO_PreHook(SMITHING.deconstructionPanel.inventory, "AddItemData", DeconstructionFilter)
+	ZO_PreHook(SMITHING.improvementPanel.inventory, "AddItemData", ImprovementFilter)
+	ZO_PreHook(ENCHANTING.inventory, "AddItemData", EnchantingFilter)
+end
+
+--here is a handful of examples and tests!  these may expand in the future.
+
+-- function test( filterType )
+-- 	if(not filterType) then return end
+-- 	libFilters:RegisterFilter("test", filterType, function(slot)
+--         local _,_,value = GetItemInfo(slot.bagId, slot.slotIndex)
+--         return value > 20
+--     end)
+-- end
+
+-- function testDecon()
+-- 	libFilters:RegisterFilter("test", LAF_DECONSTRUCTION, function(bagId, slotIndex)
+--         local _,_,value = GetItemInfo(bagId, slotIndex)
+--         return value > 20
+--     end)
+-- end
+
+-- function untest()
+-- 	libFilters:UnregisterFilter("test")
+-- end
