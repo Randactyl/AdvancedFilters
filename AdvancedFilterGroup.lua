@@ -1,7 +1,6 @@
 --init filtering library
 local libFilters = LibStub("libFilters")
 
-test = 2354
 --local "globals"
 local SUBFILTER_HEIGHT = 40
 local STARTX = 148
@@ -10,14 +9,6 @@ local INDEX = 0
 local HIGHLIGHT_TEXTURE = [[/esoui/art/actionbar/magechamber_lightningspelloverlay_up.dds]]
 local BUTTON_STRING = "AdvancedFilters_Button_Filter"
 local DROPDOWN_STRING = "AdvancedFilters_Dropdown_Filter"
-local prefixes = {
-	[INVENTORY_BACKPACK] = "Backpack",
-	[INVENTORY_BANK] = "Bank",
-	[INVENTORY_GUILD_BANK] = "GuildBank",
-}
-
---possibly unused
-local resetting = false
 local highlightTexture = nil
 
 --declaration of intent to create object
@@ -39,31 +30,26 @@ local function AdvancedFilters_GetLanguage()
 	return "en"
 end
 
-local function MoveHighlightToMe(button)
-	highlightTexture:ClearAnchors()
-	highlightTexture:SetParent(button)
-	highlightTexture:SetAnchor(CENTER, button, CENTER)
-	highlightTexture:SetDimensions(ICON_SIZE, ICON_SIZE)
+local function MoveHighlightToMe(currentButton, lastButton)
+	--remove any highlights or upTextrues
+	AdvancedFilterGroup_RemoveHighlight(lastButton)
+
+	--apply highlight or downTexture if it exists
+	highlightTexture:SetParent(currentButton)
+	highlightTexture:SetAnchor(CENTER, currentButton, CENTER)
 	highlightTexture:SetHidden(false)
+
+	if currentButton.downTexture then
+		highlightTexture:SetHidden(true)
+		currentButton:GetNamedChild("Flash"):SetHidden(false)
+		currentButton:GetNamedChild("Texture"):SetTexture(currentButton.downTexture)
+		currentButton:SetScale(1.5)
+		currentButton:SetMouseEnabled(false)
+	end
 end
 
-local function CycleTextures(button, currentSelected)
-	if(button == currentSelected) then return end
+local function SetAllTexturesOff(subfilterBar)
 
-	if(button.upTexture) then
-		highlightTexture:SetHidden(true)
-		button:GetNamedChild("Flash"):SetHidden(false)
-		button:GetNamedChild("Texture"):SetTexture(button.downTexture)
-		button:SetScale(1.5)
-		button:SetMouseEnabled(false)
-	end
-
-	if(currentSelected and currentSelected.upTexture) then 
-		currentSelected:GetNamedChild("Flash"):SetHidden(true)
-		currentSelected:GetNamedChild("Texture"):SetTexture(currentSelected.upTexture)
-		currentSelected:SetScale(1)
-		currentSelected:SetMouseEnabled(true)
-	end
 end
 
 local function SetUpCallbackFilter(button, filterTag)
@@ -93,10 +79,8 @@ end
 
 local function OnDropdownSelect(self)
 	if(not GetCurrentInventoryType()) then return end
-	currentDropdown = self
 
 	SetUpCallbackFilter(self, DROPDOWN_STRING)
-	-- PLAYER_INVENTORY:UpdateList(GetCurrentInventoryType())
 end
 
 --interface
@@ -175,8 +159,6 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 			if(subfilter.dropdown and subfilter.dropdown:IsHidden()) then
                 subfilter.dropdown:SetHidden(false)
             end
-            local currentSelected = self.activeButtons[GetCurrentInventoryType()]
-            if(button == currentSelected) then return end
             self:ActivateButton(button, name)
         end)
     button.filterCallback = callback
@@ -204,7 +186,7 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 		flash:SetHidden(true)
 	end
 
-	button:SetHandler("OnMouseEnter", function()
+	button:SetHandler("OnMouseEnter", function(self)
 			ZO_Tooltips_ShowTextTooltip(self, TOP, tooltipSet[name])
 
 			if(flash and subfilter.clickable) then
@@ -251,23 +233,21 @@ end
 function AdvancedFilterGroup:ActivateButton(button, name)
 	local tooltipSet = AF_Strings[AdvancedFilters_GetLanguage()].TOOLTIPS
 	self:ChangeLabel(tooltipSet[name])
-    --MoveHighlightToMe(button)
 
     local currentSelected = self.activeButtons[GetCurrentInventoryType()]
 
-    if(not GetCurrentInventoryType() or self == currentSelected) then return end
+    MoveHighlightToMe(button, currentSelected)
 
-	if(self.filterCallback and currentSelected and currentSelected.filterCallback and not (self == currentSelected)) then 
-		local dropdown = currentSelected:GetParent().dropdown
+    if button.dropdown then
+		local dropdown = button:GetParent().dropdown
 		if(dropdown) then
 			dropdown.m_comboBox:SelectFirstItem()
 			dropdown:SetHidden(true)
 		end
-	end
-
-	CycleTextures(button, currentSelected)
-	self.activeButtons[GetCurrentInventoryType()] = button
+	end	
+	
 	SetUpCallbackFilter(button, BUTTON_STRING)
+	self.activeButtons[GetCurrentInventoryType()] = button
 end
 
 function AdvancedFilterGroup:GetCurrentButton()
@@ -290,4 +270,16 @@ end
 function AdvancedFilterGroup_ResetToAll()
 	libFilters:UnregisterFilter(BUTTON_STRING)
 	libFilters:UnregisterFilter(DROPDOWN_STRING)
+end
+
+function AdvancedFilterGroup_RemoveHighlight(button)
+	highlightTexture:SetHidden(true)
+	highlightTexture:ClearAnchors()
+	
+	if button.upTexture then
+		button:GetNamedChild("Flash"):SetHidden(true)
+		button:GetNamedChild("Texture"):SetTexture(button.upTexture)
+		button:SetScale(1)
+		button:SetMouseEnabled(true)
+	end
 end

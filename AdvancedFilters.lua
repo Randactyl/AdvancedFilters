@@ -129,7 +129,7 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 	BANK.inventoryType = INVENTORY_BANK
 	GUILDBANK.inventoryType = INVENTORY_GUILD_BANK
 
-	local function hookInventoryShown(control, inventoryType)
+	local function hookInventory(control, inventoryType)
 		local function onInventoryShown(control, hidden)
 			--d(("AF InventoryShown '%s'"):format(control.GetName()))
 			g_currentInventoryType = inventoryType
@@ -140,12 +140,18 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 			local offset = RefreshSubfilterBar(inventory, inventory.currentFilter)
 			UpdateInventoryAnchors(PLAYER_INVENTORY, inventoryType, offset)
 		end
+		local function onInventoryHidden(control, hidden)
+			local inventory = PLAYER_INVENTORY.inventories[inventoryType]
+			local subfilterBar = subfilterBars[inventory.currentFilter]
+			AdvancedFilterGroup_RemoveHighlight(subfilterBar.activeButtons[inventoryType])
+		end
 		ZO_PreHookHandler(control, "OnEffectivelyShown", onInventoryShown)
+		ZO_PreHookHandler(control, "OnEffectivelyHidden", onInventoryHidden)
 	end
 
-	hookInventoryShown(ZO_PlayerInventory, INVENTORY_BACKPACK)
-	hookInventoryShown(ZO_PlayerBank, INVENTORY_BANK)
-	hookInventoryShown(ZO_GuildBank, INVENTORY_GUILD_BANK)
+	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
+	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
+	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
 
 	--EVENT_MANAGER:RegisterForEvent("AdvancedFilters_InventorySlotUpdate", EVENT_INVENTORY_SINGLE_SLOT_UPDATE, InventorySlotUpdated)
 end
