@@ -176,10 +176,12 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 	local deStrings = enStrings
 	local frStrings = enStrings
 	local ruStrings = enStrings
+	local esStrings = enStrings
 
 	if filterInformation.deStrings ~= nil then deStrings = filterInformation.deStrings end
 	if filterInformation.frStrings ~= nil then frStrings = filterInformation.frStrings end
 	if filterInformation.ruStrings ~= nil then ruStrings = filterInformation.ruStrings end
+	if filterInformation.esStrings ~= nil then esStrings = filterInformation.esStrings end
 
 	if(filterType == ITEMFILTERTYPE_ALL) then
 		table.insert(AF_Callbacks[ITEMFILTERTYPE_WEAPONS].Addons, addonInformation)
@@ -202,6 +204,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 	if deStrings ~= enStrings then addStrings("de", deStrings) end
 	if frStrings ~= enStrings then addStrings("fr", frStrings) end
 	if ruStrings ~= enStrings then addStrings("ru", ruStrings) end
+	if esStrings ~= enStrings then addStrings("es", esStrings) end
 end
 
 local function BuildCallbackTable(filterType, subfilterString)
