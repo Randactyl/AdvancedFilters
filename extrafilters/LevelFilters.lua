@@ -76,6 +76,7 @@ local filterInformation = {
 	deStrings = strings,
 	frStrings = strings,
 	ruStrings = strings,
+	esStrings = strings,
 }
 
 --[[
