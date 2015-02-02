@@ -15,7 +15,7 @@ local function GetFilterCallbackForArmorType( filterTypes )
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		local armorType = GetItemLinkArmorType(itemLink)
 		for i=1, #filterTypes do
-			if(filterTypes[i] == armorType) then 
+			if(filterTypes[i] == armorType) then
 				return true 
 			end
 		end
@@ -351,7 +351,7 @@ function AdvancedFilters_InitAllFilters()
 	WEAPONS:AddSubfilter("TwoHand", [[/esoui/art/progression/icon_2handed.dds]], 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD}),
 		twoHandedDropdownCallbacks)
-	WEAPONS:AddSubfilter("OneHand", [[/esoui/art/progression/icon_dualwield.dds]], 
+	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER}),
 		oneHandedDropdownCallbacks)
 	WEAPONS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allWeaponDropdownCallbacks)
@@ -366,17 +366,17 @@ function AdvancedFilters_InitAllFilters()
 	local miscDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Miscellaneous")
 
 	local ARMORS = AdvancedFilterGroup:New("Armors")
-	ARMORS:AddSubfilter("Misc", [[/esoui/art/inventory/inventory_tabicon_misc_up.dds]],
+	ARMORS:AddSubfilter("Misc", AF_TextureMap.DISGUISES,
 		GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}), miscDropdownCallbacks)
-	ARMORS:AddSubfilter("Jewelry", [[/esoui/art/charactercreate/charactercreate_accessory_up.dds]],
+	ARMORS:AddSubfilter("Jewelry", AF_TextureMap.JEWELRY,
 		GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK}), jewelryDropdownCallbacks)
-	ARMORS:AddSubfilter("Shield", [[/esoui/art/guild/guildhistory_indexicon_guild_up.dds]],
+	ARMORS:AddSubfilter("Shield", AF_TextureMap.SHIELD,
 		GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND}), shieldDropdownCallbacks)
-	ARMORS:AddSubfilter("Light", [[/esoui/art/charactercreate/charactercreate_bodyicon_up.dds]],
+	ARMORS:AddSubfilter("Light", AF_TextureMap.LIGHT,
 		GetFilterCallbackForArmorType({ARMORTYPE_LIGHT}), lightArmorDropdownCallbacks)
-	ARMORS:AddSubfilter("Medium", [[/esoui/art/campaign/overview_indexicon_scoring_up.dds]],
+	ARMORS:AddSubfilter("Medium", AF_TextureMap.MEDIUM,
 		GetFilterCallbackForArmorType({ARMORTYPE_MEDIUM}), mediumArmorDropdownCallbacks)
-	ARMORS:AddSubfilter("Heavy", [[/esoui/art/inventory/inventory_tabicon_armor_up.dds]],
+	ARMORS:AddSubfilter("Heavy", AF_TextureMap.HEAVY,
 		GetFilterCallbackForArmorType({ARMORTYPE_HEAVY}), heavyArmorDropdownCallbacks)
 	ARMORS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allArmorDropdownCallbacks)
 
@@ -453,15 +453,18 @@ function AdvancedFilters_InitAllFilters()
 	local siegeDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Siege")
 	local baitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Bait")
 	local toolDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Tool")
-	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trophy")
+	--local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
+	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
 
 	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous")
-	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
-		trophyDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Trash", AF_TextureMap.TRASH, GetFilterCallback({ITEMTYPE_TRASH}),
 		trashDropdownCallbacks)
+	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE})--[[,
+		fenceDropdownCallbacks]])
+	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
+		trophyDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Tool", AF_TextureMap.TOOL, GetFilterCallback({ITEMTYPE_TOOL}),
 		toolDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Bait", AF_TextureMap.BAIT, GetFilterCallback({ITEMTYPE_LURE}),
