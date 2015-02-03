@@ -382,7 +382,7 @@ AF_Strings = {
 	},
 }
 
---Meta table trick to use english localization for german, french, russian and other values, which are missing
+--Metatable trick to use english localization for german, french, russian and other values, which are missing
 setmetatable(AF_Strings["de"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
 setmetatable(AF_Strings["fr"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
 setmetatable(AF_Strings["ru"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})

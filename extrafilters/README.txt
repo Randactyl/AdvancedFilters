@@ -22,7 +22,7 @@ Remember to include all readme and disclaimer information required by ZOS.
 Your addon manifest must look similar to the following (example from Item Saver filter):
 --[[
 
-## Title: Advanced Filters - Item Saver
+## Title: Advanced Filters - Item Saver Filters
 ## Author: Randactyl
 ## Version: 1.0
 ## APIVersion: 100009
