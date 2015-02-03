@@ -1,4 +1,9 @@
-local function GetFilterCallbackForWeaponType( filterTypes )
+--Internal: Get a callback function specific to weapons
+--
+--filterTypes - A table of generally only one WEAPONTYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForWeaponType(filterTypes)
 	return function( slot )
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		local weaponType = GetItemLinkWeaponType(itemLink)
@@ -9,8 +14,12 @@ local function GetFilterCallbackForWeaponType( filterTypes )
 		end
 	end
 end
-
-local function GetFilterCallbackForArmorType( filterTypes )
+--Internal: Get a callback function specific to armor
+--
+--filterTypes - A table of generally only one ARMORTYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForArmorType(filterTypes)
 	return function( slot )
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		local armorType = GetItemLinkArmorType(itemLink)
@@ -22,8 +31,13 @@ local function GetFilterCallbackForArmorType( filterTypes )
 	end
 end
 
-local function GetFilterCallbackForGear( filterTypes )
-	return function( slot )
+--Internal: Get a callback function specific to gear
+--
+--filterTypes - A table of generally only one EQUIP_TYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForGear(filterTypes)
+	return function(slot)
 		local result = false
 		for i=1, #filterTypes do
 			local _,_,_,_,_,equipType = GetItemInfo(slot.bagId, slot.slotIndex)
@@ -33,8 +47,13 @@ local function GetFilterCallbackForGear( filterTypes )
 	end
 end
 
-local function GetFilterCallbackForEnchanting( filterTypes )
-	return function( slot )
+--Internal: Get a callback function specific to enchanting runes
+--
+--filterTypes - A table of generally only one ENCHANTING_RUNE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForEnchanting(filterTypes)
+	return function(slot)
 		local result = false
 		for i=1, #filterTypes do
 			local _,_,runeType = GetItemCraftingInfo(slot.bagId, slot.slotIndex)
@@ -44,7 +63,12 @@ local function GetFilterCallbackForEnchanting( filterTypes )
 	end
 end
 
-local function GetFilterCallback( filterTypes )
+--Internal: Get a generic callback function
+--
+--filterTypes - A table of one or more ITEMTYPE enums
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallback(filterTypes)
 	if(not filterTypes) then return function(slot) return true end end
 
 	return function( slot )
@@ -56,6 +80,7 @@ local function GetFilterCallback( filterTypes )
 	end
 end
 
+--temporary storage for all of the dropdown callbacks from the base addon in addition to plugins.
 local AF_Callbacks = {
 	[ITEMFILTERTYPE_ALL] = {
 		[1] = { name = "All", filterCallback = GetFilterCallback(nil) },
@@ -149,40 +174,40 @@ local AF_Callbacks = {
 	},
 }
 
+--Public: Provide ability for other addons or plugins to include custom dropdown filters
+--
+--filterInformation - table containing information about the custom filters to include. This is documented in a separate README
+--
+--Returns nothing
 function AdvancedFilters_RegisterFilter(filterInformation)
-	if filterInformation == nil then 
+	--make sure all necessary information is present
+	if filterInformation == nil then
 		d("No filter information provided. Filter not registered.")
-		return 
+		return
 	end
-	if filterInformation.callbackTable == nil then 
+	if filterInformation.callbackTable == nil then
 		d("No callback information provided. Filter not registered.")
-		return 
+		return
 	end
-	if filterInformation.subfilters == nil then 
+	if filterInformation.subfilters == nil then
 		d("No subfilter type information provided. Filter not registered.")
 		return
 	end
-	if filterInformation.filterType == nil then 
+	if filterInformation.filterType == nil then
 		d("No base filter type information provided. Filter not registered.")
-		return 
+		return
+	end
+	if filterInformation.enStrings == nil then
+		d("No English strings provided. Filter not registered.")
+		return
 	end
 
+	--get filter information from the calling addon and insert it into our callback table
 	local addonInformation = {
 		callbackTable = filterInformation.callbackTable,
 		subfilters = filterInformation.subfilters,
 	}
 	local filterType = filterInformation.filterType
-	local enStrings = filterInformation.enStrings
-	local deStrings = enStrings
-	local frStrings = enStrings
-	local ruStrings = enStrings
-	local esStrings = enStrings
-
-	if filterInformation.deStrings ~= nil then deStrings = filterInformation.deStrings end
-	if filterInformation.frStrings ~= nil then frStrings = filterInformation.frStrings end
-	if filterInformation.ruStrings ~= nil then ruStrings = filterInformation.ruStrings end
-	if filterInformation.esStrings ~= nil then esStrings = filterInformation.esStrings end
-
 	if(filterType == ITEMFILTERTYPE_ALL) then
 		table.insert(AF_Callbacks[ITEMFILTERTYPE_WEAPONS].Addons, addonInformation)
 		table.insert(AF_Callbacks[ITEMFILTERTYPE_ARMOR].Addons, addonInformation)
@@ -193,20 +218,25 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 		table.insert(AF_Callbacks[filterType].Addons, addonInformation)
 	end
 
+	--get string information from the calling addon and insert it into our string table
 	local function addStrings(lang, strings)
 		for key, string in pairs(strings) do
 			AF_Strings[lang].TOOLTIPS[key] = string
 		end
 	end
-
-	addStrings("en", enStrings)
-
-	if deStrings ~= enStrings then addStrings("de", deStrings) end
-	if frStrings ~= enStrings then addStrings("fr", frStrings) end
-	if ruStrings ~= enStrings then addStrings("ru", ruStrings) end
-	if esStrings ~= enStrings then addStrings("es", esStrings) end
+	addStrings("en", filterInformation.enStrings)
+	if filterInformation.deStrings ~= nil then addStrings("de", filterInformation.deStrings) end
+	if filterInformation.frStrings ~= nil then addStrings("fr", filterInformation.frStrings) end
+	if filterInformation.ruStrings ~= nil then addStrings("ru", filterInformation.ruStrings) end
+	if filterInformation.esStrings ~= nil then addStrings("es", filterInformation.esStrings) end
 end
 
+--Internal: Gathers all callback functions for a specific filter and subfilter
+--
+--filterType - An ITEMFILTERTYPE enum provided by the game
+--subfilterString - A string that designates a specific subfilter. Valid values can be found in the keys table within this function
+--
+--Returns a table of callback functions for use in filtering from the dropdown menu
 local function BuildCallbackTable(filterType, subfilterString)
 	local callbackTable = {}
 	local keys = {
@@ -324,13 +354,14 @@ local function BuildCallbackTable(filterType, subfilterString)
 	return callbackTable
 end
 
-local hasInit = false
 
+--Internal: Initializes all of the subfilter objects
+--
+--Returns a subfilter group object for each of the main ITEMFILTERTYPEs
+local hasInit = false
 function AdvancedFilters_InitAllFilters()
 	if(hasInit) then return nil end
 	hasInit = true
-
-	local icon = [[/esoui/art/buttons/edit_disabled.dds]]
 
 	-- WEAPONS --
 	local allWeaponDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "All")
@@ -454,7 +485,7 @@ function AdvancedFilters_InitAllFilters()
 	local baitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Bait")
 	local toolDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Tool")
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trophy")
-	--local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
+	local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
 	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
 
