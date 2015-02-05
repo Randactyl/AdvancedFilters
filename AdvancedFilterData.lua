@@ -485,7 +485,7 @@ function AdvancedFilters_InitAllFilters()
 	local baitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Bait")
 	local toolDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Tool")
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trophy")
-	local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
+	--local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
 	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
 
