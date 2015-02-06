@@ -12,29 +12,29 @@ AF_TextureMap = {
 
 	--WEAPONS
 	ONEHAND = {
-		upTexture = "/esoui/art/mainmenu/menubar_skills_up.dds",
-		downTexture = "/esoui/art/mainmenu/menubar_skills_down.dds",
-		flash = "/esoui/art/mainmenu/menubar_skills_over.dds",
+		upTexture = "AdvancedFilters/assets/weapons/onehanded_up.dds",
+		downTexture = "AdvancedFilters/assets/weapons/onehanded_down.dds",
+		flash = "AdvancedFilters/assets/weapons/onehanded_over.dds",
 	},
 	TWOHAND = {
-		upTexture = "",
-		downTexture = "",
-		flash = "",
+		upTexture = "AdvancedFilters/assets/weapons/twohanded_up.dds",
+		downTexture = "AdvancedFilters/assets/weapons/twohanded_down.dds",
+		flash = "AdvancedFilters/assets/weapons/twohanded_over.dds",
 	},
 	BOW = {
-		upTexture = "",
-		downTexture = "",
-		flash = "",
+		upTexture = "AdvancedFilters/assets/weapons/bow_up.dds",
+		downTexture = "AdvancedFilters/assets/weapons/bow_down.dds",
+		flash = "AdvancedFilters/assets/weapons/bow_over.dds",
 	},
 	DESTRUCTIONSTAFF = {
-		upTexture = "",
-		downTexture = "",
-		flash = "",
+		upTexture = "AdvancedFilters/assets/weapons/destruction_up.dds",
+		downTexture = "AdvancedFilters/assets/weapons/destruction_down.dds",
+		flash = "AdvancedFilters/assets/weapons/destruction_over.dds",
 	},
 	HEALSTAFF = {
-		upTexture = "",
-		downTexture = "",
-		flash = "",
+		upTexture = "AdvancedFilters/assets/weapons/healing_up.dds",
+		downTexture = "AdvancedFilters/assets/weapons/healing_down.dds",
+		flash = "AdvancedFilters/assets/weapons/healing_over.dds",
 	},
 
 	--ARMOR
@@ -44,24 +44,24 @@ AF_TextureMap = {
 		flash = "/esoui/art/inventory/inventory_tabicon_armor_over.dds",
 	},
 	MEDIUM = {
-		upTexture = "/esoui/art/campaign/overview_indexicon_scoring_up.dds",
-		downTexture = "/esoui/art/campaign/overview_indexicon_scoring_down.dds",
-		flash = "/esoui/art/campaign/overview_indexicon_scoring_over.dds",
+		upTexture = "AdvancedFilters/assets/apparel/medium_up.dds",
+		downTexture = "AdvancedFilters/assets/apparel/medium_down.dds",
+		flash = "AdvancedFilters/assets/apparel/medium_over.dds",
 	},
 	LIGHT = {
-		upTexture = "/esoui/art/charactercreate/charactercreate_bodyicon_up.dds",
-		downTexture = "/esoui/art/charactercreate/charactercreate_bodyicon_down.dds",
-		flash = "/esoui/art/charactercreate/charactercreate_bodyicon_over.dds",
+		upTexture = "AdvancedFilters/assets/apparel/light_up.dds",
+		downTexture = "AdvancedFilters/assets/apparel/light_down.dds",
+		flash = "AdvancedFilters/assets/apparel/light_over.dds",
 	},
 	SHIELD = {
-		upTexture = "/esoui/art/guild/guildhistory_indexicon_guild_up.dds",
-		downTexture = "/esoui/art/guild/guildhistory_indexicon_guild_down.dds",
-		flash = "/esoui/art/guild/guildhistory_indexicon_guild_over.dds",
+		upTexture = "AdvancedFilters/assets/apparel/shield_up.dds",
+		downTexture = "AdvancedFilters/assets/apparel/shield_down.dds",
+		flash = "AdvancedFilters/assets/apparel/shield_over.dds",
 	},
 	JEWELRY = {
-		upTexture = "/esoui/art/charactercreate/charactercreate_accessory_up.dds",
-		downTexture = "/esoui/art/charactercreate/charactercreate_accessory_down.dds",
-		flash = "/esoui/art/charactercreate/charactercreate_accessory_over.dds",
+		upTexture = "AdvancedFilters/assets/apparel/jewelry_up.dds",
+		downTexture = "AdvancedFilters/assets/apparel/jewelry_down.dds",
+		flash = "AdvancedFilters/assets/apparel/jewelry_over.dds",
 	},
 	CLOTHES = {
 		upTexture = "/esoui/art/inventory/inventory_tabicon_misc_up.dds",
@@ -69,9 +69,9 @@ AF_TextureMap = {
 		flash = "/esoui/art/inventory/inventory_tabicon_misc_over.dds",
 	},
 	DISGUISES = {
-		upTexture = "/esoui/art/inventory/inventory_tabicon_misc_up.dds",
-		downTexture = "/esoui/art/inventory/inventory_tabicon_misc_down.dds",
-		flash = "/esoui/art/inventory/inventory_tabicon_misc_over.dds",
+		upTexture = "AdvancedFilters/assets/apparel/disguise_up.dds",
+		downTexture = "AdvancedFilters/assets/apparel/disguise_down.dds",
+		flash = "AdvancedFilters/assets/apparel/disguise_over.dds",
 	},
 
 	--CONSUMABLES

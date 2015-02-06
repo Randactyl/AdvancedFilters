@@ -372,14 +372,14 @@ function AdvancedFilters_InitAllFilters()
 	local healStaffDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "HealStaff")
 
 	local WEAPONS = AdvancedFilterGroup:New("Weapons")
-	WEAPONS:AddSubfilter("HealStaff", [[/esoui/art/progression/icon_healstaff.dds]], 
+	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF}), healStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("DestructionStaff", [[/esoui/art/progression/icon_firestaff.dds]], 
+	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF}),
 		destructionStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("Bow", [[/esoui/art/progression/icon_bows.dds]], 
+	WEAPONS:AddSubfilter("Bow", AF_TextureMap.BOW, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_BOW}), bowDropdownCallbacks)
-	WEAPONS:AddSubfilter("TwoHand", [[/esoui/art/progression/icon_2handed.dds]], 
+	WEAPONS:AddSubfilter("TwoHand", AF_TextureMap.TWOHAND, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD}),
 		twoHandedDropdownCallbacks)
 	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND, 
