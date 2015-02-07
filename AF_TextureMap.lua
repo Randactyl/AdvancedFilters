@@ -63,10 +63,10 @@ AF_TextureMap = {
 		downTexture = "AdvancedFilters/assets/apparel/jewelry_down.dds",
 		flash = "AdvancedFilters/assets/apparel/jewelry_over.dds",
 	},
-	CLOTHES = {
-		upTexture = "/esoui/art/inventory/inventory_tabicon_misc_up.dds",
-		downTexture = "/esoui/art/inventory/inventory_tabicon_misc_down.dds",
-		flash = "/esoui/art/inventory/inventory_tabicon_misc_over.dds",
+	CLOTHING = {
+		upTexture = "AdvancedFilters/assets/materials/style/style_up.dds",
+		downTexture = "AdvancedFilters/assets/materials/style/style_down.dds",
+		flash = "AdvancedFilters/assets/materials/style/style_over.dds",
 	},
 	DISGUISES = {
 		upTexture = "AdvancedFilters/assets/apparel/disguise_up.dds",

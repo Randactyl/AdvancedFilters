@@ -20,7 +20,7 @@ end
 --
 --Returns a callback function to use for filtering
 local function GetFilterCallbackForArmorType(filterTypes)
-	return function( slot )
+	return function(slot)
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		local armorType = GetItemLinkArmorType(itemLink)
 		for i=1, #filterTypes do
@@ -124,7 +124,7 @@ local AF_Callbacks = {
 			[1] = { name = "Ring", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING}) },
 			[2] = { name = "Neck", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_NECK}) },
 		},
-		["Miscellaneous"] = {},
+		["Disguises"] = {},
 	},
 	[ITEMFILTERTYPE_CONSUMABLE] = {
 		Addons = {},
@@ -253,7 +253,7 @@ local function BuildCallbackTable(filterType, subfilterString)
 			[2] = "Body",
 			[3] = "Shield",
 			[4] = "Jewelry",
-			[5] = "Miscellaneous",
+			[5] = "Disguises",
 		},
 		[ITEMFILTERTYPE_CONSUMABLE] = {
 			[1] = "All",
@@ -392,17 +392,20 @@ function AdvancedFilters_InitAllFilters()
 	local lightArmorDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Body")
 	local mediumArmorDropdownCallbacks = ZO_DeepTableCopy(lightArmorDropdownCallbacks, mediumArmorDropdownCallbacks)
 	local heavyArmorDropdownCallbacks = ZO_DeepTableCopy(lightArmorDropdownCallbacks, heavyArmorDropdownCallbacks)
+	local clothingDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Body")
 	local shieldDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Shield")
 	local jewelryDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Jewelry")
-	local miscDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Miscellaneous")
+	local disguiseDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Disguises")
 
 	local ARMORS = AdvancedFilterGroup:New("Armors")
-	ARMORS:AddSubfilter("Misc", AF_TextureMap.DISGUISES,
+	ARMORS:AddSubfilter("Disguises", AF_TextureMap.DISGUISES,
 		GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}), miscDropdownCallbacks)
 	ARMORS:AddSubfilter("Jewelry", AF_TextureMap.JEWELRY,
 		GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK}), jewelryDropdownCallbacks)
 	ARMORS:AddSubfilter("Shield", AF_TextureMap.SHIELD,
 		GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND}), shieldDropdownCallbacks)
+	ARMORS:AddSubfilter("Clothing", AF_TextureMap.CLOTHING,
+		GetFilterCallbackForArmorType({ARMORTYPE_NONE}), clothingDropdownCallbacks)
 	ARMORS:AddSubfilter("Light", AF_TextureMap.LIGHT,
 		GetFilterCallbackForArmorType({ARMORTYPE_LIGHT}), lightArmorDropdownCallbacks)
 	ARMORS:AddSubfilter("Medium", AF_TextureMap.MEDIUM,
