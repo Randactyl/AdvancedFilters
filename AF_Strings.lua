@@ -119,7 +119,7 @@ AF_Strings = {
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Disguises"] = "Disguises",
+			["Vanity"] = "Vanity",
 			["Jewelry"] = "Jewelry",
 			["Shield"] = "Shield",
 			["Clothing"] = "Clothing",

@@ -68,10 +68,10 @@ AF_TextureMap = {
 		downTexture = "AdvancedFilters/assets/materials/style/style_down.dds",
 		flash = "AdvancedFilters/assets/materials/style/style_over.dds",
 	},
-	DISGUISES = {
-		upTexture = "AdvancedFilters/assets/apparel/disguise_up.dds",
-		downTexture = "AdvancedFilters/assets/apparel/disguise_down.dds",
-		flash = "AdvancedFilters/assets/apparel/disguise_over.dds",
+	VANITY = {
+		upTexture = "AdvancedFilters/assets/apparel/vanity_up.dds",
+		downTexture = "AdvancedFilters/assets/apparel/vanity_down.dds",
+		flash = "AdvancedFilters/assets/apparel/vanity_over.dds",
 	},
 
 	--CONSUMABLES
