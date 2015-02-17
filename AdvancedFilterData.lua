@@ -188,8 +188,9 @@ local AF_Callbacks = {
 		["Siege"] = {},
 		["Bait"] = {},
 		["Tool"] = {},
-		["Trash"] = {},
 		["Trophy"] = {},
+		["Fence"] = {},
+		["Trash"] = {},
 	},
 }
 
@@ -305,8 +306,9 @@ local function BuildCallbackTable(filterType, subfilterString)
 			[4] = "Siege",
 			[5] = "Bait",
 			[6] = "Tool",
-			[7] = "Trash",
-			[8] = "Trophy",
+			[7] = "Trophy",
+			[8] = "Fence",
+			[9] = "Trash",
 		},
 	}
 
@@ -507,15 +509,15 @@ function AdvancedFilters_InitAllFilters()
 	local baitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Bait")
 	local toolDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Tool")
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trophy")
-	--local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
+	local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
 	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
 
 	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous")
 	MISCELLANEOUS:AddSubfilter("Trash", AF_TextureMap.TRASH, GetFilterCallback({ITEMTYPE_TRASH}),
 		trashDropdownCallbacks)
-	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE})--[[,
-		fenceDropdownCallbacks]])
+	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE}),
+		fenceDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
 		trophyDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Tool", AF_TextureMap.TOOL, GetFilterCallback({ITEMTYPE_TOOL}),
