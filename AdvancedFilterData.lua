@@ -14,6 +14,7 @@ local function GetFilterCallbackForWeaponType(filterTypes)
 		end
 	end
 end
+
 --Internal: Get a callback function specific to armor
 --
 --filterTypes - A table of generally only one ARMORTYPE enum
@@ -25,7 +26,7 @@ local function GetFilterCallbackForArmorType(filterTypes)
 		local armorType = GetItemLinkArmorType(itemLink)
 		for i=1, #filterTypes do
 			if(filterTypes[i] == armorType) then
-				return true 
+				return true
 			end
 		end
 	end
@@ -44,6 +45,21 @@ local function GetFilterCallbackForGear(filterTypes)
 			result = result or (filterTypes[i] == equipType)
 		end
 		return result
+	end
+end
+
+--Internal: Get a callback function specific to clothing
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForClothing()
+	return function(slot)
+		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
+		local armorType = GetItemLinkArmorType(itemLink)
+		local _,_,_,_,_,equipType = GetItemInfo(slot.bagId, slot.slotIndex)
+		if((ARMORTYPE_NONE == armorType) and
+		   (equipType ~= EQUIP_TYPE_NECK) and (equipType ~= EQUIP_TYPE_RING)) then
+			return true
+		end
 	end
 end
 
@@ -405,7 +421,7 @@ function AdvancedFilters_InitAllFilters()
 	ARMORS:AddSubfilter("Shield", AF_TextureMap.SHIELD,
 		GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND}), shieldDropdownCallbacks)
 	ARMORS:AddSubfilter("Clothing", AF_TextureMap.CLOTHING,
-		GetFilterCallbackForArmorType({ARMORTYPE_NONE}), clothingDropdownCallbacks)
+		GetFilterCallbackForClothing, clothingDropdownCallbacks)
 	ARMORS:AddSubfilter("Light", AF_TextureMap.LIGHT,
 		GetFilterCallbackForArmorType({ARMORTYPE_LIGHT}), lightArmorDropdownCallbacks)
 	ARMORS:AddSubfilter("Medium", AF_TextureMap.MEDIUM,
