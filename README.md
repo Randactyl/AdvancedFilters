@@ -6,17 +6,17 @@ Finally, Advanced Filters! The default inventory has type filters, but they're s
 
 *Features*:
 
-*Subfilters for each of the 5 main filter types!
+- Subfilters for each of the 5 main filter types!
 
-*Main inventory, personal bank and guild bank support!
+- Main inventory, personal bank and guild bank support!
 
-*Custom icon work that makes the add-on feel like it came with the game! (more coming soon!)
+- Custom icon work that makes the add-on feel like it came with the game! (more coming soon!)
 
-*Empty subfilters are greyed out and inaccessible to help save you time searching!
+- Empty subfilters are greyed out and inaccessible to help save you time searching!
 
-*Shortens the time you need to find an item in your inventory!
+- Shortens the time you need to find an item in your inventory!
 
-*German, French, Russian, and Spanish localization!
+- German, French, Russian, and Spanish localization!
 
 *NEW in 0.7.0!*
 
@@ -24,12 +24,12 @@ Extensible filter system allows addon authors to make their own filters to add t
 
 *Special thanks to*:
 
-birdfear - original icon work
+- birdfear - original icon work
 
-mescaline - German translations
+- mescaline - German translations
 
-kaats, Ykses - French translations
+- kaats, Ykses - French translations
 
-vixion - additional icon work
+- vixion - additional icon work
 
 ingeniousclown has stepped away from this addon, however I'm continuing to support it and add new features! If you encounter any bugs or have a suggestion, leave a comment here or message me either on the site or ingame at @Randactyl. If you'd like to donate, I'm always willing to accept in-game gold
