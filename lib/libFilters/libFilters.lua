@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "libFilters", 13
+local MAJOR, MINOR = "libFilters", 14
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
@@ -15,8 +15,8 @@ LAF_TRADE = 8
 LAF_ENCHANTING_CREATION = 11
 LAF_ENCHANTING_EXTRACTION = 12
 LAF_IMPROVEMENT = 13
--- this one is to leave an impression of backward compatibility
-LAF_ENCHANTING = LAF_ENCHANTING_EXTRACTION
+LAF_FENCE = 14
+LAF_LAUNDER = 15
 
 libFilters.filters = {
 	[LAF_BAGS] = {},
@@ -30,6 +30,8 @@ libFilters.filters = {
 	[LAF_ENCHANTING_CREATION] = {},
 	[LAF_ENCHANTING_EXTRACTION] = {},
 	[LAF_IMPROVEMENT] = {},
+	[LAF_FENCE] = {},
+	[LAF_LAUNDER] = {},
 }
 local filters = libFilters.filters
 
@@ -103,6 +105,8 @@ local filterTypeToUpdaterName = {
 	[LAF_ENCHANTING_CREATION] = "ENCHANTING",
 	[LAF_ENCHANTING_EXTRACTION] = "ENCHANTING",
 	[LAF_IMPROVEMENT] = "IMPROVEMENT",
+	[LAF_FENCE] = "BACKPACK",
+	[LAF_LAUNDER] = "BACKPACK",
 }
 
 -- _inventory_ should be one of:
@@ -252,6 +256,8 @@ function libFilters:InitializeLibFilters()
 	self:HookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_FENCE, BACKPACK_FENCE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
 
 	-- other inventories seem to never reset additionalFilter
 	self:HookAdditionalFilter(LAF_BANK, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
