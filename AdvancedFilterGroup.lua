@@ -67,6 +67,8 @@ local function SetUpCallbackFilter( self, filterTag )
 		[4] = LAF_STORE,
 		[5] = LAF_MAIL,
 		[6] = LAF_TRADE,
+		[7] = LAF_FENCE,
+		[8] = LAF_LAUNDER,
 	}
 
 	--if we got here from ResetToAll(), then don't do anything
