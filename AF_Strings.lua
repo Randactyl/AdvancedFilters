@@ -115,6 +115,9 @@ AF_Strings = {
 			["Ring"] = "Ring",
 			["Neck"] = "Neck",
 
+			["Reagent"] = "Reagent",
+			["Solvent"] = "Solvent",
+
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),

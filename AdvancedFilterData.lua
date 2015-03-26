@@ -82,6 +82,23 @@ local function GetFilterCallbackForEnchanting(filterTypes)
 	end
 end
 
+--Internal: Get a callback function specific to alchemy items
+--
+--filterTypes - A table of generally one ITEMTYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForAlchemy(filterTypes)
+	return function(slot)
+		--[[local reuslt = false
+		for i=1, #filterTypes do
+			local itemType = GetItemType(slot.bagId, slot.slotIndex)
+			result = result or (filterTypes[i] == itemType)
+		end
+		return result]]
+		return filterTypes[1] == GetItemType(slot.bagId, slot.slotIndex)
+	end
+end
+
 --Internal: Get a generic callback function
 --
 --filterTypes - A table of one or more ITEMTYPE enums
@@ -165,7 +182,10 @@ local AF_Callbacks = {
 		["Blacksmithing"] = {},
 		["Clothier"] = {},
 		["Woodworking"] = {},
-		["Alchemy"] = {},
+		["Alchemy"] = {
+			[1] = { name = "Reagent", filterCallback = GetFilterCallbackForAlchemy({ITEMTYPE_REAGENT}) },
+			[2] = { name = "Solvent", filterCallback = GetFilterCallbackForAlchemy({ITEMTYPE_ALCHEMY_BASE}) },
+		},
 		["Runes"] = {
 			[1] = { name = "Aspect", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ASPECT}) },
 			[2] = { name = "Essence", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ESSENCE}) },
@@ -450,7 +470,7 @@ function AdvancedFilters_InitAllFilters()
 	local CONSUMABLES = AdvancedFilterGroup:New("Consumables")
 	CONSUMABLES:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
 		trophyDropdownCallbacks)
-	CONSUMABLES:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL}),
+	CONSUMABLES:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR}),
 		repairDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Container", AF_TextureMap.CONTAINER, GetFilterCallback({ITEMTYPE_CONTAINER}),
 		containerDropdownCallbacks)
