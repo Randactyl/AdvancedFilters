@@ -107,7 +107,6 @@ end
 
 local function UpdateInventoryAnchors(self, inventoryType, shiftY)
 	local layoutData = self.appliedLayout or BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData
-	--d(("AF UpdateInventoryAnchors '%s' shiftY %+d"):format(tostring(layoutData), shiftY))
 	if not layoutData then return end
  
 	local inventory = self.inventories[inventoryType]
@@ -129,7 +128,6 @@ end
 -- the one and returns that row
 -- otherwise hides all subfilter rows and returns nil
 local function SwitchSubfilterRow(filterType)
-	--d(("AF SwitchSubfilterRow %+d"):format(filterType))
 	local activeRow = nil
 	for k,v in pairs(subfilterRows) do
 		if k == filterType then
@@ -143,7 +141,6 @@ local function SwitchSubfilterRow(filterType)
 end
 
 local function SetFilterParent( parent )
-	--d(("AF SetFilterParent '%s'"):format(parent:GetName()))
 	for k,v in pairs(subfilterRows) do
 		v.control:SetParent(parent)
 		v.control:ClearAnchors()
@@ -154,8 +151,6 @@ end
 local function ChangeFilter( self, filterTab )
 	local inventoryType = filterTab.inventoryType
 	local inventory = PLAYER_INVENTORY.inventories[inventoryType]
- 
-	--d(("AF ChangeFilter '%s'"):format(filterTab.activeTabText))
  
 	local newFilter = self:GetTabFilterInfo(inventoryType, filterTab)
 	local subfilterRow = SwitchSubfilterRow(newFilter)
@@ -207,7 +202,6 @@ local function AdvancedFilters_Loaded( eventCode, addOnName )
  
 	local function hookInventoryShown(control, inventoryType)
 		local function onInventoryShown(control, hidden)
-			--d(("AF InventoryShown '%s'"):format(control:GetName()))
 			g_currentInventoryType = inventoryType
  
 			SetFilterParent(control)
@@ -233,7 +227,6 @@ local function AdvancedFilters_Loaded( eventCode, addOnName )
 	hookInventoryShown(ZO_GuildBank, INVENTORY_GUILD_BANK)
  
 	EVENT_MANAGER:RegisterForEvent("AdvancedFilters_InventorySlotUpdate", EVENT_INVENTORY_SINGLE_SLOT_UPDATE, InventorySlotUpdated)
-	--EVENT_MANAGER:RegisterForEvent("AdvancedFilters_GuildBankReady", EVENT_GUILD_BANK_ITEMS_READY, QueueGuildBankUpdate)
 end
 
 EVENT_MANAGER:RegisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED, AdvancedFilters_Loaded)

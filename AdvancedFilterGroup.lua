@@ -59,7 +59,6 @@ local function CycleTextures( self )
 end
 
 local function SetUpCallbackFilter( self, filterTag )
-	--local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
 	local possibleLAFs = {
 		[1] = LAF_BAGS,
 		[2] = LAF_BANK,
@@ -101,7 +100,6 @@ local function OnClickedCallback( self )
 	currentSelected = self
 
 	SetUpCallbackFilter(self, BUTTON_STRING)
-	-- PLAYER_INVENTORY:UpdateList(GetCurrentInventoryType())
 end
 
 local function OnDropdownSelect( self )
@@ -109,7 +107,6 @@ local function OnDropdownSelect( self )
 	currentDropdown = self
 
 	SetUpCallbackFilter(self, DROPDOWN_STRING)
-	-- PLAYER_INVENTORY:UpdateList(GetCurrentInventoryType())
 end
 
 function AdvancedFilterGroup:New( groupName )
@@ -221,10 +218,6 @@ function AdvancedFilterGroup:AddSubfilter( name, icon, callback, dropdownCallbac
 		end
 	end)
 
-	--[[if(dropdownCallbacks) then
-		local dropdown = self:AddDropdownFilter( subfilter, dropdownCallbacks, dropdownWidth )
-	end]]
-
 	subfilter.isActive = true
 
 	table.insert(self.subfilters, subfilter)
@@ -267,9 +260,6 @@ function AdvancedFilterGroup:ResetToAll()
 		libFilters:UnregisterFilter(BUTTON_STRING)
 		libFilters:UnregisterFilter(DROPDOWN_STRING)
 		self.label:SetText("ALL")
-		-- MoveHighlightToMe(self.control:GetNamedChild("AllButton"))
-		-- self.control:GetNamedChild("AllButtonTexture"):SetTexture(AF_TextureMap.ALL.downTexture)
-		-- self.control:GetNamedChild("AllButton"):SetScale(1.5)
 		if(currentSelected and currentSelected.filterCallback and currentSelected:GetParent().dropdown) then
 			currentSelected:GetParent().dropdown.m_comboBox:SelectFirstItem()
 			currentSelected:GetParent().dropdown:SetHidden(true)
@@ -277,12 +267,7 @@ function AdvancedFilterGroup:ResetToAll()
 		local allBtnHandler = self.control:GetNamedChild("AllButton"):GetHandler("OnClicked")
 		allBtnHandler(self.control:GetNamedChild("AllButton"));
 		self.control:GetNamedChild("AllButtonFlash"):SetHidden(true)
-		-- currentSelected = self.control:GetNamedChild("AllButton")
 	end
-	-- currentDropdown = nil
-
-	-- OnClickedCallback(self)
-	-- PLAYER_INVENTORY:UpdateList(GetCurrentInventoryType())
 
 	resetting = false
 end

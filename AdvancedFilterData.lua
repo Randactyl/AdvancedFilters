@@ -89,12 +89,6 @@ end
 --Returns a callback function to use for filtering
 local function GetFilterCallbackForAlchemy(filterTypes)
 	return function(slot)
-		--[[local reuslt = false
-		for i=1, #filterTypes do
-			local itemType = GetItemType(slot.bagId, slot.slotIndex)
-			result = result or (filterTypes[i] == itemType)
-		end
-		return result]]
 		return filterTypes[1] == GetItemType(slot.bagId, slot.slotIndex)
 	end
 end
@@ -551,18 +545,6 @@ function AdvancedFilters_InitAllFilters()
 	MISCELLANEOUS:AddSubfilter("Glyphs", AF_TextureMap.GLYPHS, GetFilterCallback({ITEMTYPE_GLYPH_ARMOR, ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON}),
 		glyphDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allMiscellaneousDropdownCallbacks)
-
-	-- QUICKSLOT --
-	--[[local QUICKSLOT = AdvancedFilterGroup:New("Quickslot")
-	QUICKSLOT:AddSubfilter("Container", AF_TextureMap.CONTAINER, GetFilterCallback({ITEMTYPE_CONTAINER}))
-	QUICKSLOT:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}))
-	QUICKSLOT:AddSubfilter("Drink", AF_TextureMap.DRINK, GetFilterCallback({ITEMTYPE_DRINK}))
-	QUICKSLOT:AddSubfilter("Food", AF_TextureMap.FOOD, GetFilterCallback({ITEMTYPE_FOOD}))
-	QUICKSLOT:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL}))
-	QUICKSLOT:AddSubfilter("Siege", AF_TextureMap.AVAWEAPON, GetFilterCallback({ITEMTYPE_SIEGE}))
-	QUICKSLOT:AddSubfilter("Poison", AF_TextureMap.POISON, GetFilterCallback({ITEMTYPE_POISON}))
-	QUICKSLOT:AddSubfilter("Potion", AF_TextureMap.POTION, GetFilterCallback({ITEMTYPE_POTION}))
-	QUICKSLOT:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil))]]
 
 	AF_Callbacks = {}
 
