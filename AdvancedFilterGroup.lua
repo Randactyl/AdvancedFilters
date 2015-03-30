@@ -259,7 +259,7 @@ function AdvancedFilterGroup:ResetToAll()
 	if(self) then 
 		libFilters:UnregisterFilter(BUTTON_STRING)
 		libFilters:UnregisterFilter(DROPDOWN_STRING)
-		self.label:SetText("ALL")
+		self.label:SetText(AF_Strings[AdvancedFilters_GetLanguage()].TOOLTIPS["All"])
 		if(currentSelected and currentSelected.filterCallback and currentSelected:GetParent().dropdown) then
 			currentSelected:GetParent().dropdown.m_comboBox:SelectFirstItem()
 			currentSelected:GetParent().dropdown:SetHidden(true)
