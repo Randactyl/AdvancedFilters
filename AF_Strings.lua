@@ -325,7 +325,7 @@ AF_Strings = {
 			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
 			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
 
-			["DestructionStaff"] = "Vara de destrucci195\179n",
+			["DestructionStaff"] = "Vara de destrucci\195\179n",
 			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
 			["Bow"] = "Arcos",
 			["TwoHand"] = "Dos Manos",
@@ -353,7 +353,7 @@ AF_Strings = {
 			["Medium"] = "Media",
 			["Heavy"] = "Pesada",
 
-			["Repair"] = "Reparaci195\179n",
+			["Repair"] = "Reparaci\195\179n",
 			["Container"] = "Contenedores",
 			["Motif"] = "Motivos",
 			["Poison"] = "Veneno",
@@ -368,9 +368,9 @@ AF_Strings = {
 			["Provisioning"] = "Cocina",
 			["Enchanting"] = "Encantamiento",
 			["Alchemy"] = "Alquimia",
-			["Woodworking"] = "Carpinter195\173a",
-			["Clothier"] = "Sastrer195\173a",
-			["Blacksmithing"] = "Herrer195\173a",
+			["Woodworking"] = "Carpinter\195\173a",
+			["Clothier"] = "Sastrer\195\173a",
+			["Blacksmithing"] = "Herrer\195\173a",
 
 			["Trophy"] = "Trofeos",
 			["Trash"] = "Basura",

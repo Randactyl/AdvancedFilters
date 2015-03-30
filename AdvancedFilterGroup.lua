@@ -26,7 +26,7 @@ local function AdvancedFilters_GetLanguage()
 	local lang = GetCVar("language.2")
 
 	--check for supported languages
-	if(lang == "de" or lang == "en" or lang == "fr" or lang == "ru") then return lang end
+	if(AF_Strings[lang] ~= nil) then return lang end
 
 	--return english if not supported
 	return "en"
