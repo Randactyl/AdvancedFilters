@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 --AdvancedFilters.lua
 --Author: ingeniousclown, Randactyl
---v0.7.7.0
+--v0.7.8.0
  
 --Advanced Filters adds a line of subfilters to the inventory
 --screen.
