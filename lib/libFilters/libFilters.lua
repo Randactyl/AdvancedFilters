@@ -1,9 +1,7 @@
-local MAJOR, MINOR = "libFilters", 12
+local MAJOR, MINOR = "libFilters", 14
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
-
-version = 12
 
 --some constants for your filters
 LAF_BAGS = 1
@@ -17,8 +15,8 @@ LAF_TRADE = 8
 LAF_ENCHANTING_CREATION = 11
 LAF_ENCHANTING_EXTRACTION = 12
 LAF_IMPROVEMENT = 13
--- this one is to leave an impression of backward compatibility
-LAF_ENCHANTING = LAF_ENCHANTING_EXTRACTION
+LAF_FENCE = 14
+LAF_LAUNDER = 15
 
 libFilters.filters = {
 	[LAF_BAGS] = {},
@@ -32,6 +30,8 @@ libFilters.filters = {
 	[LAF_ENCHANTING_CREATION] = {},
 	[LAF_ENCHANTING_EXTRACTION] = {},
 	[LAF_IMPROVEMENT] = {},
+	[LAF_FENCE] = {},
+	[LAF_LAUNDER] = {},
 }
 local filters = libFilters.filters
 
@@ -51,26 +51,6 @@ local function runFilters(filterType, ...)
 		end
 	end
 	return true
-end
-
--- _inventory_ should be one of:
---  a) backpack layout fragment with .layoutData
---  b) inventory table from PLAYER_INVENTORY.inventories
-local function hookAdditionalFilter(filterType, inventory)
-	local layoutData = inventory.layoutData or inventory
-	local originalFilter = layoutData.additionalFilter
-
-	layoutData.libFilters_filterType = filterType
-
-	if type(originalFilter) == "function" then
-		layoutData.additionalFilter = function(slot)
-			return originalFilter(slot) and runFilters(filterType, slot)
-		end
-	else
-		layoutData.additionalFilter = function(slot)
-			return runFilters(filterType, slot)
-		end
-	end
 end
 
 --LAF_DECONSTRUCTION
@@ -125,7 +105,32 @@ local filterTypeToUpdaterName = {
 	[LAF_ENCHANTING_CREATION] = "ENCHANTING",
 	[LAF_ENCHANTING_EXTRACTION] = "ENCHANTING",
 	[LAF_IMPROVEMENT] = "IMPROVEMENT",
+	[LAF_FENCE] = "BACKPACK",
+	[LAF_LAUNDER] = "BACKPACK",
 }
+
+-- _inventory_ should be one of:
+--  a) backpack layout fragment with .layoutData
+--  b) inventory table from PLAYER_INVENTORY.inventories
+function libFilters:HookAdditionalFilter(filterType, inventory)
+    --lazily initialize the add-on
+    if(not self.IS_INITIALIZED) then self:InitializeLibFilters() end
+ 
+    local layoutData = inventory.layoutData or inventory
+	local originalFilter = layoutData.additionalFilter
+
+	layoutData.libFilters_filterType = filterType
+
+	if type(originalFilter) == "function" then
+		layoutData.additionalFilter = function(slot)
+			return originalFilter(slot) and runFilters(filterType, slot)
+		end
+	else
+		layoutData.additionalFilter = function(slot)
+			return runFilters(filterType, slot)
+		end
+	end
+end
 
 function libFilters:RequestInventoryUpdate( filterType )
 	local updaterName = filterTypeToUpdaterName[filterType]
@@ -244,17 +249,19 @@ function libFilters:InitializeLibFilters()
 	-- PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK].additionalFilter
 	-- is reset every time a different backpack layout fragment is shown,
 	-- therefore it needs to be hooked in each fragment's layout data
-	hookAdditionalFilter(LAF_BAGS, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
-	hookAdditionalFilter(LAF_BAGS, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
-	hookAdditionalFilter(LAF_BAGS --[[ correct, not LAF_BANK ]], BACKPACK_BANK_LAYOUT_FRAGMENT)
-	hookAdditionalFilter(LAF_STORE, BACKPACK_STORE_LAYOUT_FRAGMENT)
-	hookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
-	hookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
-	hookAdditionalFilter(LAF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_BAGS, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
+	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_BAGS --[[ correct, not LAF_BANK ]], BACKPACK_BANK_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_STORE, BACKPACK_STORE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_FENCE, BACKPACK_FENCE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
 
 	-- other inventories seem to never reset additionalFilter
-	hookAdditionalFilter(LAF_BANK, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
-	hookAdditionalFilter(LAF_GUILDBANK, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
+	self:HookAdditionalFilter(LAF_BANK, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
+	self:HookAdditionalFilter(LAF_GUILDBANK, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
 
 	ZO_PreHook(SMITHING.deconstructionPanel.inventory, "AddItemData", DeconstructionFilter)
 	ZO_PreHook(SMITHING.improvementPanel.inventory, "AddItemData", ImprovementFilter)
