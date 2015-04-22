@@ -434,7 +434,7 @@ function AdvancedFilters_InitAllFilters()
 
 	local ARMORS = AdvancedFilterGroup:New("Armors")
 	ARMORS:AddSubfilter("Vanity", AF_TextureMap.VANITY,
-		GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}), miscDropdownCallbacks)
+		GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}), vanityDropdownCallbacks)
 	ARMORS:AddSubfilter("Jewelry", AF_TextureMap.JEWELRY,
 		GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK}), jewelryDropdownCallbacks)
 	ARMORS:AddSubfilter("Shield", AF_TextureMap.SHIELD,
