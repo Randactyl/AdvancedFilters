@@ -3,8 +3,8 @@
     and whatever logic you need to in "function( slot )". A return value of true means the item in
     question will be shown while the filter is active.
   ]]
-local function GetFilterCallbackForLevel( minLevel, maxLevel )
-	return function( slot )
+local function GetFilterCallbackForLevel(minLevel, maxLevel)
+	return function(slot)
 		local link = GetItemLink(slot.bagId, slot.slotIndex)
 		local level = GetItemLinkRequiredLevel(link)
 		local vetLevel = GetItemLinkRequiredVeteranRank(link)
@@ -36,8 +36,8 @@ local fullLevelDropdownCallbacks = {
 }
 
 --[[
-	There are four potential tables for this section each covering either english, german, french, 
-	or russian. Only english is required. If other language tables are not included, the english
+	There are five potential tables for this section each covering either english, german, french,
+	russian, or spanish. Only english is required. If other language tables are not included, the english
 	table will automatically be used for those languages. All languages must share common keys.
   ]]
 local strings = {
@@ -57,8 +57,8 @@ local strings = {
 
 --[[
 	This section packages the data for Advanced Filters to use.
-	All keys are required except for deStrings, frStrings, and ruStrings, as they correspond to 
-		optional languages. Al language keys are assigned the same table here only to demonstrate
+	All keys are required except for the non-english strings, as they correspond to 
+		optional languages. All language keys are assigned the same table here only to demonstrate
 		the key names. You do not need to do this.
 	The filterType key expects an ITEMFILTERTYPE constant provided by the game.
 	The values for key/value pairs in subfilters can be any of the string keys from lines 127 - 218
@@ -76,6 +76,7 @@ local filterInformation = {
 	deStrings = strings,
 	frStrings = strings,
 	ruStrings = strings,
+	esStrings = strings,
 }
 
 --[[
