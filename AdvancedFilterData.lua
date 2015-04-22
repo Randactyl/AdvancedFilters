@@ -1,4 +1,9 @@
-local function GetFilterCallbackForWeaponType( filterTypes )
+--Internal: Get a callback function specific to weapons
+--
+--filterTypes - A table of generally only one WEAPONTYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForWeaponType(filterTypes)
 	return function( slot )
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		local weaponType = GetItemLinkWeaponType(itemLink)
@@ -10,20 +15,30 @@ local function GetFilterCallbackForWeaponType( filterTypes )
 	end
 end
 
-local function GetFilterCallbackForArmorType( filterTypes )
-	return function( slot )
+--Internal: Get a callback function specific to armor
+--
+--filterTypes - A table of generally only one ARMORTYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForArmorType(filterTypes)
+	return function(slot)
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		local armorType = GetItemLinkArmorType(itemLink)
 		for i=1, #filterTypes do
-			if(filterTypes[i] == armorType) then 
-				return true 
+			if(filterTypes[i] == armorType) then
+				return true
 			end
 		end
 	end
 end
 
-local function GetFilterCallbackForGear( filterTypes )
-	return function( slot )
+--Internal: Get a callback function specific to gear
+--
+--filterTypes - A table of generally only one EQUIP_TYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForGear(filterTypes)
+	return function(slot)
 		local result = false
 		for i=1, #filterTypes do
 			local _,_,_,_,_,equipType = GetItemInfo(slot.bagId, slot.slotIndex)
@@ -33,8 +48,31 @@ local function GetFilterCallbackForGear( filterTypes )
 	end
 end
 
-local function GetFilterCallbackForEnchanting( filterTypes )
-	return function( slot )
+--Internal: Get a callback function specific to clothing
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForClothing()
+	return function(slot)
+		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
+		local armorType = GetItemLinkArmorType(itemLink)
+		local _,_,_,_,_,equipType = GetItemInfo(slot.bagId, slot.slotIndex)
+		if((ARMORTYPE_NONE == armorType) and
+		   (equipType ~= EQUIP_TYPE_NECK) and (equipType ~= EQUIP_TYPE_MAIN_HAND) and
+		   (equipType ~= EQUIP_TYPE_OFF_HAND) and (equipType ~= EQUIP_TYPE_ONE_HAND) and
+		   (equipType ~= EQUIP_TYPE_TWO_HAND) and (equipType ~= EQUIP_TYPE_RING) and
+		   (equipType ~= EQUIP_TYPE_COSTUME) and (equipType ~= EQUIP_TYPE_INVALID)) then
+			return true
+		end
+	end
+end
+
+--Internal: Get a callback function specific to enchanting runes
+--
+--filterTypes - A table of generally only one ENCHANTING_RUNE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForEnchanting(filterTypes)
+	return function(slot)
 		local result = false
 		for i=1, #filterTypes do
 			local _,_,runeType = GetItemCraftingInfo(slot.bagId, slot.slotIndex)
@@ -44,7 +82,23 @@ local function GetFilterCallbackForEnchanting( filterTypes )
 	end
 end
 
-local function GetFilterCallback( filterTypes )
+--Internal: Get a callback function specific to alchemy items
+--
+--filterTypes - A table of generally one ITEMTYPE enum
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallbackForAlchemy(filterTypes)
+	return function(slot)
+		return filterTypes[1] == GetItemType(slot.bagId, slot.slotIndex)
+	end
+end
+
+--Internal: Get a generic callback function
+--
+--filterTypes - A table of one or more ITEMTYPE enums
+--
+--Returns a callback function to use for filtering
+local function GetFilterCallback(filterTypes)
 	if(not filterTypes) then return function(slot) return true end end
 
 	return function( slot )
@@ -56,6 +110,7 @@ local function GetFilterCallback( filterTypes )
 	end
 end
 
+--temporary storage for all of the dropdown callbacks from the base addon in addition to plugins.
 local AF_Callbacks = {
 	[ITEMFILTERTYPE_ALL] = {
 		[1] = { name = "All", filterCallback = GetFilterCallback(nil) },
@@ -99,7 +154,7 @@ local AF_Callbacks = {
 			[1] = { name = "Ring", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING}) },
 			[2] = { name = "Neck", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_NECK}) },
 		},
-		["Miscellaneous"] = {},
+		["Vanity"] = {},
 	},
 	[ITEMFILTERTYPE_CONSUMABLE] = {
 		Addons = {},
@@ -121,7 +176,10 @@ local AF_Callbacks = {
 		["Blacksmithing"] = {},
 		["Clothier"] = {},
 		["Woodworking"] = {},
-		["Alchemy"] = {},
+		["Alchemy"] = {
+			[1] = { name = "Reagent", filterCallback = GetFilterCallbackForAlchemy({ITEMTYPE_REAGENT}) },
+			[2] = { name = "Solvent", filterCallback = GetFilterCallbackForAlchemy({ITEMTYPE_ALCHEMY_BASE}) },
+		},
 		["Runes"] = {
 			[1] = { name = "Aspect", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ASPECT}) },
 			[2] = { name = "Essence", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ESSENCE}) },
@@ -144,43 +202,46 @@ local AF_Callbacks = {
 		["Siege"] = {},
 		["Bait"] = {},
 		["Tool"] = {},
-		["Trash"] = {},
 		["Trophy"] = {},
+		["Fence"] = {},
+		["Trash"] = {},
 	},
 }
 
+--Public: Provide ability for other addons or plugins to include custom dropdown filters
+--
+--filterInformation - table containing information about the custom filters to include. This is documented in a separate README
+--
+--Returns nothing
 function AdvancedFilters_RegisterFilter(filterInformation)
-	if filterInformation == nil then 
+	--make sure all necessary information is present
+	if filterInformation == nil then
 		d("No filter information provided. Filter not registered.")
-		return 
+		return
 	end
-	if filterInformation.callbackTable == nil then 
+	if filterInformation.callbackTable == nil then
 		d("No callback information provided. Filter not registered.")
-		return 
+		return
 	end
-	if filterInformation.subfilters == nil then 
+	if filterInformation.subfilters == nil then
 		d("No subfilter type information provided. Filter not registered.")
 		return
 	end
-	if filterInformation.filterType == nil then 
+	if filterInformation.filterType == nil then
 		d("No base filter type information provided. Filter not registered.")
-		return 
+		return
+	end
+	if filterInformation.enStrings == nil then
+		d("No English strings provided. Filter not registered.")
+		return
 	end
 
+	--get filter information from the calling addon and insert it into our callback table
 	local addonInformation = {
 		callbackTable = filterInformation.callbackTable,
 		subfilters = filterInformation.subfilters,
 	}
 	local filterType = filterInformation.filterType
-	local enStrings = filterInformation.enStrings
-	local deStrings = enStrings
-	local frStrings = enStrings
-	local ruStrings = enStrings
-
-	if filterInformation.deStrings ~= nil then deStrings = filterInformation.deStrings end
-	if filterInformation.frStrings ~= nil then frStrings = filterInformation.frStrings end
-	if filterInformation.ruStrings ~= nil then ruStrings = filterInformation.ruStrings end
-
 	if(filterType == ITEMFILTERTYPE_ALL) then
 		table.insert(AF_Callbacks[ITEMFILTERTYPE_WEAPONS].Addons, addonInformation)
 		table.insert(AF_Callbacks[ITEMFILTERTYPE_ARMOR].Addons, addonInformation)
@@ -191,19 +252,25 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 		table.insert(AF_Callbacks[filterType].Addons, addonInformation)
 	end
 
+	--get string information from the calling addon and insert it into our string table
 	local function addStrings(lang, strings)
 		for key, string in pairs(strings) do
 			AF_Strings[lang].TOOLTIPS[key] = string
 		end
 	end
-
-	addStrings("en", enStrings)
-
-	if deStrings ~= enStrings then addStrings("de", deStrings) end
-	if frStrings ~= enStrings then addStrings("fr", frStrings) end
-	if ruStrings ~= enStrings then addStrings("ru", ruStrings) end
+	addStrings("en", filterInformation.enStrings)
+	if filterInformation.deStrings ~= nil then addStrings("de", filterInformation.deStrings) end
+	if filterInformation.frStrings ~= nil then addStrings("fr", filterInformation.frStrings) end
+	if filterInformation.ruStrings ~= nil then addStrings("ru", filterInformation.ruStrings) end
+	if filterInformation.esStrings ~= nil then addStrings("es", filterInformation.esStrings) end
 end
 
+--Internal: Gathers all callback functions for a specific filter and subfilter
+--
+--filterType - An ITEMFILTERTYPE enum provided by the game
+--subfilterString - A string that designates a specific subfilter. Valid values can be found in the keys table within this function
+--
+--Returns a table of callback functions for use in filtering from the dropdown menu
 local function BuildCallbackTable(filterType, subfilterString)
 	local callbackTable = {}
 	local keys = {
@@ -220,7 +287,7 @@ local function BuildCallbackTable(filterType, subfilterString)
 			[2] = "Body",
 			[3] = "Shield",
 			[4] = "Jewelry",
-			[5] = "Miscellaneous",
+			[5] = "Vanity",
 		},
 		[ITEMFILTERTYPE_CONSUMABLE] = {
 			[1] = "All",
@@ -253,8 +320,9 @@ local function BuildCallbackTable(filterType, subfilterString)
 			[4] = "Siege",
 			[5] = "Bait",
 			[6] = "Tool",
-			[7] = "Trash",
-			[8] = "Trophy",
+			[7] = "Trophy",
+			[8] = "Fence",
+			[9] = "Trash",
 		},
 	}
 
@@ -321,13 +389,14 @@ local function BuildCallbackTable(filterType, subfilterString)
 	return callbackTable
 end
 
-local hasInit = false
 
+--Internal: Initializes all of the subfilter objects
+--
+--Returns a subfilter group object for each of the main ITEMFILTERTYPEs
+local hasInit = false
 function AdvancedFilters_InitAllFilters()
 	if(hasInit) then return nil end
 	hasInit = true
-
-	local icon = [[/esoui/art/buttons/edit_disabled.dds]]
 
 	-- WEAPONS --
 	local allWeaponDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "All")
@@ -338,17 +407,17 @@ function AdvancedFilters_InitAllFilters()
 	local healStaffDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "HealStaff")
 
 	local WEAPONS = AdvancedFilterGroup:New("Weapons")
-	WEAPONS:AddSubfilter("HealStaff", [[/esoui/art/progression/icon_healstaff.dds]], 
+	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF}), healStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("DestructionStaff", [[/esoui/art/progression/icon_firestaff.dds]], 
+	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF}),
 		destructionStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("Bow", [[/esoui/art/progression/icon_bows.dds]], 
+	WEAPONS:AddSubfilter("Bow", AF_TextureMap.BOW, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_BOW}), bowDropdownCallbacks)
-	WEAPONS:AddSubfilter("TwoHand", [[/esoui/art/progression/icon_2handed.dds]], 
+	WEAPONS:AddSubfilter("TwoHand", AF_TextureMap.TWOHAND, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD}),
 		twoHandedDropdownCallbacks)
-	WEAPONS:AddSubfilter("OneHand", [[/esoui/art/progression/icon_dualwield.dds]], 
+	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER}),
 		oneHandedDropdownCallbacks)
 	WEAPONS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allWeaponDropdownCallbacks)
@@ -358,22 +427,25 @@ function AdvancedFilters_InitAllFilters()
 	local lightArmorDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Body")
 	local mediumArmorDropdownCallbacks = ZO_DeepTableCopy(lightArmorDropdownCallbacks, mediumArmorDropdownCallbacks)
 	local heavyArmorDropdownCallbacks = ZO_DeepTableCopy(lightArmorDropdownCallbacks, heavyArmorDropdownCallbacks)
+	local clothingDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Body")
 	local shieldDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Shield")
 	local jewelryDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Jewelry")
-	local miscDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Miscellaneous")
+	local vanityDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Vanity")
 
 	local ARMORS = AdvancedFilterGroup:New("Armors")
-	ARMORS:AddSubfilter("Misc", [[/esoui/art/inventory/inventory_tabicon_misc_up.dds]],
+	ARMORS:AddSubfilter("Vanity", AF_TextureMap.VANITY,
 		GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}), miscDropdownCallbacks)
-	ARMORS:AddSubfilter("Jewelry", [[/esoui/art/charactercreate/charactercreate_accessory_up.dds]],
+	ARMORS:AddSubfilter("Jewelry", AF_TextureMap.JEWELRY,
 		GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK}), jewelryDropdownCallbacks)
-	ARMORS:AddSubfilter("Shield", [[/esoui/art/guild/guildhistory_indexicon_guild_up.dds]],
+	ARMORS:AddSubfilter("Shield", AF_TextureMap.SHIELD,
 		GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND}), shieldDropdownCallbacks)
-	ARMORS:AddSubfilter("Light", [[/esoui/art/charactercreate/charactercreate_bodyicon_up.dds]],
+	ARMORS:AddSubfilter("Clothing", AF_TextureMap.CLOTHING,
+		GetFilterCallbackForClothing(), clothingDropdownCallbacks)
+	ARMORS:AddSubfilter("Light", AF_TextureMap.LIGHT,
 		GetFilterCallbackForArmorType({ARMORTYPE_LIGHT}), lightArmorDropdownCallbacks)
-	ARMORS:AddSubfilter("Medium", [[/esoui/art/campaign/overview_indexicon_scoring_up.dds]],
+	ARMORS:AddSubfilter("Medium", AF_TextureMap.MEDIUM,
 		GetFilterCallbackForArmorType({ARMORTYPE_MEDIUM}), mediumArmorDropdownCallbacks)
-	ARMORS:AddSubfilter("Heavy", [[/esoui/art/inventory/inventory_tabicon_armor_up.dds]],
+	ARMORS:AddSubfilter("Heavy", AF_TextureMap.HEAVY,
 		GetFilterCallbackForArmorType({ARMORTYPE_HEAVY}), heavyArmorDropdownCallbacks)
 	ARMORS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allArmorDropdownCallbacks)
 
@@ -392,7 +464,7 @@ function AdvancedFilters_InitAllFilters()
 	local CONSUMABLES = AdvancedFilterGroup:New("Consumables")
 	CONSUMABLES:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
 		trophyDropdownCallbacks)
-	CONSUMABLES:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL}),
+	CONSUMABLES:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR}),
 		repairDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Container", AF_TextureMap.CONTAINER, GetFilterCallback({ITEMTYPE_CONTAINER}),
 		containerDropdownCallbacks)
@@ -450,15 +522,18 @@ function AdvancedFilters_InitAllFilters()
 	local siegeDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Siege")
 	local baitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Bait")
 	local toolDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Tool")
-	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trophy")
+	local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
+	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
 
 	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous")
-	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
-		trophyDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Trash", AF_TextureMap.TRASH, GetFilterCallback({ITEMTYPE_TRASH}),
 		trashDropdownCallbacks)
+	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE}),
+		fenceDropdownCallbacks)
+	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
+		trophyDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Tool", AF_TextureMap.TOOL, GetFilterCallback({ITEMTYPE_TOOL}),
 		toolDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Bait", AF_TextureMap.BAIT, GetFilterCallback({ITEMTYPE_LURE}),
@@ -470,18 +545,6 @@ function AdvancedFilters_InitAllFilters()
 	MISCELLANEOUS:AddSubfilter("Glyphs", AF_TextureMap.GLYPHS, GetFilterCallback({ITEMTYPE_GLYPH_ARMOR, ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON}),
 		glyphDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allMiscellaneousDropdownCallbacks)
-
-	-- QUICKSLOT --
-	--[[local QUICKSLOT = AdvancedFilterGroup:New("Quickslot")
-	QUICKSLOT:AddSubfilter("Container", AF_TextureMap.CONTAINER, GetFilterCallback({ITEMTYPE_CONTAINER}))
-	QUICKSLOT:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}))
-	QUICKSLOT:AddSubfilter("Drink", AF_TextureMap.DRINK, GetFilterCallback({ITEMTYPE_DRINK}))
-	QUICKSLOT:AddSubfilter("Food", AF_TextureMap.FOOD, GetFilterCallback({ITEMTYPE_FOOD}))
-	QUICKSLOT:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL}))
-	QUICKSLOT:AddSubfilter("Siege", AF_TextureMap.AVAWEAPON, GetFilterCallback({ITEMTYPE_SIEGE}))
-	QUICKSLOT:AddSubfilter("Poison", AF_TextureMap.POISON, GetFilterCallback({ITEMTYPE_POISON}))
-	QUICKSLOT:AddSubfilter("Potion", AF_TextureMap.POTION, GetFilterCallback({ITEMTYPE_POTION}))
-	QUICKSLOT:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil))]]
 
 	AF_Callbacks = {}
 
