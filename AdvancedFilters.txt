@@ -1,6 +1,6 @@
 ## Title: Advanced Filters
 ## Author: ingeniousclown and Randactyl
-## Version: 0.7.3.4
+## Version: 0.8.0.0
 ## APIVersion: 100010
 ## OptionalDependsOn: ItemSaver InventoryGridView libFilters
 
