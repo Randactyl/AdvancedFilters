@@ -1,107 +1,93 @@
 ------------------------------------------------------------------
 --AdvancedFilters.lua
 --Author: ingeniousclown, Randactyl
---v0.7.8.0
+--v0.8.0.0
  
 --Advanced Filters adds a line of subfilters to the inventory
 --screen.
 ------------------------------------------------------------------
-local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS
+--variable declaration
+local g_currentInventoryType = INVENTORY_BACKPACK --set in inventory hook
 
-local g_currentInventoryType = INVENTORY_BACKPACK
-local oldFilter = nil
- 
-local BAGS = ZO_PlayerInventoryBackpack
-local BANK = ZO_PlayerBankBackpack
-local GUILDBANK = ZO_GuildBankBackpack
- 
-local subfilterRows = {
-	[ITEMFILTERTYPE_WEAPONS] = nil,
-	[ITEMFILTERTYPE_ARMOR] = nil,
-	[ITEMFILTERTYPE_CONSUMABLE] = nil,
-	[ITEMFILTERTYPE_CRAFTING] = nil,
-	[ITEMFILTERTYPE_MISCELLANEOUS] = nil
+allSubfilterBars = {
+	[INVENTORY_BACKPACK] = {
+		[ITEMFILTERTYPE_WEAPONS] = nil,
+		[ITEMFILTERTYPE_ARMOR] = nil,
+		[ITEMFILTERTYPE_CONSUMABLE] = nil,
+		[ITEMFILTERTYPE_CRAFTING] = nil,
+		[ITEMFILTERTYPE_MISCELLANEOUS] = nil,
+		lastSubfilterBar = nil,
+	},
+	[INVENTORY_BANK] = {},
+	[INVENTORY_GUILD_BANK] = {},
 }
+subfilterBars = {}
 
-local queued = false
-
-function ShowCurrentSubfilterRow()
-	cur = subfilterRows[g_currentInventoryType]
-	return cur
-end
-
+--global utilities
 function GetCurrentInventoryType()
 	return g_currentInventoryType
 end
 
-local function CheckSubfilters(subfilterRow)
-	for _,v in ipairs(subfilterRow.subfilters) do
-		v.texture:SetColor(.3, .3, .3, .9)
-		v.isActive = false
+--local functions
+local function RefreshSubfilterBar(inventory, currentFilter)
+	--hide old bar, if it exists
+	if subfilterBars.lastSubfilterBar then subfilterBars.lastSubfilterBar:SetHidden(true) end
+
+	--get new bar
+	local subfilterBar = subfilterBars[currentFilter]
+
+	--if subfilters don't exist, remove filters and return 0 for for inventory anchor displacement
+	if subfilterBar == nil then
+		AdvancedFilterGroup_RemoveAllFilters()
+		return 0
 	end
- 
-	for _,item in pairs(PLAYER_INVENTORY.inventories[GetCurrentInventoryType()].slots) do
-		for _,filter in ipairs(subfilterRow.subfilters) do
-			if(not filter.isActive and filter.button.filterCallback(item)) then
-				filter.isActive = true
-				filter.texture:SetColor(1, 1, 1, 1)
+
+	--check buttons for availability
+	for _,button in ipairs(subfilterBar.subfilters) do
+		button.texture:SetColor(.3, .3, .3, .9)
+		button:SetEnabled(false)
+		button.clickable = false
+	end
+	for _,item in pairs(inventory.slots) do
+		for _,button in ipairs(subfilterBar.subfilters) do
+			if(not button.clickable and button.filterCallback(item)) then
+				button.texture:SetColor(1, 1, 1, 1)
+				button:SetEnabled(true)
+				button.clickable = true
 			end
 		end
 	end
+
+	--activate current button
+	subfilterBar:ActivateButton(subfilterBar:GetCurrentButton())
+	--show the bar
+	subfilterBar:SetHidden(false)
+
+	--set old bar reference and return proper inventory anchor displacement
+	subfilterBars.lastSubfilterBar = subfilterBar
+	return subfilterBar.control:GetHeight()
 end
 
-local function GetCurrentSubfilterRow()
-	return subfilterRows[g_currentInventoryType]
-end
-
-local function GuildBankReady()
-	if(GetCurrentInventoryType() == INVENTORY_GUILD_BANK) then
-		local subfilterRow = GetCurrentSubfilterRow()
-		if subfilterRow then
-			subfilterRow:ResetToAll()
-			CheckSubfilters(subfilterRow)
-		end
+local function SetFilterParents()
+	local parent = ZO_PlayerInventory
+	for _, v in pairs(allSubfilterBars[INVENTORY_BACKPACK]) do
+		v.control:SetParent(parent)
+		v.control:ClearAnchors()
+		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
 	end
-	queued = false
-end
 
-local function QueueGuildBankUpdate()
-	if queued == true then return end
-	queued = true
-	zo_callLater(function() GuildBankReady() end, 100)
-end
-
-local canUpdate = {
-	[1] = true,
-	[2] = true,
-	[3] = true,
-	[4] = true
-}
-local function UpdateInventoryFilters( bagId, slotIndex )
-	local inventoryType = PLAYER_INVENTORY.bagToInventoryType[bagId]
-	local pseudoSlot = {}
-	local subfilterRow = GetCurrentSubfilterRow()
-	pseudoSlot.bagId = bagId
-	pseudoSlot.slotIndex = slotIndex
-	if(inventoryType == GetCurrentInventoryType() and subfilterRow) then
-		for _,filter in ipairs(subfilterRow.subfilters) do
-			if(not filter.isActive and filter.button.filterCallback(pseudoSlot)) then
-				filter.isActive = true
-				filter.texture:SetColor(1, 1, 1, 1)
-			end
-		end
+	parent = ZO_PlayerBank
+	for _, v in pairs(allSubfilterBars[INVENTORY_BANK]) do
+		v.control:SetParent(parent)
+		v.control:ClearAnchors()
+		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
 	end
-	canUpdate[bagId] = true
-end
 
-local function InventorySlotUpdated( eventId, bagId, slotIndex )
-	-- this is a simple way to buffer the event
-	-- just wait 25ms before actually updating the filters so we can avoid
-	-- doing this more than necessary
-	-- and just in case, it's tracked separately per bag
-	if(canUpdate[bagId]) then
-		canUpdate[bagId] = false
-		zo_callLater(function() UpdateInventoryFilters(bagId, slotIndex) end, 1000)
+	parent = ZO_GuildBank
+	for _, v in pairs(allSubfilterBars[INVENTORY_GUILD_BANK]) do
+		v.control:SetParent(parent)
+		v.control:ClearAnchors()
+		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
 	end
 end
 
@@ -124,109 +110,65 @@ local function UpdateInventoryAnchors(self, inventoryType, shiftY)
 	sortBy:SetAnchor(TOPRIGHT, nil, TOPRIGHT, 0, layoutData.sortByOffsetY + shiftY)
 end
 
--- if there is a subfilter row defined for filterType, hides all rows except
--- the one and returns that row
--- otherwise hides all subfilter rows and returns nil
-local function SwitchSubfilterRow(filterType)
-	local activeRow = nil
-	for k,v in pairs(subfilterRows) do
-		if k == filterType then
-			activeRow = v
-			v.control:SetHidden(false)
-		else
-			v.control:SetHidden(true)
-		end
-	end
-	return activeRow
+local function ChangeFilter(self, filterTab)
+	local inventory = PLAYER_INVENTORY.inventories[g_currentInventoryType]
+	local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
+
+	local offset = RefreshSubfilterBar(inventory, currentFilter)
+	UpdateInventoryAnchors(PLAYER_INVENTORY, g_currentInventoryType, offset)
 end
 
-local function SetFilterParent( parent )
-	for k,v in pairs(subfilterRows) do
-		v.control:SetParent(parent)
-		v.control:ClearAnchors()
-		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
-	end
-end
-
-local function ChangeFilter( self, filterTab )
-	local inventoryType = filterTab.inventoryType
-	local inventory = PLAYER_INVENTORY.inventories[inventoryType]
- 
-	local newFilter = self:GetTabFilterInfo(inventoryType, filterTab)
-	local subfilterRow = SwitchSubfilterRow(newFilter)
- 
-	if subfilterRow then
-		subfilterRow:ResetToAll()
-		CheckSubfilters(subfilterRow)
-		UpdateInventoryAnchors(self, inventoryType, subfilterRow.control:GetHeight())
-		oldFilter = subfilterRow
-	else
-		if oldFilter then oldFilter:ResetToAll() end
-		UpdateInventoryAnchors(self, inventoryType, 0)
-	end
-end
-
-local function AdvancedFilters_Loaded( eventCode, addOnName )
-	if(addOnName ~= "AdvancedFilters") then return end
+local function AdvancedFilters_Loaded(eventCode, addonName)
+	if addonName ~= "AdvancedFilters" then return end
 	EVENT_MANAGER:UnregisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED)
- 
-    ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilter)
- 
-	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters()
-	subfilterRows[ITEMFILTERTYPE_WEAPONS] = WEAPONS
-	subfilterRows[ITEMFILTERTYPE_ARMOR] = ARMOR
-	subfilterRows[ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
-	subfilterRows[ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	subfilterRows[ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
- 
-	BAGS.inventoryType = INVENTORY_BACKPACK
-	BANK.inventoryType = INVENTORY_BANK
-	GUILDBANK.inventoryType = INVENTORY_GUILD_BANK
- 
-	local bagSearch = ZO_PlayerInventorySearchBox
-	bagSearch:ClearAnchors()
-	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventory, TOPLEFT, 36, -8)
-	bagSearch:SetHidden(false)
- 
-	local bankSearch = ZO_PlayerBankSearchBox
-	bankSearch:ClearAnchors()
-	bankSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerBank, TOPLEFT, 36, -8)
-	bankSearch:SetHidden(false)
-	bankSearch:SetWidth(bagSearch:GetWidth())
- 
-	local guildBankSearch = ZO_GuildBankSearchBox
-	guildBankSearch:ClearAnchors()
-	guildBankSearch:SetAnchor(BOTTOMLEFT, ZO_GuildBank, TOPLEFT, 36, -8)
-	guildBankSearch:SetHidden(false)
-	guildBankSearch:SetWidth(bagSearch:GetWidth())
- 
-	local function hookInventoryShown(control, inventoryType)
+
+	ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilter)
+
+	local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("Inventory")
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_ARMOR] = ARMOR
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+
+	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("Bank")
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+
+	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("GuildBank")
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+
+	AdvancedFilters_DestroyAFCallbacks()
+
+	SetFilterParents()
+
+	ZO_PlayerInventoryBackpack.inventoryType = INVENTORY_BACKPACK
+	ZO_PlayerBankBackpack.inventoryType = INVENTORY_BANK
+	ZO_GuildBankBackpack.inventoryType = INVENTORY_GUILD_BANK
+
+	local function hookInventory(control, inventoryType)
 		local function onInventoryShown(control, hidden)
 			g_currentInventoryType = inventoryType
- 
-			SetFilterParent(control)
- 
-			local inventory = PLAYER_INVENTORY.inventories[inventoryType]
-			local subfilterRow = SwitchSubfilterRow(inventory.currentFilter)
- 
-			if subfilterRow then
-				zo_callLater(function() subfilterRow:ResetToAll() end, 100)
-				zo_callLater(function() CheckSubfilters(subfilterRow) end, 500)
 
-				UpdateInventoryAnchors(PLAYER_INVENTORY, inventoryType, subfilterRow.control:GetHeight())
-			else
-				TemporaryFixForStaleFilter()
-				UpdateInventoryAnchors(PLAYER_INVENTORY, inventoryType, 0)
-			end
+			subfilterBars = allSubfilterBars[inventoryType]
+
+			local inventory = PLAYER_INVENTORY.inventories[inventoryType]
+			local offset = RefreshSubfilterBar(inventory, inventory.currentFilter)
+			UpdateInventoryAnchors(PLAYER_INVENTORY, inventoryType, offset)
 		end
+		
 		ZO_PreHookHandler(control, "OnEffectivelyShown", onInventoryShown)
 	end
- 
-	hookInventoryShown(ZO_PlayerInventory, INVENTORY_BACKPACK)
-	hookInventoryShown(ZO_PlayerBank, INVENTORY_BANK)
-	hookInventoryShown(ZO_GuildBank, INVENTORY_GUILD_BANK)
- 
-	EVENT_MANAGER:RegisterForEvent("AdvancedFilters_InventorySlotUpdate", EVENT_INVENTORY_SINGLE_SLOT_UPDATE, InventorySlotUpdated)
-end
 
+	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
+	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
+	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
+end
 EVENT_MANAGER:RegisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED, AdvancedFilters_Loaded)

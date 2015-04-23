@@ -1,4 +1,14 @@
-﻿--thanks ckaotik
+﻿function AdvancedFilters_GetLanguage()
+	local lang = GetCVar("language.2")
+
+	--check for supported languages
+	if(AF_Strings[lang] ~= nil) then return lang end
+
+	--return english if not supported
+	return "en"
+end
+
+--thanks ckaotik
 local function AF_Localize(text)
 	if type(text) == 'number' then
 		-- get the string from this constant
@@ -162,6 +172,80 @@ AF_Strings = {
 			["Glyphs"] = "Glyphs",
 		}
 	},
+	["es"] = {
+		TOOLTIPS = {
+			["All"] = "Todo",
+
+			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
+			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
+			["Hammer"] = AF_Localize(SI_WEAPONTYPE2),
+			["2HAxe"] = "2H "..AF_Localize(SI_WEAPONTYPE1),
+			["2HSword"] = "2H "..AF_Localize(SI_WEAPONTYPE3),
+			["2HHammer"] = "2H "..AF_Localize(SI_WEAPONTYPE2),
+			["Dagger"] = AF_Localize(SI_WEAPONTYPE11),
+			["Fire"] = AF_Localize(SI_WEAPONTYPE12),
+			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
+			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
+
+			["DestructionStaff"] = "Vara de destrucci\195\179n",
+			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
+			["Bow"] = "Arcos",
+			["TwoHand"] = "Dos Manos",
+			["OneHand"] = "Una Mano",
+
+			["Head"] = "Cabeza",
+			["Chest"] = "Pecho",
+			["Shoulders"] = "Hombros",
+			["Hand"] = "Manos",
+			["Waist"] = "Cintura",
+			["Legs"] = "Piernas",
+			["Feet"] = "Pies",
+
+			["Ring"] = "Anillos",
+			["Neck"] = "Amuletos",
+
+			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
+			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
+			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
+
+			["Misc"] = "Varios",
+			["Jewelry"] = "Joyas",
+			["Shield"] = "Escudos",
+			["Light"] = "Ligera",
+			["Medium"] = "Media",
+			["Heavy"] = "Pesada",
+
+			["Repair"] = "Reparaci\195\179n",
+			["Container"] = "Contenedores",
+			["Motif"] = "Motivos",
+			["Poison"] = "Veneno",
+			["Potion"] = "Pociones",
+			["Recipe"] = "Recetas",
+			["Drink"] = "Bebidas",
+			["Food"] = "Comida",
+
+			["ArmorTrait"] = "Rasgos de armadura",
+			["WeaponTrait"] = "Rasgos de arma",
+			["Style"] = "Estilo",
+			["Provisioning"] = "Cocina",
+			["Enchanting"] = "Encantamiento",
+			["Alchemy"] = "Alquimia",
+			["Woodworking"] = "Carpinter\195\173a",
+			["Clothier"] = "Sastrer\195\173a",
+			["Blacksmithing"] = "Herrer\195\173a",
+
+			["Trophy"] = "Trofeos",
+			["Trash"] = "Basura",
+			["Tool"] = "Herramientas",
+			["Bait"] = "Cebo",
+			["Siege"] = "Asedio",
+			["SoulGem"] = "Piedras de Alma",
+			["JewelryGlyph"] = "Glifos para joyas",
+			["ArmorGlyph"] = "Glifos para armaduras",
+			["WeaponGlyph"] = "Glifos para armas",
+			["Glyphs"] = "Glifos",
+		}
+	},
 	["fr"] = {
 		TOOLTIPS = {
 			["All"] = "Tout",
@@ -310,84 +394,10 @@ AF_Strings = {
 			["Glyphs"] = "Âìè³ÿ",
 		}
 	},
-	["es"] = {
-		TOOLTIPS = {
-			["All"] = "Todo",
-
-			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
-			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
-			["Hammer"] = AF_Localize(SI_WEAPONTYPE2),
-			["2HAxe"] = "2H "..AF_Localize(SI_WEAPONTYPE1),
-			["2HSword"] = "2H "..AF_Localize(SI_WEAPONTYPE3),
-			["2HHammer"] = "2H "..AF_Localize(SI_WEAPONTYPE2),
-			["Dagger"] = AF_Localize(SI_WEAPONTYPE11),
-			["Fire"] = AF_Localize(SI_WEAPONTYPE12),
-			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
-			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
-
-			["DestructionStaff"] = "Vara de destrucci\195\179n",
-			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
-			["Bow"] = "Arcos",
-			["TwoHand"] = "Dos Manos",
-			["OneHand"] = "Una Mano",
-
-			["Head"] = "Cabeza",
-			["Chest"] = "Pecho",
-			["Shoulders"] = "Hombros",
-			["Hand"] = "Manos",
-			["Waist"] = "Cintura",
-			["Legs"] = "Piernas",
-			["Feet"] = "Pies",
-
-			["Ring"] = "Anillos",
-			["Neck"] = "Amuletos",
-
-			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
-			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
-			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
-
-			["Misc"] = "Varios",
-			["Jewelry"] = "Joyas",
-			["Shield"] = "Escudos",
-			["Light"] = "Ligera",
-			["Medium"] = "Media",
-			["Heavy"] = "Pesada",
-
-			["Repair"] = "Reparaci\195\179n",
-			["Container"] = "Contenedores",
-			["Motif"] = "Motivos",
-			["Poison"] = "Veneno",
-			["Potion"] = "Pociones",
-			["Recipe"] = "Recetas",
-			["Drink"] = "Bebidas",
-			["Food"] = "Comida",
-
-			["ArmorTrait"] = "Rasgos de armadura",
-			["WeaponTrait"] = "Rasgos de arma",
-			["Style"] = "Estilo",
-			["Provisioning"] = "Cocina",
-			["Enchanting"] = "Encantamiento",
-			["Alchemy"] = "Alquimia",
-			["Woodworking"] = "Carpinter\195\173a",
-			["Clothier"] = "Sastrer\195\173a",
-			["Blacksmithing"] = "Herrer\195\173a",
-
-			["Trophy"] = "Trofeos",
-			["Trash"] = "Basura",
-			["Tool"] = "Herramientas",
-			["Bait"] = "Cebo",
-			["Siege"] = "Asedio",
-			["SoulGem"] = "Piedras de Alma",
-			["JewelryGlyph"] = "Glifos para joyas",
-			["ArmorGlyph"] = "Glifos para armaduras",
-			["WeaponGlyph"] = "Glifos para armas",
-			["Glyphs"] = "Glifos",
-		}
-	},
 }
 
 --Metatable trick to use english localization for german, french, russian and other values, which are missing
 setmetatable(AF_Strings["de"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
+setmetatable(AF_Strings["es"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
 setmetatable(AF_Strings["fr"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
 setmetatable(AF_Strings["ru"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
-setmetatable(AF_Strings["es"].TOOLTIPS, {__index = AF_Strings["en"].TOOLTIPS})
