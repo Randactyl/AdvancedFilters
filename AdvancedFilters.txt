@@ -9,6 +9,7 @@ lib\libFilters\libFilters.lua
 
 AF_Strings.lua
 AF_TextureMap.lua
+AdvancedFilterGroup.xml
 AdvancedFilterGroup.lua
 AdvancedFilterData.lua
 AdvancedFilters.lua
