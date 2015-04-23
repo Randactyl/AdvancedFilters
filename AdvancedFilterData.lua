@@ -393,11 +393,7 @@ end
 --Internal: Initializes all of the subfilter objects
 --
 --Returns a subfilter group object for each of the main ITEMFILTERTYPEs
-local hasInit = false
-function AdvancedFilters_InitAllFilters()
-	if(hasInit) then return nil end
-	hasInit = true
-
+function AdvancedFilters_InitAllFilters(inventoryName)
 	-- WEAPONS --
 	local allWeaponDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "All")
 	local oneHandedDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "OneHanded")
@@ -406,7 +402,7 @@ function AdvancedFilters_InitAllFilters()
 	local destructionStaffDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "DestructionStaff")
 	local healStaffDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "HealStaff")
 
-	local WEAPONS = AdvancedFilterGroup:New("Weapons")
+	local WEAPONS = AdvancedFilterGroup:New("Weapons", inventoryName)
 	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF, 
 		GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF}), healStaffDropdownCallbacks)
 	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF, 
@@ -432,7 +428,7 @@ function AdvancedFilters_InitAllFilters()
 	local jewelryDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Jewelry")
 	local vanityDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_ARMOR, "Vanity")
 
-	local ARMORS = AdvancedFilterGroup:New("Armors")
+	local ARMORS = AdvancedFilterGroup:New("Armors", inventoryName)
 	ARMORS:AddSubfilter("Vanity", AF_TextureMap.VANITY,
 		GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}), vanityDropdownCallbacks)
 	ARMORS:AddSubfilter("Jewelry", AF_TextureMap.JEWELRY,
@@ -461,7 +457,7 @@ function AdvancedFilters_InitAllFilters()
 	local repairDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Repair")
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Trophy")
 
-	local CONSUMABLES = AdvancedFilterGroup:New("Consumables")
+	local CONSUMABLES = AdvancedFilterGroup:New("Consumables", inventoryName)
 	CONSUMABLES:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
 		trophyDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR}),
@@ -494,7 +490,7 @@ function AdvancedFilters_InitAllFilters()
 	local weapontraitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CRAFTING, "WeaponTrait")
 	local armortraitDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CRAFTING, "ArmorTrait")
 
-	local MATERIALS = AdvancedFilterGroup:New("Materials")
+	local MATERIALS = AdvancedFilterGroup:New("Materials", inventoryName)
 	MATERIALS:AddSubfilter("ArmorTrait", AF_TextureMap.ATRAIT, GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
 		armortraitDropdownCallbacks)
 	MATERIALS:AddSubfilter("WeaponTrait", AF_TextureMap.WTRAIT, GetFilterCallback({ITEMTYPE_WEAPON_TRAIT}),
@@ -527,7 +523,7 @@ function AdvancedFilters_InitAllFilters()
 	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
 
-	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous")
+	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous", inventoryName)
 	MISCELLANEOUS:AddSubfilter("Trash", AF_TextureMap.TRASH, GetFilterCallback({ITEMTYPE_TRASH}),
 		trashDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE}),
@@ -546,7 +542,14 @@ function AdvancedFilters_InitAllFilters()
 		glyphDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allMiscellaneousDropdownCallbacks)
 
-	AF_Callbacks = {}
+	--AF_Callbacks = {}
 
 	return WEAPONS,ARMORS,CONSUMABLES,MATERIALS,MISCELLANEOUS
+end
+
+--Internal: Destroys the AF_Callbacks table to save on memory
+--
+--Returns nothing
+function AdvancedFilters_DestroyAFCallbacks()
+	AF_Callbacks = {}
 end

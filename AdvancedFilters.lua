@@ -9,19 +9,19 @@
 --variable declaration
 local g_currentInventoryType = INVENTORY_BACKPACK --set in inventory hook
 
-local BAGS = ZO_PlayerInventoryBackpack
-local BANK = ZO_PlayerBankBackpack
-local GUILDBANK = ZO_GuildBankBackpack
-
-subfilterBars = {
-	[ITEMFILTERTYPE_WEAPONS] = nil,
-	[ITEMFILTERTYPE_ARMOR] = nil,
-	[ITEMFILTERTYPE_CONSUMABLE] = nil,
-	[ITEMFILTERTYPE_CRAFTING] = nil,
-	[ITEMFILTERTYPE_MISCELLANEOUS] = nil,
+allSubfilterBars = {
+	[INVENTORY_BACKPACK] = {
+		[ITEMFILTERTYPE_WEAPONS] = nil,
+		[ITEMFILTERTYPE_ARMOR] = nil,
+		[ITEMFILTERTYPE_CONSUMABLE] = nil,
+		[ITEMFILTERTYPE_CRAFTING] = nil,
+		[ITEMFILTERTYPE_MISCELLANEOUS] = nil,
+		lastSubfilterBar = nil,
+	},
+	[INVENTORY_BANK] = {},
+	[INVENTORY_GUILD_BANK] = {},
 }
-
-local lastSubfilterBar = nil
+subfilterBars = {}
 
 --global utilities
 function GetCurrentInventoryType()
@@ -31,7 +31,7 @@ end
 --local functions
 local function RefreshSubfilterBar(inventory, currentFilter)
 	--hide old bar, if it exists
-	if lastSubfilterBar then lastSubfilterBar:SetHidden(true) end
+	if subfilterBars.lastSubfilterBar then subfilterBars.lastSubfilterBar:SetHidden(true) end
 
 	--get new bar
 	local subfilterBar = subfilterBars[currentFilter]
@@ -60,17 +60,31 @@ local function RefreshSubfilterBar(inventory, currentFilter)
 
 	--activate current button
 	subfilterBar:ActivateButton(subfilterBar:GetCurrentButton())
-
 	--show the bar
 	subfilterBar:SetHidden(false)
 
 	--set old bar reference and return proper inventory anchor displacement
-	lastSubfilterBar = subfilterBar
+	subfilterBars.lastSubfilterBar = subfilterBar
 	return subfilterBar.control:GetHeight()
 end
 
-local function SetFilterParent(parent)
-	for k,v in pairs(subfilterBars) do
+local function SetFilterParents()
+	local parent = ZO_PlayerInventory
+	for _, v in pairs(allSubfilterBars[INVENTORY_BACKPACK]) do
+		v.control:SetParent(parent)
+		v.control:ClearAnchors()
+		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
+	end
+
+	parent = ZO_PlayerBank
+	for _, v in pairs(allSubfilterBars[INVENTORY_BANK]) do
+		v.control:SetParent(parent)
+		v.control:ClearAnchors()
+		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
+	end
+
+	parent = ZO_GuildBank
+	for _, v in pairs(allSubfilterBars[INVENTORY_GUILD_BANK]) do
 		v.control:SetParent(parent)
 		v.control:ClearAnchors()
 		v.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, v.offsetY)
@@ -110,34 +124,47 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 
 	ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilter)
 
-	local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters()
-	subfilterBars[ITEMFILTERTYPE_WEAPONS] = WEAPONS
-	subfilterBars[ITEMFILTERTYPE_ARMOR] = ARMOR
-	subfilterBars[ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
-	subfilterBars[ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	subfilterBars[ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+	local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("Inventory")
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_ARMOR] = ARMOR
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
 
-	BAGS.inventoryType = INVENTORY_BACKPACK
-	BANK.inventoryType = INVENTORY_BANK
-	GUILDBANK.inventoryType = INVENTORY_GUILD_BANK
+	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("Bank")
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+
+	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("GuildBank")
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+
+	AdvancedFilters_DestroyAFCallbacks()
+
+	SetFilterParents()
+
+	ZO_PlayerInventoryBackpack.inventoryType = INVENTORY_BACKPACK
+	ZO_PlayerBankBackpack.inventoryType = INVENTORY_BANK
+	ZO_GuildBankBackpack.inventoryType = INVENTORY_GUILD_BANK
 
 	local function hookInventory(control, inventoryType)
 		local function onInventoryShown(control, hidden)
 			g_currentInventoryType = inventoryType
 
-			SetFilterParent(control)
+			subfilterBars = allSubfilterBars[inventoryType]
 
 			local inventory = PLAYER_INVENTORY.inventories[inventoryType]
 			local offset = RefreshSubfilterBar(inventory, inventory.currentFilter)
 			UpdateInventoryAnchors(PLAYER_INVENTORY, inventoryType, offset)
 		end
-		local function onInventoryHidden(control, hidden)
-			local inventory = PLAYER_INVENTORY.inventories[inventoryType]
-			local subfilterBar = subfilterBars[inventory.currentFilter]
-			--do something?
-		end
+		
 		ZO_PreHookHandler(control, "OnEffectivelyShown", onInventoryShown)
-		ZO_PreHookHandler(control, "OnEffectivelyHidden", onInventoryHidden)
 	end
 
 	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)

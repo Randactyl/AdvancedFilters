@@ -54,13 +54,13 @@ local function OnDropdownSelect(selectedItemData)
 end
 
 --interface
-function AdvancedFilterGroup:New(groupName)
+function AdvancedFilterGroup:New(groupName, inventoryName)
 	local obj = ZO_Object.New(self)
-	obj:Init(groupName)
+	obj:Init(groupName, inventoryName)
 	return obj
 end
 
-function AdvancedFilterGroup:Init(groupName)
+function AdvancedFilterGroup:Init(groupName, inventoryName)
 	--get upper anchor position for subfilter bar
 	local _,_,_,_,_,offsetY = ZO_PlayerInventorySortBy:GetAnchor()
 	--parent for the subfilter bar control
@@ -69,9 +69,9 @@ function AdvancedFilterGroup:Init(groupName)
 	self.offsetY = offsetY
 
 	--unique identifier
-	self.name = groupName
+	self.name = inventoryName .. groupName
 
-	self.control = WINDOW_MANAGER:CreateControlFromVirtual("AdvancedFilterGroup" .. groupName, parent, "AF_Base")
+	self.control = WINDOW_MANAGER:CreateControlFromVirtual("AdvancedFilterGroup" .. self.name, parent, "AF_Base")
 	self.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, offsetY)
 
 	self.label = self.control:GetNamedChild("Label")
