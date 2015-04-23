@@ -1,4 +1,14 @@
-﻿--thanks ckaotik
+﻿function AdvancedFilters_GetLanguage()
+	local lang = GetCVar("language.2")
+
+	--check for supported languages
+	if(AF_Strings[lang] ~= nil) then return lang end
+
+	--return english if not supported
+	return "en"
+end
+
+--thanks ckaotik
 local function AF_Localize(text)
 	if type(text) == 'number' then
 		-- get the string from this constant
