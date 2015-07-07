@@ -23,14 +23,14 @@ end
 local function SetUpCallbackFilter(button, filterTag)
 	--local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
 	local possibleLAFs = {
-		[1] = LAF_BAGS,
-		[2] = LAF_BANK,
-		[3] = LAF_GUILDBANK,
-		[4] = LAF_STORE,
-		[5] = LAF_MAIL,
-		[6] = LAF_TRADE,
-		[7] = LAF_FENCE,
-		[8] = LAF_LAUNDER,
+		[1] = LAF_BAGS, --used
+		[2] = LAF_BANK, --used
+		[3] = LAF_GUILDBANK, --used
+		[4] = LAF_STORE, --not used
+		[5] = LAF_MAIL, --used
+		[6] = LAF_TRADE, --used
+		[7] = LAF_FENCE, --used
+		[8] = LAF_LAUNDER, --used
 	}
 
 	--first, clear current filters
@@ -72,7 +72,7 @@ function AdvancedFilterGroup:Init(groupName, inventoryName)
 
 	self.label = self.control:GetNamedChild("Label")
 	self.label:SetModifyTextType(MODIFY_TEXT_TYPE_UPPERCASE)
-	self.label:SetText(AF_Strings[AdvancedFilters_GetLanguage()].TOOLTIPS["All"])
+	self.label:SetText(tooltipSet["All"])
 
 	self.divider = self.control:GetNamedChild("Divider")
 
