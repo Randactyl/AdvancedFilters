@@ -389,7 +389,6 @@ local function BuildCallbackTable(filterType, subfilterString)
 	return callbackTable
 end
 
-
 --Internal: Initializes all of the subfilter objects
 --
 --Returns a subfilter group object for each of the main ITEMFILTERTYPEs

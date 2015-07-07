@@ -20,10 +20,6 @@ local function GetNextIndex()
 	return INDEX
 end
 
-local function MoveHighlightToMe(currentButton, lastButton)
-	
-end
-
 local function SetUpCallbackFilter(button, filterTag)
 	--local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
 	local possibleLAFs = {
@@ -199,7 +195,7 @@ function AdvancedFilterGroup:ChangeLabel(text)
 	self.label:SetText(text)
 end
 
-function AdvancedFilterGroup:SetHidden( shouldHide )
+function AdvancedFilterGroup:SetHidden(shouldHide)
 	self.control:SetHidden(shouldHide)
 end
 
