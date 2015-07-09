@@ -8,6 +8,9 @@
 ------------------------------------------------------------------
 --variable declaration
 local g_currentInventoryType = INVENTORY_BACKPACK --set in inventory hook
+local bagSearch = ZO_PlayerInventorySearchBox --reference to ZOS text search box
+local bankSearch = ZO_PlayerBankSearchBox --reference to ZOS text search box
+local guildBankSearch = ZO_GuildBankSearchBox --reference to ZOS text search box
 
 allSubfilterBars = {
 	[INVENTORY_BACKPACK] = {
@@ -68,6 +71,7 @@ local function RefreshSubfilterBar(inventory, currentFilter)
 	return subfilterBar.control:GetHeight()
 end
 
+--assign parent for each subfilter bar
 local function SetFilterParents()
 	local parent = ZO_PlayerInventory
 	for _, v in pairs(allSubfilterBars[INVENTORY_BACKPACK]) do
@@ -170,5 +174,21 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
 	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
 	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
+
+	--enable ZOS inventory search boxes
+	bagSearch:ClearAnchors()
+	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventory, TOPLEFT, 36, -8)
+	bagSearch:SetHidden(false)
+ 	
+	bankSearch:ClearAnchors()
+	bankSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerBank, TOPLEFT, 36, -8)
+	bankSearch:SetHidden(false)
+	bankSearch:SetWidth(bagSearch:GetWidth())
+ 	
+	guildBankSearch:ClearAnchors()
+	guildBankSearch:SetAnchor(BOTTOMLEFT, ZO_GuildBank, TOPLEFT, 36, -8)
+	guildBankSearch:SetHidden(false)
+	guildBankSearch:SetWidth(bagSearch:GetWidth())
 end
+
 EVENT_MANAGER:RegisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED, AdvancedFilters_Loaded)
