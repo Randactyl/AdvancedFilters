@@ -32,45 +32,6 @@ function GetCurrentInventoryType()
 end
 
 --local functions
-local function RefreshSubfilterBar(inventory, currentFilter)
-	--hide old bar, if it exists
-	if subfilterBars.lastSubfilterBar then subfilterBars.lastSubfilterBar:SetHidden(true) end
-
-	--get new bar
-	local subfilterBar = subfilterBars[currentFilter]
-
-	--if subfilters don't exist, remove filters and return 0 for for inventory anchor displacement
-	if subfilterBar == nil then
-		AdvancedFilterGroup_RemoveAllFilters()
-		return 0
-	end
-
-	--check buttons for availability
-	for _,button in ipairs(subfilterBar.subfilters) do
-		button.texture:SetColor(.3, .3, .3, .9)
-		button:SetEnabled(false)
-		button.clickable = false
-	end
-	for _,item in pairs(inventory.slots) do
-		for _,button in ipairs(subfilterBar.subfilters) do
-			if(not button.clickable and button.filterCallback(item)) then
-				button.texture:SetColor(1, 1, 1, 1)
-				button:SetEnabled(true)
-				button.clickable = true
-			end
-		end
-	end
-
-	--activate current button
-	subfilterBar:ActivateButton(subfilterBar:GetCurrentButton())
-	--show the bar
-	subfilterBar:SetHidden(false)
-
-	--set old bar reference and return proper inventory anchor displacement
-	subfilterBars.lastSubfilterBar = subfilterBar
-	return subfilterBar.control:GetHeight()
-end
-
 --assign parent for each subfilter bar
 local function SetFilterParents()
 	local parent = ZO_PlayerInventory
@@ -114,12 +75,52 @@ local function UpdateInventoryAnchors(self, inventoryType, shiftY)
 	sortBy:SetAnchor(TOPRIGHT, nil, TOPRIGHT, 0, layoutData.sortByOffsetY + shiftY)
 end
 
-local function ChangeFilter(self, filterTab)
+local function RefreshSubfilterBar(currentFilter)
 	local inventory = PLAYER_INVENTORY.inventories[g_currentInventoryType]
-	local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
 
-	local offset = RefreshSubfilterBar(inventory, currentFilter)
-	UpdateInventoryAnchors(PLAYER_INVENTORY, g_currentInventoryType, offset)
+	subfilterBars = allSubfilterBars[g_currentInventoryType]
+
+	--hide old bar, if it exists
+	if subfilterBars.lastSubfilterBar then subfilterBars.lastSubfilterBar:SetHidden(true) end
+
+	--get new bar
+	local subfilterBar = subfilterBars[currentFilter]
+
+	--if subfilters don't exist, remove filters and remove inventory anchor displacement
+	if subfilterBar == nil then
+		AdvancedFilterGroup_RemoveAllFilters()
+		UpdateInventoryAnchors(PLAYER_INVENTORY, g_currentInventoryType, 0)
+	else
+		--check buttons for availability
+		for _,button in ipairs(subfilterBar.subfilters) do
+			button.texture:SetColor(.3, .3, .3, .9)
+			button:SetEnabled(false)
+			button.clickable = false
+		end
+		for _,item in pairs(inventory.slots) do
+			for _,button in ipairs(subfilterBar.subfilters) do
+				if(not button.clickable and button.filterCallback(item)) then
+					button.texture:SetColor(1, 1, 1, 1)
+					button:SetEnabled(true)
+					button.clickable = true
+				end
+			end
+		end
+	
+		--activate current button
+		subfilterBar:ActivateButton(subfilterBar:GetCurrentButton())
+		--show the bar
+		subfilterBar:SetHidden(false)
+
+		--set old bar reference and set proper inventory anchor displacement
+		subfilterBars.lastSubfilterBar = subfilterBar
+		UpdateInventoryAnchors(PLAYER_INVENTORY, g_currentInventoryType, subfilterBar.control:GetHeight())
+	end
+end
+
+local function ChangeFilter(self, filterTab)
+	local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
+	RefreshSubfilterBar(currentFilter)
 end
 
 local function AdvancedFilters_Loaded(eventCode, addonName)
@@ -161,11 +162,7 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 		local function onInventoryShown(control, hidden)
 			g_currentInventoryType = inventoryType
 
-			subfilterBars = allSubfilterBars[inventoryType]
-
-			local inventory = PLAYER_INVENTORY.inventories[inventoryType]
-			local offset = RefreshSubfilterBar(inventory, inventory.currentFilter)
-			UpdateInventoryAnchors(PLAYER_INVENTORY, inventoryType, offset)
+			RefreshSubfilterBar(PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
 		end
 		
 		ZO_PreHookHandler(control, "OnEffectivelyShown", onInventoryShown)
