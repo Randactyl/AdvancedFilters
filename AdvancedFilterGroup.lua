@@ -21,32 +21,22 @@ local function GetNextIndex()
 end
 
 local function SetUpCallbackFilter(button, filterTag)
-	--local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
-	local possibleLAFs = {
-		[1] = LAF_BAGS, --used
-		[2] = LAF_BANK, --used
-		[3] = LAF_GUILDBANK, --used
-		[4] = LAF_STORE, --not used
-		[5] = LAF_MAIL, --used
-		[6] = LAF_TRADE, --used
-		[7] = LAF_FENCE, --used
-		[8] = LAF_LAUNDER, --used
-	}
-
+	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
+	
 	--first, clear current filters
-	for i = 1, #possibleLAFs, 1 do
-		libFilters:UnregisterFilter(filterTag, possibleLAFs[i])
-	end
+	libFilters:UnregisterFilter(filterTag)
+	d("^setup unregister")
+
 	--then register new one
 	local callback = button.filterCallback or button.callback
 	if(callback == nil) then return end
-	for i = 1, #possibleLAFs, 1 do
-		libFilters:RegisterFilter(filterTag, possibleLAFs[i], callback)
-	end
+	libFilters:RegisterFilter(filterTag, laf, callback)
+	d("^setup register")
 end
 
 local function OnDropdownSelect(selectedItemData)
 	SetUpCallbackFilter(selectedItemData, DROPDOWN_STRING)
+	d("dropdown select")
 end
 
 --interface
@@ -119,7 +109,7 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 	button:SetHandler("OnClicked", function(clickedButton, name)
             if(not clickedButton.clickable) then return end
 			
-            self:ActivateButton(clickedButton)
+			self:ActivateButton(clickedButton)
         end)
 	button:SetHandler("OnMouseEnter", function(self)
 			ZO_Tooltips_ShowTextTooltip(self, TOP, tooltipSet[name])
@@ -202,4 +192,5 @@ end
 function AdvancedFilterGroup_RemoveAllFilters()
 	libFilters:UnregisterFilter(BUTTON_STRING)
 	libFilters:UnregisterFilter(DROPDOWN_STRING)
+	d("AdvancedFilterGroup_RemoveAllFilters")
 end
