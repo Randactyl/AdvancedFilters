@@ -36,6 +36,7 @@ end
 
 local function OnDropdownSelect(selectedItemData)
 	SetUpCallbackFilter(selectedItemData, DROPDOWN_STRING)
+	--libFilters:RequestInventoryUpdate()
 	d("dropdown select")
 end
 
@@ -171,6 +172,7 @@ function AdvancedFilterGroup:ActivateButton(newButton)
     --refresh filters
 	SetUpCallbackFilter(newButton, BUTTON_STRING)
 	SetUpCallbackFilter(newButton.dropdown.m_comboBox:GetSelectedItemData(), DROPDOWN_STRING)
+	--libFilters:RequestInventoryUpdate()
 	
 	--set new active button reference
 	self.activeButtons[GetCurrentInventoryType()] = newButton
@@ -192,5 +194,6 @@ end
 function AdvancedFilterGroup_RemoveAllFilters()
 	libFilters:UnregisterFilter(BUTTON_STRING)
 	libFilters:UnregisterFilter(DROPDOWN_STRING)
+	--libFilters:RequestInventoryUpdate()
 	d("AdvancedFilterGroup_RemoveAllFilters")
 end

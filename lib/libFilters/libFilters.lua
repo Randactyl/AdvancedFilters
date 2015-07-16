@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "libFilters", 14
+local MAJOR, MINOR = "libFilters", 14.1
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
@@ -40,6 +40,59 @@ local enchantingModeToFilterType = {
 	[ENCHANTING_MODE_EXTRACTION] = LAF_ENCHANTING_EXTRACTION,
 }
 
+local filterTypeToUpdaterName = {
+	[LAF_BAGS] = "BACKPACK",
+	[LAF_BANK] = "BANK",
+	[LAF_GUILDBANK] = "GUILD_BANK",
+	[LAF_STORE] = "BACKPACK",
+	[LAF_DECONSTRUCTION] = "DECONSTRUCTION",
+	[LAF_GUILDSTORE] = "BACKPACK",
+	[LAF_MAIL] = "BACKPACK",
+	[LAF_TRADE] = "BACKPACK",
+	[LAF_ENCHANTING_CREATION] = "ENCHANTING",
+	[LAF_ENCHANTING_EXTRACTION] = "ENCHANTING",
+	[LAF_IMPROVEMENT] = "IMPROVEMENT",
+	[LAF_FENCE] = "BACKPACK",
+	[LAF_LAUNDER] = "BACKPACK",
+}
+
+local inventoryUpdaters = {
+	BACKPACK = function()
+		PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
+	end,
+	BANK = function()
+		PLAYER_INVENTORY:UpdateList(INVENTORY_BANK)
+	end,
+	GUILD_BANK = function()
+		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
+	end,
+	DECONSTRUCTION = function()
+		SMITHING.deconstructionPanel.inventory:HandleDirtyEvent()
+	end,
+	IMPROVEMENT = function()
+		SMITHING.improvementPanel.inventory:HandleDirtyEvent()
+	end,
+	ENCHANTING = function()
+		ENCHANTING.inventory:HandleDirtyEvent()
+	end,
+}
+
+--[[local alteredLAFs = {
+	[LAF_BAGS] = false,
+	[LAF_BANK] = false,
+	[LAF_GUILDBANK] = false,
+	[LAF_STORE] = false,
+	[LAF_DECONSTRUCTION] = false,
+	[LAF_GUILDSTORE] = false,
+	[LAF_MAIL] = false,
+	[LAF_TRADE] = false,
+	[LAF_ENCHANTING_CREATION] = false,
+	[LAF_ENCHANTING_EXTRACTION] = false,
+	[LAF_IMPROVEMENT] = false,
+	[LAF_FENCE] = false,
+	[LAF_LAUNDER] = false,
+}]]
+
 local function df(...)
 	d(string.format(...))
 end
@@ -72,42 +125,27 @@ local function EnchantingFilter( self, bagId, slotIndex, ... )
 	return filterType and not runFilters(filterType, bagId, slotIndex)
 end
 
-local inventoryUpdaters = {
-	BACKPACK = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
-	end,
-	BANK = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_BANK)
-	end,
-	GUILD_BANK = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
-	end,
-	DECONSTRUCTION = function()
-		SMITHING.deconstructionPanel.inventory:HandleDirtyEvent()
-	end,
-	IMPROVEMENT = function()
-		SMITHING.improvementPanel.inventory:HandleDirtyEvent()
-	end,
-	ENCHANTING = function()
-		ENCHANTING.inventory:HandleDirtyEvent()
-	end,
-}
+local function RequestInventoryUpdate(filterType)
+	local updaterName = filterTypeToUpdaterName[filterType]
+	local callbackName = "libFilters_updateInventory_" .. updaterName
+	-- cancel previously scheduled update if any
+	EVENT_MANAGER:UnregisterForUpdate(callbackName)
+	--register a new one
+	EVENT_MANAGER:RegisterForUpdate(callbackName, 10, function()
+		EVENT_MANAGER:UnregisterForUpdate(callbackName)
+		inventoryUpdaters[updaterName]()
+	end)
+end
 
-local filterTypeToUpdaterName = {
-	[LAF_BAGS] = "BACKPACK",
-	[LAF_BANK] = "BANK",
-	[LAF_GUILDBANK] = "GUILD_BANK",
-	[LAF_STORE] = "BACKPACK",
-	[LAF_DECONSTRUCTION] = "DECONSTRUCTION",
-	[LAF_GUILDSTORE] = "BACKPACK",
-	[LAF_MAIL] = "BACKPACK",
-	[LAF_TRADE] = "BACKPACK",
-	[LAF_ENCHANTING_CREATION] = "ENCHANTING",
-	[LAF_ENCHANTING_EXTRACTION] = "ENCHANTING",
-	[LAF_IMPROVEMENT] = "IMPROVEMENT",
-	[LAF_FENCE] = "BACKPACK",
-	[LAF_LAUNDER] = "BACKPACK",
-}
+--[[function libFilters:RequestInventoryUpdate()
+	d("RequestInventoryUpdate")
+	for laf, altered in pairs(alteredLAFs) do
+		if altered then 
+			RequestInventoryUpdate(laf)
+			alteredLAFs[laf] = false
+		end
+	end
+end]]
 
 -- _inventory_ should be one of:
 --  a) backpack layout fragment with .layoutData
@@ -132,18 +170,6 @@ function libFilters:HookAdditionalFilter(filterType, inventory)
 	end
 end
 
-function libFilters:RequestInventoryUpdate( filterType )
-	local updaterName = filterTypeToUpdaterName[filterType]
-	local callbackName = "libFilters_updateInventory_" .. updaterName
-	-- cancel previously scheduled update if any
-	EVENT_MANAGER:UnregisterForUpdate(callbackName)
-	-- register a new one
-	EVENT_MANAGER:RegisterForUpdate(callbackName, 40, function()
-		EVENT_MANAGER:UnregisterForUpdate(callbackName)
-		inventoryUpdaters[updaterName]()
-	end)
-end
-
 --filterCallback must be a function with parameter (slot) and return true/false
 function libFilters:RegisterFilter( filterTag, filterType, filterCallback )
 	--lazily initialize the library
@@ -164,7 +190,8 @@ function libFilters:RegisterFilter( filterTag, filterType, filterCallback )
 	end
 
 	callbacks[filterTag] = filterCallback
-	self:RequestInventoryUpdate(filterType)
+	RequestInventoryUpdate(filterType)
+	--alteredLAFs[filterType] = true
 end
 
 function libFilters:UnregisterFilter( filterTag, filterType )
@@ -176,7 +203,8 @@ function libFilters:UnregisterFilter( filterTag, filterType )
 		for filterType, callbacks in pairs(filters) do
 			if callbacks[filterTag] ~= nil then
 				callbacks[filterTag] = nil
-				self:RequestInventoryUpdate(filterType)
+				RequestInventoryUpdate(filterType)
+				--alteredLAFs[filterType] = true
 			end
 		end
 	else
@@ -184,7 +212,8 @@ function libFilters:UnregisterFilter( filterTag, filterType )
 		local callbacks = filters[filterType]
 		if callbacks[filterTag] ~= nil then
 			callbacks[filterTag] = nil
-			self:RequestInventoryUpdate(filterType)
+			RequestInventoryUpdate(filterType)
+			--alteredLAFs[filterType] = true
 		end
 	end
 end
