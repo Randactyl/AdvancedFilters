@@ -51,13 +51,17 @@ AF_Strings = {
 			["Ring"] = "Ring",
 			["Neck"] = "Hals",
 
+			["Reagent"] = "Reagenz",
+			["Solvent"] = "Lösungsmittel",
+
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Misc"] = "Verkleidung",
+			["Vanity"] = "Verkleidung",
 			["Jewelry"] = "Schmuck",
 			["Shield"] = "Schilde",
+			["Clothing"] = "Bekleidung",
 			["Light"] = "Leichte R\195\188stung",
 			["Medium"] = "Mittlere R\195\188stung",
 			["Heavy"] = "Schwere R\195\188stung",
@@ -83,6 +87,7 @@ AF_Strings = {
 
 			["Trophy"] = "Troph\195\164e",
 			["Trash"] = "Plunder",
+			["Fence"] = "Hehlerware",
 			["Tool"] = "Werkzeug",
 			["Bait"] = "K\195\182der",
 			["Siege"] = "Belagerungsausr\195\188stung",
