@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "libFilters", 15
+local MAJOR, MINOR = "libFilters", 15.1
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
@@ -109,20 +109,6 @@ local function EnchantingFilter(self, bagId, slotIndex, ...)
 	return filterType and not runFilters(filterType, bagId, slotIndex)
 end
 
-local function RequestInventoryUpdate(filterType)
-	local updaterName = filterTypeToUpdaterName[filterType]
-	local callbackName = "libFilters_updateInventory_" .. updaterName
-	-- cancel previously scheduled update if any
-	EVENT_MANAGER:UnregisterForUpdate(callbackName)
-	--register a new one
-	EVENT_MANAGER:RegisterForUpdate(callbackName, 10, function()
-		EVENT_MANAGER:UnregisterForUpdate(callbackName)
-		inventoryUpdaters[updaterName]()
-
-		--d("inventoryUpdater Running: "..tostring(updaterName))
-	end)
-end
-
 -- _inventory_ should be one of:
 --  a) backpack layout fragment with .layoutData
 --  b) inventory table from PLAYER_INVENTORY.inventories
@@ -146,8 +132,22 @@ function libFilters:HookAdditionalFilter(filterType, inventory)
 	end
 end
 
+function libFilters:RequestInventoryUpdate(filterType)
+	local updaterName = filterTypeToUpdaterName[filterType]
+	local callbackName = "libFilters_updateInventory_" .. updaterName
+	-- cancel previously scheduled update if any
+	EVENT_MANAGER:UnregisterForUpdate(callbackName)
+	--register a new one
+	EVENT_MANAGER:RegisterForUpdate(callbackName, 10, function()
+		EVENT_MANAGER:UnregisterForUpdate(callbackName)
+		inventoryUpdaters[updaterName]()
+
+		--d("inventoryUpdater Running: "..tostring(updaterName))
+	end)
+end
+
 --filterCallback must be a function with parameter (slot) and return true/false
-function libFilters:RegisterFilter(filterTag, filterType, filterCallback, forceUpdate)
+function libFilters:RegisterFilter(filterTag, filterType, filterCallback)
 	--lazily initialize the library
 	if(not self.IS_INITIALIZED) then self:InitializeLibFilters() end
 
@@ -166,14 +166,9 @@ function libFilters:RegisterFilter(filterTag, filterType, filterCallback, forceU
 	end
 
 	callbacks[filterTag] = filterCallback
-
-	if forceUpdate then
-		--d("Registered Filter & Requesting Update for: "..tostring(filterType))
-		RequestInventoryUpdate(filterType)
-	end
 end
 
-function libFilters:UnregisterFilter(filterTag, filterType, forceUpdate)
+function libFilters:UnregisterFilter(filterTag, filterType)
 	--lazily initialize the add-on
 	if(not self.IS_INITIALIZED) then self:InitializeLibFilters() end
 
@@ -182,11 +177,6 @@ function libFilters:UnregisterFilter(filterTag, filterType, forceUpdate)
 		for filterType, callbacks in pairs(filters) do
 			if callbacks[filterTag] ~= nil then
 				callbacks[filterTag] = nil
-				
-				if forceUpdate then
-					--d("Unregister Requesting Update for: "..tostring(filterType))
-					RequestInventoryUpdate(filterType)
-				end
 			end
 		end
 	else
@@ -194,11 +184,6 @@ function libFilters:UnregisterFilter(filterTag, filterType, forceUpdate)
 		local callbacks = filters[filterType]
 		if callbacks[filterTag] ~= nil then
 			callbacks[filterTag] = nil
-			
-			if forceUpdate then
-				--d("Unregister Requesting Update for: "..tostring(filterType))
-				RequestInventoryUpdate(filterType)
-			end
 		end
 	end
 end
