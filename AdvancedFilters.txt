@@ -1,6 +1,6 @@
 ## Title: Advanced Filters
 ## Author: ingeniousclown and Randactyl
-## Version: 0.8.1.2
+## Version: 0.8.2.0
 ## APIVersion: 100011
 ## OptionalDependsOn: ItemSaver InventoryGridView libFilters
 ## Description: Overrides function ZO_PlayerInventory_OnSearchTextChanged from inventory.lua, line 1920
