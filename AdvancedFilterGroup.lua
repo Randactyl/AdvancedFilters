@@ -20,24 +20,21 @@ local function GetNextIndex()
 	return INDEX
 end
 
-local function SetUpCallbackFilter(button, filterTag)
+local function SetUpCallbackFilter(button, filterTag, forceUpdate)
 	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
 	
-	--first, clear current filters
+	--first, clear current filters without an update
 	libFilters:UnregisterFilter(filterTag)
-	d("^setup unregister")
 
-	--then register new one
+	--then register new one and hand off update parameter
 	local callback = button.filterCallback or button.callback
 	if(callback == nil) then return end
-	libFilters:RegisterFilter(filterTag, laf, callback)
-	d("^setup register")
+	libFilters:RegisterFilter(filterTag, laf, callback, forceUpdate)
 end
 
-local function OnDropdownSelect(selectedItemData)
-	SetUpCallbackFilter(selectedItemData, DROPDOWN_STRING)
-	--libFilters:RequestInventoryUpdate()
-	d("dropdown select")
+local function OnDropdownSelect(selectedItemData, selectionChanged)
+	--update if the dropdown selection changed
+	SetUpCallbackFilter(selectedItemData, DROPDOWN_STRING, selectionChanged)
 end
 
 --interface
@@ -89,7 +86,11 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 	    comboBox:SetSortsItems(false)
 
 		for _,v in ipairs(callbackTable) do
-			comboBox:AddItem(ZO_ComboBox:CreateItemEntry(tooltipSet[v.name], function() OnDropdownSelect(v) end))
+			comboBox:AddItem(ZO_ComboBox:CreateItemEntry(tooltipSet[v.name], 
+				function(comboBox, itemName, item, selectionChanged) 
+					OnDropdownSelect(v, selectionChanged)
+				end)
+			)
 		end
 
 		comboBox:SelectFirstItem()
@@ -170,9 +171,8 @@ function AdvancedFilterGroup:ActivateButton(newButton)
 	newButton.dropdown:SetHidden(false)
 
     --refresh filters
-	SetUpCallbackFilter(newButton, BUTTON_STRING)
-	SetUpCallbackFilter(newButton.dropdown.m_comboBox:GetSelectedItemData(), DROPDOWN_STRING)
-	--libFilters:RequestInventoryUpdate()
+	SetUpCallbackFilter(newButton, BUTTON_STRING, false)
+	SetUpCallbackFilter(newButton.dropdown.m_comboBox:GetSelectedItemData(), DROPDOWN_STRING, true)
 	
 	--set new active button reference
 	self.activeButtons[GetCurrentInventoryType()] = newButton
@@ -193,7 +193,5 @@ end
 
 function AdvancedFilterGroup_RemoveAllFilters()
 	libFilters:UnregisterFilter(BUTTON_STRING)
-	libFilters:UnregisterFilter(DROPDOWN_STRING)
-	--libFilters:RequestInventoryUpdate()
-	d("AdvancedFilterGroup_RemoveAllFilters")
+	libFilters:UnregisterFilter(DROPDOWN_STRING, nil, true)
 end
