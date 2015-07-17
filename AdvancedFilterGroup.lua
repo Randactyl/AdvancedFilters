@@ -20,7 +20,7 @@ local function GetNextIndex()
 	return INDEX
 end
 
-local function SetUpCallbackFilter(button, filterTag, forceUpdate)
+local function SetUpCallbackFilter(button, filterTag, requestUpdate)
 	local callback = button.filterCallback or button.callback
 	if(callback == nil) then return end
 	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
@@ -28,7 +28,10 @@ local function SetUpCallbackFilter(button, filterTag, forceUpdate)
 	--first, clear current filters without an update
 	libFilters:UnregisterFilter(filterTag)
 	--then register new one and hand off update parameter
-	libFilters:RegisterFilter(filterTag, laf, callback, forceUpdate)
+	libFilters:RegisterFilter(filterTag, laf, callback)
+	if (requestUpdate == true) and (laf ~= nil) then 
+		libFilters:RequestInventoryUpdate(laf)
+	end
 end
 
 local function OnDropdownSelect(selectedItemData, selectionChanged)
@@ -192,6 +195,12 @@ function AdvancedFilterGroup:SetHidden(shouldHide)
 end
 
 function AdvancedFilterGroup_RemoveAllFilters()
+	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
+
 	libFilters:UnregisterFilter(BUTTON_STRING)
-	libFilters:UnregisterFilter(DROPDOWN_STRING, nil, true)
+	libFilters:UnregisterFilter(DROPDOWN_STRING)
+
+	if laf ~= nil then 
+		libFilters:RequestInventoryUpdate(laf)
+	end
 end
