@@ -21,14 +21,13 @@ local function GetNextIndex()
 end
 
 local function SetUpCallbackFilter(button, filterTag, forceUpdate)
-	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
-	
-	--first, clear current filters without an update
-	libFilters:UnregisterFilter(filterTag)
-
-	--then register new one and hand off update parameter
 	local callback = button.filterCallback or button.callback
 	if(callback == nil) then return end
+	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
+
+	--first, clear current filters without an update
+	libFilters:UnregisterFilter(filterTag)
+	--then register new one and hand off update parameter
 	libFilters:RegisterFilter(filterTag, laf, callback, forceUpdate)
 end
 
@@ -86,11 +85,11 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 	    comboBox:SetSortsItems(false)
 
 		for _,v in ipairs(callbackTable) do
-			comboBox:AddItem(ZO_ComboBox:CreateItemEntry(tooltipSet[v.name], 
-				function(comboBox, itemName, item, selectionChanged) 
+			local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name], 
+				function(comboBox, itemName, item, selectionChanged)
 					OnDropdownSelect(v, selectionChanged)
 				end)
-			)
+			comboBox:AddItem(itemEntry)
 		end
 
 		comboBox:SelectFirstItem()
@@ -170,9 +169,10 @@ function AdvancedFilterGroup:ActivateButton(newButton)
 	--show new dropdown
 	newButton.dropdown:SetHidden(false)
 
-    --refresh filters
-	SetUpCallbackFilter(newButton, BUTTON_STRING, false)
-	SetUpCallbackFilter(newButton.dropdown.m_comboBox:GetSelectedItemData(), DROPDOWN_STRING, true)
+	--refresh filters
+	local itemData = newButton.dropdown.m_comboBox:GetSelectedItemData()
+	newButton.dropdown.m_comboBox:SelectItem(itemData)
+	SetUpCallbackFilter(newButton, BUTTON_STRING, true)
 	
 	--set new active button reference
 	self.activeButtons[GetCurrentInventoryType()] = newButton
