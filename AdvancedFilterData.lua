@@ -527,7 +527,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		trashDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE}),
 		fenceDropdownCallbacks)
-	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE}),
+	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_DRINK}),
 		trophyDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Tool", AF_TextureMap.TOOL, GetFilterCallback({ITEMTYPE_TOOL}),
 		toolDropdownCallbacks)
