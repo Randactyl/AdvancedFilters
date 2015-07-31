@@ -1,6 +1,6 @@
 --[[
-	This function handles the actual filtering. Use whatever parameters for "GetFilterCallback..." 
-    and whatever logic you need to in "function( slot )". A return value of true means the item in
+	This function handles the actual filtering. Use whatever parameters for "GetFilterCallback..."
+    and whatever logic you need to in "function(slot)". A return value of true means the item in
     question will be shown while the filter is active.
   ]]
 local function GetFilterCallbackForLevel(minLevel, maxLevel)
@@ -33,6 +33,7 @@ local fullLevelDropdownCallbacks = {
 	[10] = { name = "V9-V10", filterCallback = GetFilterCallbackForLevel(59, 60) },
 	[11] = { name = "V11-V12", filterCallback = GetFilterCallbackForLevel(61, 62) },
 	[12] = { name = "V13-V14", filterCallback = GetFilterCallbackForLevel(63, 64) },
+	[13] = { name = "V15-V16", filterCallback = GetFilterCallbackForLevel(65, 66) },
 }
 
 --[[
@@ -53,16 +54,17 @@ local strings = {
 	["V9-V10"] = "V9-V10",
 	["V11-V12"] = "V11-V12",
 	["V13-V14"] = "V13-V14",
+	["V15-V16"] = "V15-V16",
 }
 
 --[[
 	This section packages the data for Advanced Filters to use.
-	All keys are required except for the non-english strings, as they correspond to 
+	All keys are required except for the non-english strings, as they correspond to
 		optional languages. All language keys are assigned the same table here only to demonstrate
 		the key names. You do not need to do this.
 	The filterType key expects an ITEMFILTERTYPE constant provided by the game.
-	The values for key/value pairs in subfilters can be any of the string keys from lines 127 - 218
-		of AdvancedFiltersData.lua (AF_Callbacks table) such as "All", "OneHanded", "Body", or 
+	The values for key/value pairs in subfilters can be any of the string keys from lines 114 - 209
+		of AdvancedFiltersData.lua (AF_Callbacks table) such as "All", "OneHanded", "Body", or
 		"Blacksmithing".
 	If your filterType is ITEMFILTERTYPE_ALL then subfilters must only contain the value "All".
   ]]

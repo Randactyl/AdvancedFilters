@@ -1,4 +1,4 @@
-LevelFilters.lua is an example of the new extensible dropdown filter system. 
+LevelFilters.lua is an example of the new extensible dropdown filter system.
 
 Comments are included to generally explain each section.
 
@@ -19,7 +19,7 @@ Do this by:
 	5. Submit
 Remember to include all readme and disclaimer information required by ZOS.
 
-Your addon manifest must look similar to the following (example from Item Saver filter):
+Your addon manifest must look similar to the following (example from Item Saver Filters):
 --[[
 
 ## Title: Advanced Filters - Item Saver Filters
