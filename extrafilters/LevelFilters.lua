@@ -103,3 +103,13 @@ filterInformation = {
 	Again, register your filters by passing your new filter information to this function.
   ]]
 AdvancedFilters_RegisterFilter(filterInformation)
+
+filterInformation.filterType = ITEMFILTERTYPE_CONSUMABLE
+filterInformation.subfilters = {
+	[1] = "Food",
+	[2] = "Drink",
+	[3] = "Potion",
+	[4] = "Poison",
+}
+
+AdvancedFilters_RegisterFilter(filterInformation)
