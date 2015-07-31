@@ -22,14 +22,17 @@ end
 
 local function SetUpCallbackFilter(button, filterTag, requestUpdate)
 	local callback = button.filterCallback or button.callback
-	if(callback == nil) then return end
 	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
+
+	--if something isn't right. abort
+	if callback == nil then return end
+	if laf == nil then return end
 
 	--first, clear current filters without an update
 	libFilters:UnregisterFilter(filterTag)
 	--then register new one and hand off update parameter
 	libFilters:RegisterFilter(filterTag, laf, callback)
-	if (requestUpdate == true) and (laf ~= nil) then 
+	if (requestUpdate == true) and (laf ~= nil) then
 		libFilters:RequestInventoryUpdate(laf)
 	end
 end
@@ -88,7 +91,7 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 	    comboBox:SetSortsItems(false)
 
 		for _,v in ipairs(callbackTable) do
-			local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name], 
+			local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name],
 				function(comboBox, itemName, item, selectionChanged)
 					OnDropdownSelect(v, selectionChanged)
 				end)
@@ -112,7 +115,7 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 	button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
 	button:SetHandler("OnClicked", function(clickedButton, name)
             if(not clickedButton.clickable) then return end
-			
+
 			self:ActivateButton(clickedButton)
         end)
 	button:SetHandler("OnMouseEnter", function(self)
@@ -176,7 +179,7 @@ function AdvancedFilterGroup:ActivateButton(newButton)
 	local itemData = newButton.dropdown.m_comboBox:GetSelectedItemData()
 	newButton.dropdown.m_comboBox:SelectItem(itemData)
 	SetUpCallbackFilter(newButton, BUTTON_STRING, true)
-	
+
 	--set new active button reference
 	self.activeButtons[GetCurrentInventoryType()] = newButton
 end
@@ -200,7 +203,7 @@ function AdvancedFilterGroup_RemoveAllFilters()
 	libFilters:UnregisterFilter(BUTTON_STRING)
 	libFilters:UnregisterFilter(DROPDOWN_STRING)
 
-	if laf ~= nil then 
+	if laf ~= nil then
 		libFilters:RequestInventoryUpdate(laf)
 	end
 end

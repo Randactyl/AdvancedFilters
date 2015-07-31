@@ -189,15 +189,3 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 end
 
 EVENT_MANAGER:RegisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED, AdvancedFilters_Loaded)
-
---override function to fix guild bank search box
---inventory.lua line 1920
-function ZO_PlayerInventory_OnSearchTextChanged(editBox)
-    if(editBox == bagSearch) then
-        PLAYER_INVENTORY:UpdateList(PLAYER_INVENTORY.selectedTabType)
-    elseif(editBox == bankSearch) then
-        PLAYER_INVENTORY:UpdateList(INVENTORY_BANK)
-    else
-    	PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
-    end
-end
