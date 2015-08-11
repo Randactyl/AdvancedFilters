@@ -1,8 +1,8 @@
 ------------------------------------------------------------------
 --AdvancedFilters.lua
 --Author: ingeniousclown, Randactyl
---v0.8.2.0
- 
+--v0.8.3.0
+
 --Advanced Filters adds a line of subfilters to the inventory
 --screen.
 ------------------------------------------------------------------
@@ -59,16 +59,16 @@ end
 local function UpdateInventoryAnchors(self, inventoryType, shiftY)
 	local layoutData = self.appliedLayout or BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData
 	if not layoutData then return end
- 
+
 	local inventory = self.inventories[inventoryType]
 	local backpack = inventory.listView
 	backpack:SetWidth(layoutData.width)
 	backpack:ClearAnchors()
 	backpack:SetAnchor(TOPRIGHT, nil, TOPRIGHT, 0, layoutData.backpackOffsetY + shiftY)
 	backpack:SetAnchor(BOTTOMRIGHT)
- 
+
 	ZO_ScrollList_SetHeight(backpack, backpack:GetHeight())
- 
+
 	local displayInventory = self:GetDisplayInventoryTable(inventoryType)
 	local sortBy = displayInventory.sortHeaders.headerContainer
 	sortBy:ClearAnchors()
@@ -106,7 +106,7 @@ local function RefreshSubfilterBar(currentFilter)
 				end
 			end
 		end
-	
+
 		--activate current button
 		subfilterBar:ActivateButton(subfilterBar:GetCurrentButton())
 		--show the bar
@@ -164,7 +164,7 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 
 			RefreshSubfilterBar(PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
 		end
-		
+
 		ZO_PreHookHandler(control, "OnEffectivelyShown", onInventoryShown)
 	end
 
@@ -176,12 +176,12 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 	bagSearch:ClearAnchors()
 	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventory, TOPLEFT, 36, -8)
 	bagSearch:SetHidden(false)
- 	
+
 	bankSearch:ClearAnchors()
 	bankSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerBank, TOPLEFT, 36, -8)
 	bankSearch:SetHidden(false)
 	bankSearch:SetWidth(bagSearch:GetWidth())
- 	
+
 	guildBankSearch:ClearAnchors()
 	guildBankSearch:SetAnchor(BOTTOMLEFT, ZO_GuildBank, TOPLEFT, 36, -8)
 	guildBankSearch:SetHidden(false)
