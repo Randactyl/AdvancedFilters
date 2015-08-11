@@ -32,7 +32,7 @@ local function SetUpCallbackFilter(button, filterTag, requestUpdate)
 	libFilters:UnregisterFilter(filterTag)
 	--then register new one and hand off update parameter
 	libFilters:RegisterFilter(filterTag, laf, callback)
-	if (requestUpdate == true) and (laf ~= nil) then
+	if requestUpdate == true then
 		libFilters:RequestInventoryUpdate(laf)
 	end
 end
