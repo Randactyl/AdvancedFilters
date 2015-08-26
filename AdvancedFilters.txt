@@ -1,6 +1,6 @@
 ## Title: Advanced Filters
 ## Author: Randactyl, ingeniousclown
-## Version: 0.8.3.0
+## Version: 0.8.3.1
 ## APIVersion: 100011
 
 lib\LibStub\LibStub.lua
