@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "libFilters", 15.1
+local MAJOR, MINOR = "libFilters", 15.2
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
@@ -115,7 +115,7 @@ end
 function libFilters:HookAdditionalFilter(filterType, inventory)
     --lazily initialize the add-on
     if(not self.IS_INITIALIZED) then self:InitializeLibFilters() end
- 
+
     local layoutData = inventory.layoutData or inventory
 	local originalFilter = layoutData.additionalFilter
 
@@ -165,6 +165,7 @@ function libFilters:RegisterFilter(filterTag, filterType, filterCallback)
 		return
 	end
 
+	--d("registered "..filterTag)
 	callbacks[filterTag] = filterCallback
 end
 
@@ -186,6 +187,8 @@ function libFilters:UnregisterFilter(filterTag, filterType)
 			callbacks[filterTag] = nil
 		end
 	end
+
+	--d("unregistered "..filterTag)
 end
 
 function libFilters:IsFilterRegistered(filterTag, filterType)
@@ -250,7 +253,8 @@ function libFilters:InitializeLibFilters()
 	-- therefore it needs to be hooked in each fragment's layout data
 	self:HookAdditionalFilter(LAF_BAGS, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
 	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_BAGS --[[ correct, not LAF_BANK ]], BACKPACK_BANK_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_BANK_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_STORE, BACKPACK_STORE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
@@ -266,24 +270,3 @@ function libFilters:InitializeLibFilters()
 	ZO_PreHook(SMITHING.improvementPanel.inventory, "AddItemData", ImprovementFilter)
 	ZO_PreHook(ENCHANTING.inventory, "AddItemData", EnchantingFilter)
 end
-
---here is a handful of examples and tests!  these may expand in the future.
-
--- function test( filterType )
--- 	if(not filterType) then return end
--- 	libFilters:RegisterFilter("test", filterType, function(slot)
---         local _,_,value = GetItemInfo(slot.bagId, slot.slotIndex)
---         return value > 20
---     end)
--- end
-
--- function testDecon()
--- 	libFilters:RegisterFilter("test", LAF_DECONSTRUCTION, function(bagId, slotIndex)
---         local _,_,value = GetItemInfo(bagId, slotIndex)
---         return value > 20
---     end)
--- end
-
--- function untest()
--- 	libFilters:UnregisterFilter("test")
--- end
