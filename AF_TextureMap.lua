@@ -162,7 +162,7 @@ AF_TextureMap = {
 		pressed = "AdvancedFilters/assets/materials/atrait/atrait_down.dds",
 		mouseOver = "AdvancedFilters/assets/materials/atrait/atrait_over.dds",
 	},
-	
+
 	--MISCELLANEOUS
 	GLYPHS = {
 		normal = "AdvancedFilters/assets/miscellaneous/glyphs/glyphs_up.dds",

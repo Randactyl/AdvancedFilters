@@ -168,7 +168,6 @@ local AF_Callbacks = {
 		["Container"] = {},
 		["Repair"] = {},
 		["Trophy"] = {},
-
 	},
 	[ITEMFILTERTYPE_CRAFTING] = {
 		Addons = {},
@@ -383,7 +382,7 @@ local function BuildCallbackTable(filterType, subfilterString)
 					table.insert(callbackTable, addonTable[i].callbackTable[j])
 				end
 			end
-		end		
+		end
 	end
 
 	return callbackTable
@@ -402,17 +401,17 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 	local healStaffDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "HealStaff")
 
 	local WEAPONS = AdvancedFilterGroup:New("Weapons", inventoryName)
-	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF, 
+	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF}), healStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF, 
+	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF}),
 		destructionStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("Bow", AF_TextureMap.BOW, 
+	WEAPONS:AddSubfilter("Bow", AF_TextureMap.BOW,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_BOW}), bowDropdownCallbacks)
-	WEAPONS:AddSubfilter("TwoHand", AF_TextureMap.TWOHAND, 
+	WEAPONS:AddSubfilter("TwoHand", AF_TextureMap.TWOHAND,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD}),
 		twoHandedDropdownCallbacks)
-	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND, 
+	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER}),
 		oneHandedDropdownCallbacks)
 	WEAPONS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allWeaponDropdownCallbacks)
@@ -475,6 +474,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		drinkDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Food", AF_TextureMap.FOOD, GetFilterCallback({ITEMTYPE_FOOD}),
 		foodDropdownCallbacks)
+
 	CONSUMABLES:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allConsumablesDropdownCallbacks)
 
 	-- MATERIALS --
