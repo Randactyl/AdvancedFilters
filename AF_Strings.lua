@@ -63,6 +63,7 @@ AF_Strings = {
 			["Neck"] = "Hals",
 
 			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
 	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
 	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
 	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
@@ -147,6 +148,7 @@ AF_Strings = {
 			["Neck"] = "Neck",
 
 			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
 			["Food"] = AF_Localize(SI_ITEMTYPE4),
 			["Drink"] = AF_Localize(SI_ITEMTYPE12),
 			["Recipe"] = AF_Localize(SI_ITEMTYPE29),
@@ -231,6 +233,7 @@ AF_Strings = {
 			--["Neck"] = ,
 
 			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
 	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
 	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
 	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
@@ -315,6 +318,7 @@ AF_Strings = {
 			["Neck"] = "Pendentifs",
 
 			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
 	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
 	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
 	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
@@ -399,6 +403,7 @@ AF_Strings = {
 			["Neck"] = "Úeü",
 
 			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
 	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
 	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
 	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),

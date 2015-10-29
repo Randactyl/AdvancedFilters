@@ -75,6 +75,11 @@ AF_TextureMap = {
 	},
 
 	--CONSUMABLES
+	CROWN = {
+		normal = "/esoui/art/mainmenu/menubar_market_up.dds",
+		pressed = "/esoui/art/mainmenu/menubar_market_down.dds",
+		mouseOver = "/esoui/art/mainmenu/menubar_market_over.dds",
+	},
 	FOOD = {
 		normal = "AdvancedFilters/assets/consumables/food/food_up.dds",
 		pressed = "AdvancedFilters/assets/consumables/food/food_down.dds",

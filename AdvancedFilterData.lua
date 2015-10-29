@@ -159,6 +159,7 @@ local AF_Callbacks = {
 	[ITEMFILTERTYPE_CONSUMABLE] = {
 		Addons = {},
 		["All"] = {},
+		["Crown"] = {},
 		["Food"] = {},
 		["Drink"] = {},
 		["Recipe"] = {},
@@ -290,15 +291,16 @@ local function BuildCallbackTable(filterType, subfilterString)
 		},
 		[ITEMFILTERTYPE_CONSUMABLE] = {
 			[1] = "All",
-			[2] = "Food",
-			[3] = "Drink",
-			[4] = "Recipe",
-			[5] = "Potion",
-			[6] = "Poison",
-			[7] = "Motif",
-			[8] = "Container",
-			[9] = "Repair",
-			[10] = "Trophy",
+			[2] = "Crown",
+			[3] = "Food",
+			[4] = "Drink",
+			[5] = "Recipe",
+			[6] = "Potion",
+			[7] = "Poison",
+			[8] = "Motif",
+			[9] = "Container",
+			[10] = "Repair",
+			[11] = "Trophy",
 		},
 		[ITEMFILTERTYPE_CRAFTING] = {
 			[1] = "All",
@@ -445,6 +447,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 
 	-- CONSUMABLES --
 	local allConsumablesDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "All")
+	local crownDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Crown")
 	local foodDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Food")
 	local drinkDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Drink")
 	local recipeDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Recipe")
@@ -474,7 +477,8 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		drinkDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Food", AF_TextureMap.FOOD, GetFilterCallback({ITEMTYPE_FOOD}),
 		foodDropdownCallbacks)
-
+	CONSUMABLES:AddSubfilter("Crown", AF_TextureMap.CROWN, GetFilterCallback({ITEMTYPE_CROWN_ITEM}),
+		crownDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allConsumablesDropdownCallbacks)
 
 	-- MATERIALS --
