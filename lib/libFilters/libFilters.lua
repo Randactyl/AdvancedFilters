@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "libFilters", 15.2
+local MAJOR, MINOR = "libFilters", 16
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
@@ -17,6 +17,7 @@ LAF_ENCHANTING_EXTRACTION = 12
 LAF_IMPROVEMENT = 13
 LAF_FENCE = 14
 LAF_LAUNDER = 15
+LAF_ALCHEMY = 16
 
 libFilters.filters = {
 	[LAF_BAGS] = {},
@@ -32,6 +33,7 @@ libFilters.filters = {
 	[LAF_IMPROVEMENT] = {},
 	[LAF_FENCE] = {},
 	[LAF_LAUNDER] = {},
+	[LAF_ALCHEMY] = {},
 }
 local filters = libFilters.filters
 
@@ -54,6 +56,7 @@ local filterTypeToUpdaterName = {
 	[LAF_IMPROVEMENT] = "IMPROVEMENT",
 	[LAF_FENCE] = "BACKPACK",
 	[LAF_LAUNDER] = "BACKPACK",
+	[LAF_ALCHEMY] = "ALCHEMY",
 }
 
 local inventoryUpdaters = {
@@ -74,6 +77,9 @@ local inventoryUpdaters = {
 	end,
 	ENCHANTING = function()
 		ENCHANTING.inventory:HandleDirtyEvent()
+	end,
+	ALCHEMY = function()
+		ALCHEMY.inventory:Refresh()
 	end,
 }
 
@@ -107,6 +113,12 @@ end
 local function EnchantingFilter(self, bagId, slotIndex, ...)
 	local filterType = enchantingModeToFilterType[ENCHANTING.enchantingMode]
 	return filterType and not runFilters(filterType, bagId, slotIndex)
+end
+
+--LAF_ALCHEMY
+--since this is a PreHook using ZO_PreHook, a return of true means don't add
+local function AlchemyFilter(self, bagId, slotIndex, ...)
+	return not runFilters(LAF_ALCHEMY, bagId, slotIndex)
 end
 
 -- _inventory_ should be one of:
@@ -254,9 +266,7 @@ function libFilters:InitializeLibFilters()
 	self:HookAdditionalFilter(LAF_BAGS, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
 	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_BANK_LAYOUT_FRAGMENT)
-	if BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT then
-		self:HookAdditionalFilter(LAF_BAGS, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
-	end
+	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_STORE, BACKPACK_STORE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
@@ -271,4 +281,5 @@ function libFilters:InitializeLibFilters()
 	ZO_PreHook(SMITHING.deconstructionPanel.inventory, "AddItemData", DeconstructionFilter)
 	ZO_PreHook(SMITHING.improvementPanel.inventory, "AddItemData", ImprovementFilter)
 	ZO_PreHook(ENCHANTING.inventory, "AddItemData", EnchantingFilter)
+	ZO_PreHook(ALCHEMY.inventory, "AddItemData", AlchemyFilter)
 end
