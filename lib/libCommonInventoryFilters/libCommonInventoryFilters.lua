@@ -1,4 +1,4 @@
-local myNAME, myVERSION = "libCommonInventoryFilters", 1.1
+local myNAME, myVERSION = "libCommonInventoryFilters", 1.2
 local libCIF = LibStub:NewLibrary(myNAME, myVERSION)
 if not libCIF then return end
 
@@ -115,6 +115,10 @@ local function onPlayerActivated(eventCode)
         doShift(BACKPACK_STORE_LAYOUT_FRAGMENT.layoutData)
         doShift(BACKPACK_FENCE_LAYOUT_FRAGMENT.layoutData)
         doShift(BACKPACK_LAUNDER_LAYOUT_FRAGMENT.layoutData)
+        -- added in ESO 2.1
+        if BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT then
+            doShift(BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT.layoutData)
+        end
     end
 
     -- replace ZO_InventoryManager:SetTradingHouseModeEnabled
