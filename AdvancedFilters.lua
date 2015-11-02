@@ -1,11 +1,3 @@
-------------------------------------------------------------------
---AdvancedFilters.lua
---Author: Randactyl, ingeniousclown
---v0.8.3.1
-
---Advanced Filters adds a line of subfilters to the inventory
---screen.
-------------------------------------------------------------------
 --variable declaration
 local g_currentInventoryType = INVENTORY_BACKPACK --set in inventory hook
 local bagSearch = ZO_PlayerInventorySearchBox --reference to ZOS text search box
@@ -129,26 +121,26 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 
 	ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilter)
 
-	local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("Inventory")
+	local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANEOUS = AdvancedFilters_InitAllFilters("Inventory")
 	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
 	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_ARMOR] = ARMOR
 	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
 	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANEOUS
 
-	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("Bank")
+	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANEOUS = AdvancedFilters_InitAllFilters("Bank")
 	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
 	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
 	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
 	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANEOUS
 
-	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANOUS = AdvancedFilters_InitAllFilters("GuildBank")
+	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANEOUS = AdvancedFilters_InitAllFilters("GuildBank")
 	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
 	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
 	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
 	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANOUS
+	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANEOUS
 
 	AdvancedFilters_DestroyAFCallbacks()
 

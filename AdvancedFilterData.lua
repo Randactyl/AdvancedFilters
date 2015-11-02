@@ -159,6 +159,7 @@ local AF_Callbacks = {
 	[ITEMFILTERTYPE_CONSUMABLE] = {
 		Addons = {},
 		["All"] = {},
+		["Crown"] = {},
 		["Food"] = {},
 		["Drink"] = {},
 		["Recipe"] = {},
@@ -168,7 +169,6 @@ local AF_Callbacks = {
 		["Container"] = {},
 		["Repair"] = {},
 		["Trophy"] = {},
-
 	},
 	[ITEMFILTERTYPE_CRAFTING] = {
 		Addons = {},
@@ -291,15 +291,16 @@ local function BuildCallbackTable(filterType, subfilterString)
 		},
 		[ITEMFILTERTYPE_CONSUMABLE] = {
 			[1] = "All",
-			[2] = "Food",
-			[3] = "Drink",
-			[4] = "Recipe",
-			[5] = "Potion",
-			[6] = "Poison",
-			[7] = "Motif",
-			[8] = "Container",
-			[9] = "Repair",
-			[10] = "Trophy",
+			[2] = "Crown",
+			[3] = "Food",
+			[4] = "Drink",
+			[5] = "Recipe",
+			[6] = "Potion",
+			[7] = "Poison",
+			[8] = "Motif",
+			[9] = "Container",
+			[10] = "Repair",
+			[11] = "Trophy",
 		},
 		[ITEMFILTERTYPE_CRAFTING] = {
 			[1] = "All",
@@ -383,7 +384,7 @@ local function BuildCallbackTable(filterType, subfilterString)
 					table.insert(callbackTable, addonTable[i].callbackTable[j])
 				end
 			end
-		end		
+		end
 	end
 
 	return callbackTable
@@ -402,17 +403,17 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 	local healStaffDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "HealStaff")
 
 	local WEAPONS = AdvancedFilterGroup:New("Weapons", inventoryName)
-	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF, 
+	WEAPONS:AddSubfilter("HealStaff", AF_TextureMap.HEALSTAFF,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF}), healStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF, 
+	WEAPONS:AddSubfilter("DestructionStaff", AF_TextureMap.DESTRUCTIONSTAFF,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF}),
 		destructionStaffDropdownCallbacks)
-	WEAPONS:AddSubfilter("Bow", AF_TextureMap.BOW, 
+	WEAPONS:AddSubfilter("Bow", AF_TextureMap.BOW,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_BOW}), bowDropdownCallbacks)
-	WEAPONS:AddSubfilter("TwoHand", AF_TextureMap.TWOHAND, 
+	WEAPONS:AddSubfilter("TwoHand", AF_TextureMap.TWOHAND,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD}),
 		twoHandedDropdownCallbacks)
-	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND, 
+	WEAPONS:AddSubfilter("OneHand", AF_TextureMap.ONEHAND,
 		GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER}),
 		oneHandedDropdownCallbacks)
 	WEAPONS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allWeaponDropdownCallbacks)
@@ -446,6 +447,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 
 	-- CONSUMABLES --
 	local allConsumablesDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "All")
+	local crownDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Crown")
 	local foodDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Food")
 	local drinkDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Drink")
 	local recipeDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Recipe")
@@ -457,7 +459,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 	local trophyDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_CONSUMABLE, "Trophy")
 
 	local CONSUMABLES = AdvancedFilterGroup:New("Consumables", inventoryName)
-	CONSUMABLES:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH}),
+	CONSUMABLES:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH, ITEMTYPE_TREASURE}),
 		trophyDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Repair", AF_TextureMap.REPAIR, GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR}),
 		repairDropdownCallbacks)
@@ -475,6 +477,8 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		drinkDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("Food", AF_TextureMap.FOOD, GetFilterCallback({ITEMTYPE_FOOD}),
 		foodDropdownCallbacks)
+	CONSUMABLES:AddSubfilter("Crown", AF_TextureMap.CROWN, GetFilterCallback({ITEMTYPE_CROWN_ITEM}),
+		crownDropdownCallbacks)
 	CONSUMABLES:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allConsumablesDropdownCallbacks)
 
 	-- MATERIALS --
@@ -494,7 +498,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		armortraitDropdownCallbacks)
 	MATERIALS:AddSubfilter("WeaponTrait", AF_TextureMap.WTRAIT, GetFilterCallback({ITEMTYPE_WEAPON_TRAIT}),
 		weapontraitDropdownCallbacks)
-	MATERIALS:AddSubfilter("Style", AF_TextureMap.STYLE, GetFilterCallback({ITEMTYPE_STYLE_MATERIAL}),
+	MATERIALS:AddSubfilter("Style", AF_TextureMap.STYLE, GetFilterCallback({ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
 		styleDropdownCallbacks)
 	MATERIALS:AddSubfilter("Provisioning", AF_TextureMap.PROVISIONING, GetFilterCallback({ITEMTYPE_INGREDIENT}),
 		provisioningDropdownCallbacks)
@@ -502,11 +506,11 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		runeDropdownCallbacks)
 	MATERIALS:AddSubfilter("Alchemy", AF_TextureMap.ALCHEMY, GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_ALCHEMY_BASE}),
 		alchemyDropdownCallbacks)
-	MATERIALS:AddSubfilter("Woodworking", AF_TextureMap.WOODWORKING, GetFilterCallback({ITEMTYPE_RAW_MATERIAL, ITEMTYPE_WOODWORKING_MATERIAL, ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_WOODWORKING_BOOSTER}),
+	MATERIALS:AddSubfilter("Woodworking", AF_TextureMap.WOODWORKING, GetFilterCallback({ITEMTYPE_WOODWORKING_MATERIAL, ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_WOODWORKING_BOOSTER}),
 		woodworkingDropdownCallbacks)
-	MATERIALS:AddSubfilter("Clothier", AF_TextureMap.CLOTHIER, GetFilterCallback({ITEMTYPE_RAW_MATERIAL, ITEMTYPE_CLOTHIER_MATERIAL, ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_CLOTHIER_BOOSTER}),
+	MATERIALS:AddSubfilter("Clothier", AF_TextureMap.CLOTHIER, GetFilterCallback({ITEMTYPE_CLOTHIER_MATERIAL, ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_CLOTHIER_BOOSTER}),
 		clothierDropdownCallbacks)
-	MATERIALS:AddSubfilter("Blacksmithing", AF_TextureMap.BLACKSMITHING, GetFilterCallback({ITEMTYPE_RAW_MATERIAL, ITEMTYPE_BLACKSMITHING_MATERIAL, ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_BLACKSMITHING_BOOSTER}),
+	MATERIALS:AddSubfilter("Blacksmithing", AF_TextureMap.BLACKSMITHING, GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL, ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_BLACKSMITHING_BOOSTER}),
 		blacksmithingDropdownCallbacks)
 	MATERIALS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allMaterialsDropdownCallbacks)
 

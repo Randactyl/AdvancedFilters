@@ -21,7 +21,16 @@ end
 AF_Strings = {
 	["de"] = {
 		TOOLTIPS = {
+			--SHARED
 			["All"] = "Alle",
+			["Trophy"] = AF_Localize(SI_ITEMTYPE5),
+
+			--WEAPON
+			["OneHand"] = "Einh\195\164ndig",
+			["TwoHand"] = "Zweih\195\164ndig",
+	        ["Bow"] = AF_Localize(SI_WEAPONTYPE8),
+			["DestructionStaff"] = "Zerst\195\182rungsstab",
+			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
 
 			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
 			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
@@ -34,11 +43,14 @@ AF_Strings = {
 			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
 			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
 
-			["DestructionStaff"] = "Zerst\195\182rungsstab",
-			["HealStaff"] = "Heilungsstab",
-			["Bow"] = "Bogen",
-			["TwoHand"] = "Zweih\195\164ndig",
-			["OneHand"] = "Einh\195\164ndig",
+			--ARMOR
+	        ["Heavy"] = AF_Localize(SI_ARMORTYPE3),
+	        ["Medium"] = AF_Localize(SI_ARMORTYPE2),
+			["Light"] = AF_Localize(SI_ARMORTYPE1),
+			["Clothing"] = "Bekleidung",
+			["Shield"] = "Schilde",
+			["Jewelry"] = "Schmuck",
+			["Vanity"] = "Verkleidung",
 
 			["Head"] = "Kopf",
 			["Chest"] = "Torso",
@@ -47,60 +59,63 @@ AF_Strings = {
 			["Waist"] = "Taille",
 			["Legs"] = "Beine",
 			["Feet"] = "F\195\188ße",
-
 			["Ring"] = "Ring",
 			["Neck"] = "Hals",
 
-			["Reagent"] = "Reagenz",
-			["Solvent"] = "Lösungsmittel",
+			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
+	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
+	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
+	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
+	        ["Potion"] = AF_Localize(SI_ITEMTYPE7),
+	        ["Poison"] = AF_Localize(SI_ITEMTYPE30),
+	        ["Motif"] = AF_Localize(SI_ITEMTYPE8),
+			["Container"] = AF_Localize(SI_ITEMTYPE18),
+			["Repair"] = "Werkzeug",
 
+			--MATERIALS
+			["Blacksmithing"] = "Schmiedekunst",
+			["Clothier"] = "Schneiderei",
+			["Woodworking"] = "Schreinerei",
+			["Alchemy"] = "Alchemie",
+			["Enchanting"] = "Verzaubern",
+			["Provisioning"] = "Versorgen",
+	        ["Style"] = AF_Localize(SI_ITEMTYPE44),
+	        ["WeaponTrait"] = AF_Localize(SI_ITEMTYPE46),
+			["ArmorTrait"] = AF_Localize(SI_ITEMTYPE45),
+
+			["Reagent"] = AF_Localize(SI_ITEMTYPE31),
+	        ["Solvent"] = AF_Localize(SI_ITEMTYPE33),
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Vanity"] = "Verkleidung",
-			["Jewelry"] = "Schmuck",
-			["Shield"] = "Schilde",
-			["Clothing"] = "Bekleidung",
-			["Light"] = "Leichte R\195\188stung",
-			["Medium"] = "Mittlere R\195\188stung",
-			["Heavy"] = "Schwere R\195\188stung",
-
-			["Repair"] = "Werkzeug",
-			["Container"] = "Beh\195\164lter",
-			["Motif"] = "Stil",
-			["Poison"] = "Gift",
-			["Potion"] = "Zaubertrank",
-			["Recipe"] = "Rezept",
-			["Drink"] = "Getr\195\164nk",
-			["Food"] = "Nahrung",
-
-			["ArmorTrait"] = "R\195\188stungsmerkmal",
-			["WeaponTrait"] = "Waffenmerkmal",
-			["Style"] = "Stilmaterial",
-			["Provisioning"] = "Versorgen",
-			["Enchanting"] = "Verzaubern",
-			["Alchemy"] = "Alchemie",
-			["Woodworking"] = "Schreinerei",
-			["Clothier"] = "Schneiderei",
-			["Blacksmithing"] = "Schmiedekunst",
-
-			["Trophy"] = "Troph\195\164e",
-			["Trash"] = "Plunder",
-			["Fence"] = "Hehlerware",
-			["Tool"] = "Werkzeug",
-			["Bait"] = "K\195\182der",
-			["Siege"] = "Belagerungsausr\195\188stung",
-			["SoulGem"] = "Seelenstein",
-			["JewelryGlyph"] = "Schmuckglyphe",
-			["ArmorGlyph"] = "R\195\188stungsglyphe",
-			["WeaponGlyph"] = "Waffenglyphe",
+			--MISCELLANEOUS
 			["Glyphs"] = "Glyphe",
+	        ["SoulGem"] = AF_Localize(SI_ITEMTYPE19),
+			["Siege"] = AF_Localize(SI_ITEMTYPE6),
+			["Bait"] = "K\195\182der",
+			["Tool"] = AF_Localize(SI_ITEMTYPE9),
+			["Fence"] = "Hehlerware",
+			["Trash"] = AF_Localize(SI_ITEMTYPE48),
+
+			["ArmorGlyph"] = AF_Localize(SI_ITEMTYPE21),
+	        ["JewelryGlyph"] = AF_Localize(SI_ITEMTYPE26),
+	        ["WeaponGlyph"] = AF_Localize(SI_ITEMTYPE20),
 		}
 	},
 	["en"] = {
 		TOOLTIPS = {
+			--SHARED
 			["All"] = "All",
+			["Trophy"] = AF_Localize(SI_ITEMTYPE5),
+
+			--WEAPON
+			["OneHand"] = "One-Handed",
+			["TwoHand"] = "Two-Handed",
+			["Bow"] = AF_Localize(SI_WEAPONTYPE8),
+			["DestructionStaff"] = "Destruction Staff",
+			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
 
 			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
 			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
@@ -113,11 +128,14 @@ AF_Strings = {
 			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
 			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
 
-			["DestructionStaff"] = "Destruction Staff",
-			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
-			["Bow"] = "Bow",
-			["TwoHand"] = "Two-Handed",
-			["OneHand"] = "One-Handed",
+			--ARMOR
+			["Heavy"] = AF_Localize(SI_ARMORTYPE3),
+			["Medium"] = AF_Localize(SI_ARMORTYPE2),
+			["Light"] = AF_Localize(SI_ARMORTYPE1),
+			["Clothing"] = "Clothing",
+			["Shield"] = "Shield",
+			["Jewelry"] = "Jewelry",
+			["Vanity"] = "Vanity",
 
 			["Head"] = "Head",
 			["Chest"] = "Chest",
@@ -126,60 +144,63 @@ AF_Strings = {
 			["Waist"] = "Waist",
 			["Legs"] = "Legs",
 			["Feet"] = "Feet",
-
 			["Ring"] = "Ring",
 			["Neck"] = "Neck",
 
-			["Reagent"] = "Reagent",
-			["Solvent"] = "Solvent",
+			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
+			["Food"] = AF_Localize(SI_ITEMTYPE4),
+			["Drink"] = AF_Localize(SI_ITEMTYPE12),
+			["Recipe"] = AF_Localize(SI_ITEMTYPE29),
+			["Potion"] = AF_Localize(SI_ITEMTYPE7),
+			["Poison"] = AF_Localize(SI_ITEMTYPE30),
+			["Motif"] = AF_Localize(SI_ITEMTYPE8),
+			["Container"] = AF_Localize(SI_ITEMTYPE18),
+			["Repair"] = "Repair",
 
+			--MATERIALS
+			["Blacksmithing"] = "Blacksmithing",
+			["Clothier"] = "Clothier",
+			["Woodworking"] = "Woodworking",
+			["Alchemy"] = "Alchemy",
+			["Enchanting"] = "Enchanting",
+			["Provisioning"] = "Provisioning",
+			["Style"] = AF_Localize(SI_ITEMTYPE44),
+			["WeaponTrait"] = AF_Localize(SI_ITEMTYPE46),
+			["ArmorTrait"] = AF_Localize(SI_ITEMTYPE45),
+
+			["Reagent"] = AF_Localize(SI_ITEMTYPE31),
+			["Solvent"] = AF_Localize(SI_ITEMTYPE33),
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Vanity"] = "Vanity",
-			["Jewelry"] = "Jewelry",
-			["Shield"] = "Shield",
-			["Clothing"] = "Clothing",
-			["Light"] = "Light",
-			["Medium"] = "Medium",
-			["Heavy"] = "Heavy",
-
-			["Repair"] = "Repair",
-			["Container"] = "Container",
-			["Motif"] = "Motif",
-			["Poison"] = "Poison",
-			["Potion"] = "Potion",
-			["Recipe"] = "Recipe",
-			["Drink"] = "Drink",
-			["Food"] = "Food",
-
-			["ArmorTrait"] = "Armor Trait",
-			["WeaponTrait"] = "Weapon Trait",
-			["Style"] = "Style",
-			["Provisioning"] = "Provisioning",
-			["Enchanting"] = "Enchanting",
-			["Alchemy"] = "Alchemy",
-			["Woodworking"] = "Woodworking",
-			["Clothier"] = "Clothier",
-			["Blacksmithing"] = "Blacksmithing",
-
-			["Trophy"] = "Trophy",
-			["Trash"] = "Trash",
-			["Fence"] = "Fence",
-			["Tool"] = "Tool",
-			["Bait"] = "Bait",
-			["Siege"] = "Siege",
-			["SoulGem"] = "Soul Gem",
-			["JewelryGlyph"] = "Jewelry Glyph",
-			["ArmorGlyph"] = "Armor Glyph",
-			["WeaponGlyph"] = "Weapon Glyph",
+			--MISCELLANEOUS
 			["Glyphs"] = "Glyphs",
+			["SoulGem"] = AF_Localize(SI_ITEMTYPE19),
+			["Siege"] = AF_Localize(SI_ITEMTYPE6),
+			["Bait"] = "Bait",
+			["Tool"] = AF_Localize(SI_ITEMTYPE9),
+			["Fence"] = "Fence",
+			["Trash"] = AF_Localize(SI_ITEMTYPE48),
+
+			["ArmorGlyph"] = AF_Localize(SI_ITEMTYPE21),
+			["JewelryGlyph"] = AF_Localize(SI_ITEMTYPE26),
+			["WeaponGlyph"] = AF_Localize(SI_ITEMTYPE20),
 		}
 	},
 	["es"] = {
 		TOOLTIPS = {
+			--SHARED
 			["All"] = "Todo",
+			["Trophy"] = AF_Localize(SI_ITEMTYPE5),
+
+			--WEAPON
+			["OneHand"] = "Una Mano",
+			["TwoHand"] = "Dos Manos",
+	        ["Bow"] = AF_Localize(SI_WEAPONTYPE8),
+			["DestructionStaff"] = "Vara de destrucci\195\179n",
+			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
 
 			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
 			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
@@ -192,11 +213,14 @@ AF_Strings = {
 			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
 			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
 
-			["DestructionStaff"] = "Vara de destrucci\195\179n",
-			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
-			["Bow"] = "Arcos",
-			["TwoHand"] = "Dos Manos",
-			["OneHand"] = "Una Mano",
+			--ARMOR
+	        ["Heavy"] = AF_Localize(SI_ARMORTYPE3),
+	        ["Medium"] = AF_Localize(SI_ARMORTYPE2),
+			["Light"] = AF_Localize(SI_ARMORTYPE1),
+			--["Clothing"] = ,
+			["Shield"] = "Escudos",
+			["Jewelry"] = "Joyas",
+			["Vanity"] = "Varios",
 
 			["Head"] = "Cabeza",
 			["Chest"] = "Pecho",
@@ -205,55 +229,63 @@ AF_Strings = {
 			["Waist"] = "Cintura",
 			["Legs"] = "Piernas",
 			["Feet"] = "Pies",
+			--["Ring"] = ,
+			--["Neck"] = ,
 
-			["Ring"] = "Anillos",
-			["Neck"] = "Amuletos",
+			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
+	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
+	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
+	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
+	        ["Potion"] = AF_Localize(SI_ITEMTYPE7),
+	        ["Poison"] = AF_Localize(SI_ITEMTYPE30),
+	        ["Motif"] = AF_Localize(SI_ITEMTYPE8),
+			["Container"] = AF_Localize(SI_ITEMTYPE18),
+			["Repair"] = "Reparaci\195\179n",
 
+			--MATERIALS
+			["Blacksmithing"] = "Herrer\195\173a",
+			["Clothier"] = "Sastrer\195\173a",
+			["Woodworking"] = "Carpinter\195\173a",
+			["Alchemy"] = "Alquimia",
+			["Enchanting"] = "Encantamiento",
+			["Provisioning"] = "Cocina",
+	        ["Style"] = AF_Localize(SI_ITEMTYPE44),
+	        ["WeaponTrait"] = AF_Localize(SI_ITEMTYPE46),
+			["ArmorTrait"] = AF_Localize(SI_ITEMTYPE45),
+
+			["Reagent"] = AF_Localize(SI_ITEMTYPE31),
+	        ["Solvent"] = AF_Localize(SI_ITEMTYPE33),
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Misc"] = "Varios",
-			["Jewelry"] = "Joyas",
-			["Shield"] = "Escudos",
-			["Light"] = "Ligera",
-			["Medium"] = "Media",
-			["Heavy"] = "Pesada",
-
-			["Repair"] = "Reparaci\195\179n",
-			["Container"] = "Contenedores",
-			["Motif"] = "Motivos",
-			["Poison"] = "Veneno",
-			["Potion"] = "Pociones",
-			["Recipe"] = "Recetas",
-			["Drink"] = "Bebidas",
-			["Food"] = "Comida",
-
-			["ArmorTrait"] = "Rasgos de armadura",
-			["WeaponTrait"] = "Rasgos de arma",
-			["Style"] = "Estilo",
-			["Provisioning"] = "Cocina",
-			["Enchanting"] = "Encantamiento",
-			["Alchemy"] = "Alquimia",
-			["Woodworking"] = "Carpinter\195\173a",
-			["Clothier"] = "Sastrer\195\173a",
-			["Blacksmithing"] = "Herrer\195\173a",
-
-			["Trophy"] = "Trofeos",
-			["Trash"] = "Basura",
-			["Tool"] = "Herramientas",
-			["Bait"] = "Cebo",
-			["Siege"] = "Asedio",
-			["SoulGem"] = "Piedras de Alma",
-			["JewelryGlyph"] = "Glifos para joyas",
-			["ArmorGlyph"] = "Glifos para armaduras",
-			["WeaponGlyph"] = "Glifos para armas",
+			--MISCELLANEOUS
 			["Glyphs"] = "Glifos",
+	        ["SoulGem"] = AF_Localize(SI_ITEMTYPE19),
+			["Siege"] = AF_Localize(SI_ITEMTYPE6),
+			["Bait"] = "Cebo",
+			["Tool"] = AF_Localize(SI_ITEMTYPE9),
+			--["Fence"] = "",
+			["Trash"] = AF_Localize(SI_ITEMTYPE48),
+
+			["ArmorGlyph"] = AF_Localize(SI_ITEMTYPE21),
+	        ["JewelryGlyph"] = AF_Localize(SI_ITEMTYPE26),
+	        ["WeaponGlyph"] = AF_Localize(SI_ITEMTYPE20),
 		}
 	},
 	["fr"] = {
 		TOOLTIPS = {
+			--SHARED
 			["All"] = "Tout",
+			["Trophy"] = AF_Localize(SI_ITEMTYPE5),
+
+			--WEAPON
+			["OneHand"] = "Une Main",
+			["TwoHand"] = "Deux Mains",
+			["Bow"] = AF_Localize(SI_WEAPONTYPE8),
+			["DestructionStaff"] = "Destruction Staff",
+			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
 
 			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
 			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
@@ -266,11 +298,14 @@ AF_Strings = {
 			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
 			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
 
-			["DestructionStaff"] = "Destruction Staff",
-			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
-			["Bow"] = "Arcs",
-			["TwoHand"] = "Deux Mains",
-			["OneHand"] = "Une Main",
+			--ARMOR
+	        ["Heavy"] = AF_Localize(SI_ARMORTYPE3),
+	        ["Medium"] = AF_Localize(SI_ARMORTYPE2),
+			["Light"] = AF_Localize(SI_ARMORTYPE1),
+			--["Clothing"] = ,
+			["Shield"] = "Boucliers",
+			["Jewelry"] = "Bijoux",
+			["Vanity"] = "Divers",
 
 			["Head"] = "T\195\170te",
 			["Chest"] = "Buste",
@@ -279,55 +314,63 @@ AF_Strings = {
 			["Waist"] = "Taille",
 			["Legs"] = "Jambes",
 			["Feet"] = "Pieds",
-
 			["Ring"] = "Anneaux",
 			["Neck"] = "Pendentifs",
 
+			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
+	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
+	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
+	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
+	        ["Potion"] = AF_Localize(SI_ITEMTYPE7),
+	        ["Poison"] = AF_Localize(SI_ITEMTYPE30),
+	        ["Motif"] = AF_Localize(SI_ITEMTYPE8),
+			["Container"] = AF_Localize(SI_ITEMTYPE18),
+			["Repair"] = "R\195\169paration",
+
+			--MATERIALS
+			["Blacksmithing"] = "Forge",
+			["Clothier"] = "Couture",
+			["Woodworking"] = "Travail du bois",
+			["Alchemy"] = "Alchimie",
+			["Enchanting"] = "Enchantement",
+			["Provisioning"] = "Approvisionnement",
+	        ["Style"] = AF_Localize(SI_ITEMTYPE44),
+	        ["WeaponTrait"] = AF_Localize(SI_ITEMTYPE46),
+			["ArmorTrait"] = AF_Localize(SI_ITEMTYPE45),
+
+			["Reagent"] = AF_Localize(SI_ITEMTYPE31),
+	        ["Solvent"] = AF_Localize(SI_ITEMTYPE33),
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Misc"] = "Divers",
-			["Jewelry"] = "Bijoux",
-			["Shield"] = "Boucliers",
-			["Light"] = "L\195\169g\195\168re",
-			["Medium"] = "Interm\195\169diaire",
-			["Heavy"] = "Lourde",
-
-			["Repair"] = "R\195\169paration",
-			["Container"] = "Conteneurs",
-			["Motif"] = "Motif",
-			["Poison"] = "Poisons",
-			["Potion"] = "Potions",
-			["Recipe"] = "Recettes",
-			["Drink"] = "Boissons",
-			["Food"] = "Nourriture",
-
-			["ArmorTrait"] = "Traits d'armure",
-			["WeaponTrait"] = "Traits d'arme",
-			["Style"] = "Style",
-			["Provisioning"] = "Approvisionnement",
-			["Enchanting"] = "Enchantement",
-			["Alchemy"] = "Alchimie",
-			["Woodworking"] = "Travail du bois",
-			["Clothier"] = "Couture",
-			["Blacksmithing"] = "Forge",
-
-			["Trophy"] = "Troph\195\169es",
-			["Trash"] = "Rebuts",
-			["Tool"] = "Tool",
-			["Bait"] = "App\195\162ts",
-			["Siege"] = "Si\195\168ge",
-			["SoulGem"] = "Pierres d'\195\162me",
-			["JewelryGlyph"] = "Glyphes de bijou",
-			["ArmorGlyph"] = "Glyphes d'armure",
-			["WeaponGlyph"] = "Glyphes d'arme",
+			--MISCELLANEOUS
 			["Glyphs"] = "Glyphs",
+	        ["SoulGem"] = AF_Localize(SI_ITEMTYPE19),
+			["Siege"] = AF_Localize(SI_ITEMTYPE6),
+			["Bait"] = "App\195\162ts",
+			["Tool"] = AF_Localize(SI_ITEMTYPE9),
+			--["Fence"] = ,
+			["Trash"] = AF_Localize(SI_ITEMTYPE48),
+
+	        ["ArmorGlyph"] = AF_Localize(SI_ITEMTYPE21),
+	        ["JewelryGlyph"] = AF_Localize(SI_ITEMTYPE26),
+	        ["WeaponGlyph"] = AF_Localize(SI_ITEMTYPE20),
 		}
 	},
 	["ru"] = {
 		TOOLTIPS = {
+			--SHARED
 			["All"] = "Áce",
+			["Trophy"] = AF_Localize(SI_ITEMTYPE5),
+
+			--WEAPON
+			["OneHand"] = "Oäîopóùîoe",
+			["TwoHand"] = "Äáópóùîoe",
+			["Bow"] = AF_Localize(SI_WEAPONTYPE8),
+			["DestructionStaff"] = "Ïocox paçpóúeîèü",
+			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
 
 			["Axe"] = AF_Localize(SI_WEAPONTYPE1),
 			["Sword"] = AF_Localize(SI_WEAPONTYPE3),
@@ -340,11 +383,14 @@ AF_Strings = {
 			["Frost"] = AF_Localize(SI_WEAPONTYPE13),
 			["Lightning"] = AF_Localize(SI_WEAPONTYPE15),
 
-			["DestructionStaff"] = "Ïocox paçpóúeîèü",
-			["HealStaff"] = AF_Localize(SI_WEAPONTYPE9),
-			["Bow"] = "Ìóê",
-			["TwoHand"] = "Äáópóùîoe",
-			["OneHand"] = "Oäîopóùîoe",
+			--ARMOR
+	        ["Heavy"] = AF_Localize(SI_ARMORTYPE3),
+	        ["Medium"] = AF_Localize(SI_ARMORTYPE2),
+			["Light"] = AF_Localize(SI_ARMORTYPE1),
+			--["Clothing"] = ,
+			["Shield"] = "Ûèò",
+			["Jewelry"] = "Àèæóòepèü",
+			["Vanity"] = "Paçîoe",
 
 			["Head"] = "Âoìoáa",
 			["Chest"] = "Òopc",
@@ -353,50 +399,49 @@ AF_Strings = {
 			["Waist"] = "Ïoüc",
 			["Legs"] = "Îoâè",
 			["Feet"] = "Còóïîè",
-
 			["Ring"] = "Êoìöœo",
 			["Neck"] = "Úeü",
 
+			--CONSUMABLES
+			["Crown"] = AF_Localize(SI_ITEMTYPE57),
+	        ["Food"] = AF_Localize(SI_ITEMTYPE4),
+	        ["Drink"] = AF_Localize(SI_ITEMTYPE12),
+	        ["Recipe"] = AF_Localize(SI_ITEMTYPE29),
+	        ["Potion"] = AF_Localize(SI_ITEMTYPE7),
+	        ["Poison"] = AF_Localize(SI_ITEMTYPE30),
+	        ["Motif"] = AF_Localize(SI_ITEMTYPE8),
+			["Container"] = AF_Localize(SI_ITEMTYPE18),
+			["Repair"] = "Peíoîò",
+
+			--MATERIALS
+			["Blacksmithing"] = "Êóçîeùecòáo",
+			["Clothier"] = "Úèòöe",
+			["Woodworking"] = "Äpeáooàpaàoòêa",
+			["Alchemy"] = "Aìxèíèü",
+			["Enchanting"] = "Çaùapoáaîèe",
+			["Provisioning"] = "Êóìèîapèü",
+	        ["Style"] = AF_Localize(SI_ITEMTYPE44),
+	        ["WeaponTrait"] = AF_Localize(SI_ITEMTYPE46),
+			["ArmorTrait"] = AF_Localize(SI_ITEMTYPE45),
+
+			["Reagent"] = AF_Localize(SI_ITEMTYPE31),
+	        ["Solvent"] = AF_Localize(SI_ITEMTYPE33),
 			["Aspect"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 			["Essence"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 			["Potency"] = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
-			["Misc"] = "Paçîoe",
-			["Jewelry"] = "Àèæóòepèü",
-			["Shield"] = "Ûèò",
-			["Light"] = "Ìeâêaü",
-			["Medium"] = "Cpeäîüü",
-			["Heavy"] = "Òüæeìaü",
-
-			["Repair"] = "Peíoîò",
-			["Container"] = "Êoîòeéîep",
-			["Motif"] = "Íoòèá",
-			["Poison"] = "Üä",
-			["Potion"] = "Çeìöe",
-			["Recipe"] = "Peœeïò",
-			["Drink"] = "Îaïèòoê",
-			["Food"] = "Eäa",
-
-			["ArmorTrait"] = "Ocoàeîîocòè àpoîè",
-			["WeaponTrait"] = "Ocoàeîîocòè opóæèü",
-			["Style"] = "Còèìö",
-			["Provisioning"] = "Êóìèîapèü",
-			["Enchanting"] = "Çaùapoáaîèe",
-			["Alchemy"] = "Aìxèíèü",
-			["Woodworking"] = "Äpeáooàpaàoòêa",
-			["Clothier"] = "Úèòöe",
-			["Blacksmithing"] = "Êóçîeùecòáo",
-
-			["Trophy"] = "Òpo³eé",
-			["Trash"] = "Íócop",
-			["Tool"] = "Èîcòpóíeîò",
-			["Bait"] = "Îaæèáêa",
-			["Siege"] = "Ocaäîoe opóäèe",
-			["SoulGem"] = "Êaíeîö äóú",
-			["JewelryGlyph"] = "Ôáeìèpîÿé âìè³",
-			["ArmorGlyph"] = "Äocïeúîÿé âìè³",
-			["WeaponGlyph"] = "Opóæeéîÿé âìè³",
+			--MISCELLANEOUS
 			["Glyphs"] = "Âìè³ÿ",
+	        ["SoulGem"] = AF_Localize(SI_ITEMTYPE19),
+			["Siege"] = AF_Localize(SI_ITEMTYPE6),
+			["Bait"] = "Îaæèáêa",
+			["Tool"] = AF_Localize(SI_ITEMTYPE9),
+			--["Fence"] = ,
+			["Trash"] = AF_Localize(SI_ITEMTYPE48),
+
+	        ["ArmorGlyph"] = AF_Localize(SI_ITEMTYPE21),
+	        ["JewelryGlyph"] = AF_Localize(SI_ITEMTYPE26),
+	        ["WeaponGlyph"] = AF_Localize(SI_ITEMTYPE20),
 		}
 	},
 }

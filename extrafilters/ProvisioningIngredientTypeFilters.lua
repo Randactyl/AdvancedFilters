@@ -140,9 +140,12 @@ local provisioningIngredientTypeDropdownCallbacks = {
 }
 
 local strings = {
-	["SC.Food"] = "Food Ingredients",
-	["SC.Drink"] = "Drink Ingredients",
-	["SC.Old"] = "Old Ingredients",
+	["SC.Food"] = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT),
+					GetString("SI_ITEMTYPE", ITEMTYPE_FOOD)),
+	["SC.Drink"] = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT),
+					GetString("SI_ITEMTYPE", ITEMTYPE_DRINK)),
+	["SC.Old"] = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT),
+					GetString("SI_ITEMTYPE", ITEMTYPE_NONE)),
 }
 
 local filterInformation = {

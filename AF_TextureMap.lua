@@ -75,6 +75,11 @@ AF_TextureMap = {
 	},
 
 	--CONSUMABLES
+	CROWN = {
+		normal = "/esoui/art/mainmenu/menubar_market_up.dds",
+		pressed = "/esoui/art/mainmenu/menubar_market_down.dds",
+		mouseOver = "/esoui/art/mainmenu/menubar_market_over.dds",
+	},
 	FOOD = {
 		normal = "AdvancedFilters/assets/consumables/food/food_up.dds",
 		pressed = "AdvancedFilters/assets/consumables/food/food_down.dds",
@@ -162,7 +167,7 @@ AF_TextureMap = {
 		pressed = "AdvancedFilters/assets/materials/atrait/atrait_down.dds",
 		mouseOver = "AdvancedFilters/assets/materials/atrait/atrait_over.dds",
 	},
-	
+
 	--MISCELLANEOUS
 	GLYPHS = {
 		normal = "AdvancedFilters/assets/miscellaneous/glyphs/glyphs_up.dds",
