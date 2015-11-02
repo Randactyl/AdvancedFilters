@@ -1,11 +1,3 @@
-------------------------------------------------------------------
---AdvancedFilters.lua
---Author: Randactyl, ingeniousclown
---v0.8.3.1
-
---Advanced Filters adds a line of subfilters to the inventory
---screen.
-------------------------------------------------------------------
 --variable declaration
 local g_currentInventoryType = INVENTORY_BACKPACK --set in inventory hook
 local bagSearch = ZO_PlayerInventorySearchBox --reference to ZOS text search box
