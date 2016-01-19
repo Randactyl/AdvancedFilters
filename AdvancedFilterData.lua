@@ -529,7 +529,7 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous", inventoryName)
 	MISCELLANEOUS:AddSubfilter("Trash", AF_TextureMap.TRASH, GetFilterCallback({ITEMTYPE_TRASH}),
 		trashDropdownCallbacks)
-	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE}),
+	MISCELLANEOUS:AddSubfilter("Fence", AF_TextureMap.FENCE, GetFilterCallback({ITEMTYPE_NONE, ITEMTYPE_TREASURE}),
 		fenceDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("Trophy", AF_TextureMap.TROPHY, GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_DRINK}),
 		trophyDropdownCallbacks)
