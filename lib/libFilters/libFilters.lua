@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "libFilters", 16
+local MAJOR, MINOR = "libFilters", 16.1
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
@@ -79,7 +79,7 @@ local inventoryUpdaters = {
 		ENCHANTING.inventory:HandleDirtyEvent()
 	end,
 	ALCHEMY = function()
-		ALCHEMY.inventory:Refresh()
+		ALCHEMY.inventory:HandleDirtyEvent()
 	end,
 }
 
