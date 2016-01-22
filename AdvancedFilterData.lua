@@ -1,8 +1,3 @@
---Internal: Get a callback function specific to weapons
---
---filterTypes - A table of generally only one WEAPONTYPE enum
---
---Returns a callback function to use for filtering
 local function GetFilterCallbackForWeaponType(filterTypes)
 	return function( slot )
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
@@ -15,11 +10,6 @@ local function GetFilterCallbackForWeaponType(filterTypes)
 	end
 end
 
---Internal: Get a callback function specific to armor
---
---filterTypes - A table of generally only one ARMORTYPE enum
---
---Returns a callback function to use for filtering
 local function GetFilterCallbackForArmorType(filterTypes)
 	return function(slot)
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
@@ -32,11 +22,6 @@ local function GetFilterCallbackForArmorType(filterTypes)
 	end
 end
 
---Internal: Get a callback function specific to gear
---
---filterTypes - A table of generally only one EQUIP_TYPE enum
---
---Returns a callback function to use for filtering
 local function GetFilterCallbackForGear(filterTypes)
 	return function(slot)
 		local result = false
@@ -48,9 +33,6 @@ local function GetFilterCallbackForGear(filterTypes)
 	end
 end
 
---Internal: Get a callback function specific to clothing
---
---Returns a callback function to use for filtering
 local function GetFilterCallbackForClothing()
 	return function(slot)
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
@@ -66,11 +48,6 @@ local function GetFilterCallbackForClothing()
 	end
 end
 
---Internal: Get a callback function specific to enchanting runes
---
---filterTypes - A table of generally only one ENCHANTING_RUNE enum
---
---Returns a callback function to use for filtering
 local function GetFilterCallbackForEnchanting(filterTypes)
 	return function(slot)
 		local result = false
@@ -82,22 +59,12 @@ local function GetFilterCallbackForEnchanting(filterTypes)
 	end
 end
 
---Internal: Get a callback function specific to alchemy items
---
---filterTypes - A table of generally one ITEMTYPE enum
---
---Returns a callback function to use for filtering
 local function GetFilterCallbackForAlchemy(filterTypes)
 	return function(slot)
 		return filterTypes[1] == GetItemType(slot.bagId, slot.slotIndex)
 	end
 end
 
---Internal: Get a generic callback function
---
---filterTypes - A table of one or more ITEMTYPE enums
---
---Returns a callback function to use for filtering
 local function GetFilterCallback(filterTypes)
 	if(not filterTypes) then return function(slot) return true end end
 
@@ -208,11 +175,6 @@ local AF_Callbacks = {
 	},
 }
 
---Public: Provide ability for other addons or plugins to include custom dropdown filters
---
---filterInformation - table containing information about the custom filters to include. This is documented in a separate README
---
---Returns nothing
 function AdvancedFilters_RegisterFilter(filterInformation)
 	--make sure all necessary information is present
 	if filterInformation == nil then
@@ -265,12 +227,6 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 	if filterInformation.esStrings ~= nil then addStrings("es", filterInformation.esStrings) end
 end
 
---Internal: Gathers all callback functions for a specific filter and subfilter
---
---filterType - An ITEMFILTERTYPE enum provided by the game
---subfilterString - A string that designates a specific subfilter. Valid values can be found in the keys table within this function
---
---Returns a table of callback functions for use in filtering from the dropdown menu
 local function BuildCallbackTable(filterType, subfilterString)
 	local callbackTable = {}
 	local keys = {
@@ -390,9 +346,6 @@ local function BuildCallbackTable(filterType, subfilterString)
 	return callbackTable
 end
 
---Internal: Initializes all of the subfilter objects
---
---Returns a subfilter group object for each of the main ITEMFILTERTYPEs
 function AdvancedFilters_InitAllFilters(inventoryName)
 	-- WEAPONS --
 	local allWeaponDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_WEAPONS, "All")
@@ -525,7 +478,6 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 	local fenceDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Fence")
 	local trashDropdownCallbacks = BuildCallbackTable(ITEMFILTERTYPE_MISCELLANEOUS, "Trash")
 
-
 	local MISCELLANEOUS = AdvancedFilterGroup:New("Miscellaneous", inventoryName)
 	MISCELLANEOUS:AddSubfilter("Trash", AF_TextureMap.TRASH, GetFilterCallback({ITEMTYPE_TRASH}),
 		trashDropdownCallbacks)
@@ -545,14 +497,9 @@ function AdvancedFilters_InitAllFilters(inventoryName)
 		glyphDropdownCallbacks)
 	MISCELLANEOUS:AddSubfilter("All", AF_TextureMap.ALL, GetFilterCallback(nil), allMiscellaneousDropdownCallbacks)
 
-	--AF_Callbacks = {}
-
 	return WEAPONS,ARMORS,CONSUMABLES,MATERIALS,MISCELLANEOUS
 end
 
---Internal: Destroys the AF_Callbacks table to save on memory
---
---Returns nothing
 function AdvancedFilters_DestroyAFCallbacks()
 	AF_Callbacks = {}
 end

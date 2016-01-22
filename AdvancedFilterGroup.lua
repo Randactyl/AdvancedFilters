@@ -11,7 +11,6 @@ local DROPDOWN_STRING = "AdvancedFilters_Dropdown_Filter"
 local lang = AdvancedFilters_GetLanguage()
 local tooltipSet = AF_Strings[lang].TOOLTIPS
 
---declaration of intent to create object
 AdvancedFilterGroup = ZO_Object:Subclass()
 
 --local helpers
