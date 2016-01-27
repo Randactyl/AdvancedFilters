@@ -181,6 +181,9 @@ function AdvancedFilterGroup:ActivateButton(newButton)
 
 	--set new active button reference
 	self.activeButtons[GetCurrentInventoryType()] = newButton
+
+	--refresh button availability
+	AdvancedFilters_RefreshSubfilterButtons()
 end
 
 function AdvancedFilterGroup:GetCurrentButton()
