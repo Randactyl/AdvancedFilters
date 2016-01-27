@@ -4,7 +4,7 @@ local bagSearch = ZO_PlayerInventorySearchBox --reference to ZOS text search box
 local bankSearch = ZO_PlayerBankSearchBox --reference to ZOS text search box
 local guildBankSearch = ZO_GuildBankSearchBox --reference to ZOS text search box
 
-allSubfilterBars = {
+local allSubfilterBars = {
 	[INVENTORY_BACKPACK] = {
 		[ITEMFILTERTYPE_WEAPONS] = nil,
 		[ITEMFILTERTYPE_ARMOR] = nil,
@@ -16,7 +16,7 @@ allSubfilterBars = {
 	[INVENTORY_BANK] = {},
 	[INVENTORY_GUILD_BANK] = {},
 }
-subfilterBars = {}
+local subfilterBars = {}
 
 --global utilities
 function GetCurrentInventoryType()
