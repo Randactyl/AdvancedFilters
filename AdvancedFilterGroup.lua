@@ -9,7 +9,7 @@ local INDEX = 0
 local BUTTON_STRING = "AdvancedFilters_Button_Filter"
 local DROPDOWN_STRING = "AdvancedFilters_Dropdown_Filter"
 local lang = AdvancedFilters_GetLanguage()
-local tooltipSet = AF_Strings[lang].TOOLTIPS
+local tooltipSet = AF_Strings[lang]
 
 AdvancedFilterGroup = ZO_Object:Subclass()
 

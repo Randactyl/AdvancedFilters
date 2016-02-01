@@ -217,7 +217,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 	--get string information from the calling addon and insert it into our string table
 	local function addStrings(lang, strings)
 		for key, string in pairs(strings) do
-			AF_Strings[lang].TOOLTIPS[key] = string
+			AF_Strings[lang][key] = string
 		end
 	end
 	addStrings("en", filterInformation.enStrings)
