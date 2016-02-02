@@ -95,14 +95,49 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 		dropdown:SetWidth(136)
 
 		local comboBox = dropdown.m_comboBox
+
+		comboBox.AddMenuItems = function(comboBox)
+				local self = comboBox
+
+				for i = 1, #self.m_sortedItems do
+					-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
+	        		local item = self.m_sortedItems[i]
+	        		AddMenuItem(item.name, function() ZO_ComboBox_Base_ItemSelectedClickHelper(self, item) end, nil, self.m_font, self.m_normalColor, self.m_highlightColor)
+	    		end
+
+				local submenuCandidates = self.submenuCandidates
+
+				for _, submenuCandidate in ipairs(submenuCandidates) do
+					local entries = {}
+					for _, callbackEntry in ipairs(submenuCandidate.callbackTable) do
+						local entry = {
+							label = tooltipSet[callbackEntry.name],
+							callback = function()
+									OnDropdownSelect(callbackEntry, true)
+									self.m_selectedItemText:SetText(callbackEntry.name)
+									ClearMenu()
+								end,
+						}
+						table.insert(entries, entry)
+					end
+
+					AddCustomSubMenuItem(tooltipSet[submenuCandidate.submenuName], entries)
+				end
+			end
+
 	    comboBox:SetSortsItems(false)
 
-		for _,v in ipairs(callbackTable) do
-			local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name],
-				function(comboBox, itemName, item, selectionChanged)
-					OnDropdownSelect(v, selectionChanged)
-				end)
-			comboBox:AddItem(itemEntry)
+		comboBox.submenuCandidates = {}
+		for _, v in ipairs(callbackTable) do
+			if v.submenuName then
+				table.insert(comboBox.submenuCandidates, v)
+			else
+				local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name],
+					function(comboBox, itemName, item, selectionChanged)
+						OnDropdownSelect(v, selectionChanged)
+					end)
+				comboBox:AddItem(itemEntry)
+			end
 		end
 
 		comboBox:SelectFirstItem()
@@ -147,6 +182,7 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
     button.filterCallback = callback
 	button.normal = icon.normal
 	button.pressed = icon.pressed
+	button.dropdownCallbacks = dropdownCallbacks
 
 	if(dropdownCallbacks) then
 		AddDropdownFilter(button, dropdownCallbacks)

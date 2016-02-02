@@ -411,10 +411,17 @@ local function BuildCallbackTable(groupName, subfilterName)
 
 		--insert all filters provided by addons
 		for _, addonTable in ipairs(masterSubfilterData[groupName].addonDropdownCallbacks) do
-			local currentAddonTable = addonTable.callbackTable
+			--check to see if addon is set up for a submenu
+			if addonTable.submenuName then
+				--insert whole package
+				table.insert(callbackTable, addonTable)
+			else
+				--insert all callbackTable entries
+				local currentAddonTable = addonTable.callbackTable
 
-			for _, callbackEntry in ipairs(currentAddonTable) do
-				table.insert(callbackTable, callbackEntry)
+				for _, callbackEntry in ipairs(currentAddonTable) do
+					table.insert(callbackTable, callbackEntry)
+				end
 			end
 		end
 	else
@@ -430,8 +437,17 @@ local function BuildCallbackTable(groupName, subfilterName)
 			for _, subfilter in ipairs(addonTable.subfilters) do
 				if subfilter == subfilterName or subfilter == "All" then
 					--add addon filters
-					for _, callbackEntry in ipairs(addonTable.callbackTable) do
-						table.insert(callbackTable, callbackEntry)
+					--check to see if addon is set up for a submenu
+					if addonTable.submenuName then
+						--insert whole package
+						table.insert(callbackTable, addonTable)
+					else
+						--insert all callbackTable entries
+						local currentAddonTable = addonTable.callbackTable
+
+						for _, callbackEntry in ipairs(currentAddonTable) do
+							table.insert(callbackTable, callbackEntry)
+						end
 					end
 				end
 			end
@@ -507,6 +523,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 
 	--get filter information from the calling addon and insert it into our callback table
 	local addonInformation = {
+		submenuName = filterInformation.submenuName,
 		callbackTable = filterInformation.callbackTable,
 		subfilters = filterInformation.subfilters,
 	}

@@ -24,19 +24,19 @@ end
 	The string value for name is the relevant key for the language table.
 --]]----------------------------------------------------------------------------
 local fullLevelDropdownCallbacks = {
-	[1] = { name = "1-10", filterCallback = GetFilterCallbackForLevel(1, 10) },
-	[2] = { name = "11-20", filterCallback = GetFilterCallbackForLevel(11, 20) },
-	[3] = { name = "21-30", filterCallback = GetFilterCallbackForLevel(21, 30) },
-	[4] = { name = "31-40", filterCallback = GetFilterCallbackForLevel(31, 40) },
-	[5] = { name = "41-50", filterCallback = GetFilterCallbackForLevel(41, 50) },
-	[6] = { name = "V1-V2", filterCallback = GetFilterCallbackForLevel(51, 52) },
-	[7] = { name = "V3-V4", filterCallback = GetFilterCallbackForLevel(53, 54) },
-	[8] = { name = "V5-V6", filterCallback = GetFilterCallbackForLevel(55, 56) },
-	[9] = { name = "V7-V8", filterCallback = GetFilterCallbackForLevel(57, 58) },
-	[10] = { name = "V9-V10", filterCallback = GetFilterCallbackForLevel(59, 60) },
-	[11] = { name = "V11-V12", filterCallback = GetFilterCallbackForLevel(61, 62) },
-	[12] = { name = "V13-V14", filterCallback = GetFilterCallbackForLevel(63, 64) },
-	[13] = { name = "V15-V16", filterCallback = GetFilterCallbackForLevel(65, 66) },
+	[1] = {name = "1-10", filterCallback = GetFilterCallbackForLevel(1, 10)},
+	[2] = {name = "11-20", filterCallback = GetFilterCallbackForLevel(11, 20)},
+	[3] = {name = "21-30", filterCallback = GetFilterCallbackForLevel(21, 30)},
+	[4] = {name = "31-40", filterCallback = GetFilterCallbackForLevel(31, 40)},
+	[5] = {name = "41-50", filterCallback = GetFilterCallbackForLevel(41, 50)},
+	[6] = {name = "V1-V2", filterCallback = GetFilterCallbackForLevel(51, 52)},
+	[7] = {name = "V3-V4", filterCallback = GetFilterCallbackForLevel(53, 54)},
+	[8] = {name = "V5-V6", filterCallback = GetFilterCallbackForLevel(55, 56)},
+	[9] = {name = "V7-V8", filterCallback = GetFilterCallbackForLevel(57, 58)},
+	[10] = {name = "V9-V10", filterCallback = GetFilterCallbackForLevel(59, 60)},
+	[11] = {name = "V11-V12", filterCallback = GetFilterCallbackForLevel(61, 62)},
+	[12] = {name = "V13-V14", filterCallback = GetFilterCallbackForLevel(63, 64)},
+	[13] = {name = "V15-V16", filterCallback = GetFilterCallbackForLevel(65, 66)},
 }
 
 --[[----------------------------------------------------------------------------
@@ -47,6 +47,7 @@ local fullLevelDropdownCallbacks = {
 		common keys.
 --]]----------------------------------------------------------------------------
 local strings = {
+	["LevelFilters"] = "Level Filters",
 	["1-10"] = "1-10",
 	["11-20"] = "11-20",
 	["21-30"] = "21-30",
@@ -76,6 +77,7 @@ local strings = {
 	    the value "All".
 --]]----------------------------------------------------------------------------
 local filterInformation = {
+	submenuName = "LevelFilters",
 	callbackTable = fullLevelDropdownCallbacks,
 	filterType = ITEMFILTERTYPE_WEAPONS,
 	subfilters = {
@@ -99,6 +101,7 @@ AdvancedFilters_RegisterFilter(filterInformation)
 		version (not including optional languages) is shown here.
 --]]----------------------------------------------------------------------------
 filterInformation = {
+	submenuName = "LevelFilters",
 	callbackTable = fullLevelDropdownCallbacks,
 	filterType = ITEMFILTERTYPE_ARMOR,
 	subfilters = {
