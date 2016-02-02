@@ -20,7 +20,7 @@ local function GetNextIndex()
 end
 
 local function SetUpCallbackFilter(button, filterTag, requestUpdate)
-	local callback = button.filterCallback or button.callback
+	local callback = button.filterCallback
 	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
 
 	--if something isn't right. abort
@@ -114,6 +114,7 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 							label = tooltipSet[callbackEntry.name],
 							callback = function()
 									OnDropdownSelect(callbackEntry, true)
+									button.forceNextDropdownRefresh = true
 									self.m_selectedItemText:SetText(callbackEntry.name)
 									ClearMenu()
 								end,
@@ -134,7 +135,7 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 			else
 				local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name],
 					function(comboBox, itemName, item, selectionChanged)
-						OnDropdownSelect(v, selectionChanged)
+						OnDropdownSelect(v, selectionChanged or button.forceNextDropdownRefresh)
 					end)
 				comboBox:AddItem(itemEntry)
 			end
