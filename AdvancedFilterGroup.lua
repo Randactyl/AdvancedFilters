@@ -122,7 +122,7 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 						table.insert(entries, entry)
 					end
 
-					AddCustomSubMenuItem(tooltipSet[submenuCandidate.submenuName], entries)
+					AddCustomSubMenuItem(tooltipSet[submenuCandidate.submenuName], entries, "ZoFontGameSmall")
 				end
 			end
 
