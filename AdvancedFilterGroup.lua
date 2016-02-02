@@ -142,6 +142,7 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 		end)
 
 	button.name = subfilterName
+	button.texture = texture
 	button.clickable = true
     button.filterCallback = callback
 	button.normal = icon.normal
