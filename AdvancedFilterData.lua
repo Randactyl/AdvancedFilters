@@ -65,6 +65,34 @@ local function GetFilterCallbackForAlchemy(filterTypes)
 	end
 end
 
+local function GetFilterCallbackForTrophy()
+	return function(slot)
+		local itemType = GetItemType(slot.bagId, slot.slotIndex)
+
+		if not slot.stolen and (itemType == ITEMTYPE_TROPHY
+		  or itemType == ITEMTYPE_COLLECTIBLE or itemType == ITEMTYPE_FISH
+		  or itemType == ITEMTYPE_TREASURE or itemType == ITEMTYPE_DRINK) then
+			return true
+		end
+
+		return false
+	end
+end
+
+local function GetFilterCallbackForFence()
+	return function(slot)
+		if slot.stolen and not (itemType == ITEMTYPE_GLYPH_ARMOR
+		  or itemType == ITEMTYPE_GLYPH_JEWELRY
+		  or itemType == ITEMTYPE_GLYPH_WEAPON or itemType == ITEMTYPE_SOUL_GEM
+		  or itemType == ITEMTYPE_SIEGE or itemType == ITEMTYPE_LURE
+		  or itemType == ITEMTYPE_TOOL or itemType == ITEMTYPE_TRASH) then
+			return true
+		end
+
+		return false
+	end
+end
+
 local function GetFilterCallback(filterTypes)
 	if(not filterTypes) then return function(slot) return true end end
 
@@ -220,7 +248,7 @@ local masterSubfilterData = {
 		},
 		["Trophy"] = {
 			icon = AF_TextureMap.TROPHY,
-			filterCallback = GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH, ITEMTYPE_TREASURE}),
+			filterCallback = GetFilterCallbackForTrophy(),
 			dropdownCallbacks = {},
 		},
 	},
@@ -322,12 +350,12 @@ local masterSubfilterData = {
 		},
 		["Trophy"] = {
 			icon = AF_TextureMap.TROPHY,
-			filterCallback = GetFilterCallback({ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_DRINK}),
+			filterCallback = GetFilterCallbackForTrophy(),
 			dropdownCallbacks = {},
 		},
 		["Fence"] = {
 			icon = AF_TextureMap.FENCE,
-			filterCallback = GetFilterCallback({ITEMTYPE_NONE, ITEMTYPE_TREASURE}),
+			filterCallback = GetFilterCallbackForFence(),
 			dropdownCallbacks = {},
 		},
 		["Trash"] = {
