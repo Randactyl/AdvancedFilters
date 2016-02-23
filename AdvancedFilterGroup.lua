@@ -9,7 +9,7 @@ local INDEX = 0
 local BUTTON_STRING = "AdvancedFilters_Button_Filter"
 local DROPDOWN_STRING = "AdvancedFilters_Dropdown_Filter"
 local lang = AdvancedFilters_GetLanguage()
-local tooltipSet = AF_Strings[lang].TOOLTIPS
+local tooltipSet = AF_Strings[lang]
 
 AdvancedFilterGroup = ZO_Object:Subclass()
 
@@ -20,7 +20,7 @@ local function GetNextIndex()
 end
 
 local function SetUpCallbackFilter(button, filterTag, requestUpdate)
-	local callback = button.filterCallback or button.callback
+	local callback = button.filterCallback
 	local laf = libFilters:GetCurrentLAF(GetCurrentInventoryType())
 
 	--if something isn't right. abort
@@ -42,13 +42,13 @@ local function OnDropdownSelect(selectedItemData, selectionChanged)
 end
 
 --interface
-function AdvancedFilterGroup:New(groupName, inventoryName)
+function AdvancedFilterGroup:New(inventoryName, groupName, subfilterNames)
 	local obj = ZO_Object.New(self)
-	obj:Init(groupName, inventoryName)
+	obj:Init(inventoryName, groupName, subfilterNames)
 	return obj
 end
 
-function AdvancedFilterGroup:Init(groupName, inventoryName)
+function AdvancedFilterGroup:Init(inventoryName, groupName, subfilterNames)
 	--get upper anchor position for subfilter bar
 	local _,_,_,_,_,offsetY = ZO_PlayerInventorySortBy:GetAnchor()
 	--parent for the subfilter bar control
@@ -74,27 +74,71 @@ function AdvancedFilterGroup:Init(groupName, inventoryName)
 		[INVENTORY_BANK] = nil,
 		[INVENTORY_GUILD_BANK] = nil,
 	}
+
+	for _, subfilterName in ipairs(subfilterNames) do
+		self:AddSubfilter(groupName, subfilterName)
+	end
 end
 
-function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallbacks, dropdownWidth)
-	local function AddDropdownFilter(button, callbackTable, dropdownWidth)
+function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
+	local subfilterData = AdvancedFilters_GetSubfilterData(groupName, subfilterName)
+	local icon = subfilterData.icon
+	local callback = subfilterData.filterCallback
+	local dropdownCallbacks = subfilterData.dropdownCallbacks
+
+	local function AddDropdownFilter(button, callbackTable)
 		local dropdown = WINDOW_MANAGER:CreateControlFromVirtual(button:GetName() .. "DropdownFilter", button, "ZO_ComboBox")
-		local width = dropdownWidth or 136
 
 		dropdown:SetHidden(true)
 		dropdown:SetAnchor(RIGHT, self.control, RIGHT)
 		dropdown:SetHeight(24)
-		dropdown:SetWidth(width)
+		dropdown:SetWidth(136)
 
 		local comboBox = dropdown.m_comboBox
+
+		comboBox.AddMenuItems = function(comboBox)
+				local self = comboBox
+
+				for i = 1, #self.m_sortedItems do
+					-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
+	        		local item = self.m_sortedItems[i]
+	        		AddMenuItem(item.name, function() ZO_ComboBox_Base_ItemSelectedClickHelper(self, item) end, nil, self.m_font, self.m_normalColor, self.m_highlightColor)
+	    		end
+
+				local submenuCandidates = self.submenuCandidates
+
+				for _, submenuCandidate in ipairs(submenuCandidates) do
+					local entries = {}
+					for _, callbackEntry in ipairs(submenuCandidate.callbackTable) do
+						local entry = {
+							label = tooltipSet[callbackEntry.name],
+							callback = function()
+									OnDropdownSelect(callbackEntry, true)
+									button.forceNextDropdownRefresh = true
+									self.m_selectedItemText:SetText(callbackEntry.name)
+									ClearMenu()
+								end,
+						}
+						table.insert(entries, entry)
+					end
+
+					AddCustomSubMenuItem(tooltipSet[submenuCandidate.submenuName], entries, "ZoFontGameSmall")
+				end
+			end
+
 	    comboBox:SetSortsItems(false)
 
-		for _,v in ipairs(callbackTable) do
-			local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name],
-				function(comboBox, itemName, item, selectionChanged)
-					OnDropdownSelect(v, selectionChanged)
-				end)
-			comboBox:AddItem(itemEntry)
+		comboBox.submenuCandidates = {}
+		for _, v in ipairs(callbackTable) do
+			if v.submenuName then
+				table.insert(comboBox.submenuCandidates, v)
+			else
+				local itemEntry = ZO_ComboBox:CreateItemEntry(tooltipSet[v.name],
+					function(comboBox, itemName, item, selectionChanged)
+						OnDropdownSelect(v, selectionChanged or button.forceNextDropdownRefresh)
+					end)
+				comboBox:AddItem(itemEntry)
+			end
 		end
 
 		comboBox:SelectFirstItem()
@@ -106,19 +150,22 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 
 	local anchorX = -STARTX + #self.subfilters * -ICON_SIZE
 
-	local button = WINDOW_MANAGER:CreateControlFromVirtual(self.control:GetName() .. name .. "Button", self.control, "AF_Button")
+	local button = WINDOW_MANAGER:CreateControlFromVirtual(self.control:GetName() .. subfilterName .. "Button", self.control, "AF_Button")
 	local texture = button:GetNamedChild("Texture")
 	local highlight = button:GetNamedChild("Highlight")
 
+	texture:SetTexture(icon.normal)
+	highlight:SetTexture(icon.mouseOver)
+
 	button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
 	button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
-	button:SetHandler("OnClicked", function(clickedButton, name)
+	button:SetHandler("OnClicked", function(clickedButton, subfilterName)
             if(not clickedButton.clickable) then return end
 
 			self:ActivateButton(clickedButton)
         end)
 	button:SetHandler("OnMouseEnter", function(self)
-			ZO_Tooltips_ShowTextTooltip(self, TOP, tooltipSet[name])
+			ZO_Tooltips_ShowTextTooltip(self, TOP, tooltipSet[subfilterName])
 
 			if(button.clickable) then
 				highlight:SetHidden(false)
@@ -130,24 +177,21 @@ function AdvancedFilterGroup:AddSubfilter(name, icon, callback, dropdownCallback
 			highlight:SetHidden(true)
 		end)
 
-	texture:SetTexture(icon.normal)
+	button.name = subfilterName
+	button.texture = texture
+	button.clickable = true
+    button.filterCallback = callback
+	button.normal = icon.normal
+	button.pressed = icon.pressed
+	button.dropdownCallbacks = dropdownCallbacks
 
-	highlight:SetTexture(icon.mouseOver)
+	if(dropdownCallbacks) then
+		AddDropdownFilter(button, dropdownCallbacks)
+	end
 
 	self.activeButtons[INVENTORY_BACKPACK] = button
 	self.activeButtons[INVENTORY_BANK] = button
 	self.activeButtons[INVENTORY_GUILD_BANK] = button
-
-	button.name = name
-	if(dropdownCallbacks) then
-		AddDropdownFilter(button, dropdownCallbacks, dropdownWidth)
-	end
-	button.texture = texture
-	button.clickable = true
-    button.filterCallback = callback
-	button.isSelected = false
-	button.normal = icon.normal
-	button.pressed = icon.pressed
 
 	table.insert(self.subfilters, button)
 end

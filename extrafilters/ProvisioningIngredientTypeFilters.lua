@@ -1,7 +1,18 @@
+--[[----------------------------------------------------------------------------
+    The anonymous function returned by this function handles the actual
+		filtering.
+	Use whatever parameters for "GetFilterCallback..." and whatever logic you
+		need to in "function(slot)".
+	"slot" is a table of item data. A typical slot can be found in
+		PLAYER_INVENTORY.inventories[bagId].slots[slotIndex]
+	A return value of true means the item in question will be shown while the
+		filter is active. False means the item will be hidden while the filter
+		is active.
+--]]----------------------------------------------------------------------------
 local function GetFilterCallbackForIngredientType(ingredientType)
 	return function(slot)
 		local lookup = {
-			["28609"] = "Food", --Game
+			--meats (health)
 			["28609"] = "Food", --Game
 		    ["33752"] = "Food", --Red Meat
 			["33753"] = "Food", --Fish
@@ -133,12 +144,24 @@ local function GetFilterCallbackForIngredientType(ingredientType)
 	end
 end
 
+--[[----------------------------------------------------------------------------
+    This table is processed within Advanced Filters and its contents are added
+		to Advanced Filters'  master callback table.
+	The string value for name is the relevant key for the language table.
+--]]----------------------------------------------------------------------------
 local provisioningIngredientTypeDropdownCallbacks = {
-	[1] = { name = "SC.Food", filterCallback = GetFilterCallbackForIngredientType("Food") },
-	[2] = { name = "SC.Drink", filterCallback = GetFilterCallbackForIngredientType("Drink") },
-	[3] = { name = "SC.Old", filterCallback = GetFilterCallbackForIngredientType("Old") },
+	[1] = {name = "SC.Food", filterCallback = GetFilterCallbackForIngredientType("Food")},
+	[2] = {name = "SC.Drink", filterCallback = GetFilterCallbackForIngredientType("Drink")},
+	[3] = {name = "SC.Old", filterCallback = GetFilterCallbackForIngredientType("Old")},
 }
 
+--[[----------------------------------------------------------------------------
+    There are five potential tables for this section each covering either
+		English, German, French, Russian, or Spanish. Only English is required.
+	If other language tables are not included, the English table will
+		automatically be used for those languages.
+	All languages must share common keys.
+--]]----------------------------------------------------------------------------
 local strings = {
 	["SC.Food"] = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT),
 					GetString("SI_ITEMTYPE", ITEMTYPE_FOOD)),
@@ -148,6 +171,20 @@ local strings = {
 					GetString("SI_ITEMTYPE", ITEMTYPE_NONE)),
 }
 
+--[[----------------------------------------------------------------------------
+    This section packages the data for Advanced Filters to use.
+    All keys are required except for deStrings, frStrings, ruStrings, and
+	    esStrings as they correspond to optional languages. All language keys
+		are assigned the same table here only to demonstrate the key names. You
+		do not need to do this.
+    The filterType key expects an ITEMFILTERTYPE constant provided by the game.
+    The values for key/value pairs in the "subfilters" table can be any of the
+		string keys from the "masterSubfilterData" table in
+		AdvancedFiltersData.lua such as "All", "OneHanded", "Body", or
+		"Blacksmithing".
+    If your filterType is ITEMFILTERTYPE_ALL then the "subfilters" table must
+		only contain the value "All".
+--]]----------------------------------------------------------------------------
 local filterInformation = {
 	callbackTable = provisioningIngredientTypeDropdownCallbacks,
 	filterType = ITEMFILTERTYPE_CRAFTING,
@@ -155,6 +192,13 @@ local filterInformation = {
 		[1] = "Provisioning",
 	},
 	enStrings = strings,
+	deStrings = strings,
+	frStrings = strings,
+	ruStrings = strings,
+	esStrings = strings,
 }
 
+--[[----------------------------------------------------------------------------
+    Register your filters by passing your filter information to this function.
+--]]----------------------------------------------------------------------------
 AdvancedFilters_RegisterFilter(filterInformation)

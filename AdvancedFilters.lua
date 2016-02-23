@@ -91,34 +91,95 @@ local function ChangeFilter(self, filterTab)
 	RefreshSubfilterBar(currentFilter)
 end
 
+local function InitializeGroups()
+	local inventoryTypes = {
+		["Inventory"] = INVENTORY_BACKPACK,
+		["Bank"] = INVENTORY_BANK,
+		["GuildBank"] = INVENTORY_GUILD_BANK,
+	}
+	local filterTypes = {
+		["Weapons"] = ITEMFILTERTYPE_WEAPONS,
+		["Armor"] = ITEMFILTERTYPE_ARMOR,
+		["Consumables"] = ITEMFILTERTYPE_CONSUMABLE,
+		["Crafting"] = ITEMFILTERTYPE_CRAFTING,
+		["Miscellaneous"] = ITEMFILTERTYPE_MISCELLANEOUS,
+	}
+	local subfilterGroups = {
+		[ITEMFILTERTYPE_WEAPONS] = {
+			[1] = "HealStaff",
+			[2] = "DestructionStaff",
+			[3] = "Bow",
+			[4] = "TwoHand",
+			[5] = "OneHand",
+			[6] = "All",
+		},
+		[ITEMFILTERTYPE_ARMOR] = {
+			[1] = "Vanity",
+			[2] = "Jewelry",
+			[3] = "Shield",
+			[4] = "Clothing",
+			[5] = "Light",
+			[6] = "Medium",
+			[7] = "Heavy",
+			[8] = "All",
+		},
+		[ITEMFILTERTYPE_CONSUMABLE] = {
+			[1] = "Trophy",
+			[2] = "Repair",
+			[3] = "Container",
+			[4] = "Motif",
+			[5] = "Poison",
+			[6] = "Potion",
+			[7] = "Recipe",
+			[8] = "Drink",
+			[9] = "Food",
+			[10] = "Crown",
+			[11] = "All",
+		},
+		[ITEMFILTERTYPE_CRAFTING] = {
+			[1] = "ArmorTrait",
+			[2] = "WeaponTrait",
+			[3] = "Style",
+			[4] = "Provisioning",
+			[5] = "Enchanting",
+			[6] = "Alchemy",
+			[7] = "Woodworking",
+			[8] = "Clothier",
+			[9] = "Blacksmithing",
+			[10] = "All",
+		},
+		[ITEMFILTERTYPE_MISCELLANEOUS] = {
+			[1] = "Trash",
+			[2] = "Fence",
+			[3] = "Trophy",
+			[4] = "Tool",
+			[5] = "Bait",
+			[6] = "Siege",
+			[7] = "SoulGem",
+			[8] = "Glyphs",
+			[9] = "All",
+		},
+	}
+	local inventoryType = inventoryTypes[inventoryName]
+	local filterType = filterTypes[groupName]
+	local subfilterNames = subfilterGroups[filterType]
+
+	for inventoryName, inventoryType in pairs(inventoryTypes) do
+		for groupName, filterType in pairs(filterTypes) do
+			local subfilterNames = subfilterGroups[filterType]
+
+			allSubfilterBars[inventoryType][filterType] = AdvancedFilterGroup:New(inventoryName, groupName, subfilterNames)
+		end
+	end
+end
+
 local function AdvancedFilters_Loaded(eventCode, addonName)
 	if addonName ~= "AdvancedFilters" then return end
 	EVENT_MANAGER:UnregisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED)
 
 	ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilter)
 
-	local WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANEOUS = AdvancedFilters_InitAllFilters("Inventory")
-	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
-	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_ARMOR] = ARMOR
-	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
-	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	allSubfilterBars[INVENTORY_BACKPACK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANEOUS
-
-	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANEOUS = AdvancedFilters_InitAllFilters("Bank")
-	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
-	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
-	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
-	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	allSubfilterBars[INVENTORY_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANEOUS
-
-	WEAPONS, ARMOR, CONSUMABLES, MATERIALS, MISCELLANEOUS = AdvancedFilters_InitAllFilters("GuildBank")
-	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_WEAPONS] = WEAPONS
-	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_ARMOR] = ARMOR
-	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CONSUMABLE] = CONSUMABLES
-	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_CRAFTING] = MATERIALS
-	allSubfilterBars[INVENTORY_GUILD_BANK][ITEMFILTERTYPE_MISCELLANEOUS] = MISCELLANEOUS
-
-	AdvancedFilters_DestroyAFCallbacks()
+	InitializeGroups()
 
 	SetFilterParents()
 
@@ -137,9 +198,9 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
 
 	--enable ZOS inventory search boxes
-	local bagSearch = ZO_PlayerInventorySearchBox --reference to ZOS text search box
-	local bankSearch = ZO_PlayerBankSearchBox --reference to ZOS text search box
-	local guildBankSearch = ZO_GuildBankSearchBox --reference to ZOS text search box
+	local bagSearch = ZO_PlayerInventorySearchBox
+	local bankSearch = ZO_PlayerBankSearchBox
+	local guildBankSearch = ZO_GuildBankSearchBox
 
 	bagSearch:ClearAnchors()
 	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventory, TOPLEFT, 36, -8)
