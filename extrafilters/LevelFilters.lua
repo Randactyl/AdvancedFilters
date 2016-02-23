@@ -1,9 +1,13 @@
 --[[----------------------------------------------------------------------------
-    This function handles the actual filtering.
+    The anonymous function returned by this function handles the actual
+		filtering.
 	Use whatever parameters for "GetFilterCallback..." and whatever logic you
 		need to in "function(slot)".
+	"slot" is a table of item data. A typical slot can be found in
+		PLAYER_INVENTORY.inventories[bagId].slots[slotIndex]
 	A return value of true means the item in question will be shown while the
-		filter is active.
+		filter is active. False means the item will be hidden while the filter
+		is active.
 --]]----------------------------------------------------------------------------
 local function GetFilterCallbackForLevel(minLevel, maxLevel)
 	return function(slot)
@@ -20,7 +24,7 @@ end
 
 --[[----------------------------------------------------------------------------
     This table is processed within Advanced Filters and its contents are added
-		to Advanced Filters' callback table.
+		to Advanced Filters'  master callback table.
 	The string value for name is the relevant key for the language table.
 --]]----------------------------------------------------------------------------
 local fullLevelDropdownCallbacks = {
@@ -41,10 +45,10 @@ local fullLevelDropdownCallbacks = {
 
 --[[----------------------------------------------------------------------------
     There are five potential tables for this section each covering either
-		english, german, french, russian, or spanish. Only english is required.
-	If other language tables are not included, the english table will
-		automatically be used for those languages. All languages must share
-		common keys.
+		English, German, French, Russian, or Spanish. Only English is required.
+	If other language tables are not included, the English table will
+		automatically be used for those languages.
+	All languages must share common keys.
 --]]----------------------------------------------------------------------------
 local strings = {
 	["LevelFilters"] = "Level Filters",
@@ -70,11 +74,16 @@ local strings = {
 		are assigned the same table here only to demonstrate the key names. You
 		do not need to do this.
     The filterType key expects an ITEMFILTERTYPE constant provided by the game.
-    The values for key/value pairs in subfilters can be any of the string keys
-	    from the AF_Callbacks table in AdvancedFiltersData.lua such as "All",
-		"OneHanded", "Body", or "Blacksmithing".
-    If your filterType is ITEMFILTERTYPE_ALL then subfilters must only contain
-	    the value "All".
+    The values for key/value pairs in the "subfilters" table can be any of the
+		string keys from the "masterSubfilterData" table in
+		AdvancedFiltersData.lua such as "All", "OneHanded", "Body", or
+		"Blacksmithing".
+    If your filterType is ITEMFILTERTYPE_ALL then the "subfilters" table must
+		only contain the value "All".
+	If the field "submenuName" is defined, your filters will be placed into a
+		submenu in the dropdown list rather then in the root dropdown list
+		itself. "submenuName" takes a string which matches a key in your strings
+		table(s).
 --]]----------------------------------------------------------------------------
 local filterInformation = {
 	submenuName = "LevelFilters",
@@ -96,9 +105,9 @@ local filterInformation = {
 AdvancedFilters_RegisterFilter(filterInformation)
 
 --[[----------------------------------------------------------------------------
-  	If you want your filters to show up under more than one main filter,
-		redefine filterInformation to include the new filterType. The shorthand
-		version (not including optional languages) is shown here.
+	If you want your filters to show up under more than one main filter,
+		redefine filterInformation to use the new filterType.
+	The shorthand version (not including optional languages) is shown here.
 --]]----------------------------------------------------------------------------
 filterInformation = {
 	submenuName = "LevelFilters",
@@ -116,6 +125,10 @@ filterInformation = {
 --]]----------------------------------------------------------------------------
 AdvancedFilters_RegisterFilter(filterInformation)
 
+--[[----------------------------------------------------------------------------
+	If you only need to redefine some fields for the next registration, you can
+	    do that as well.
+--]]----------------------------------------------------------------------------
 filterInformation.filterType = ITEMFILTERTYPE_CONSUMABLE
 filterInformation.subfilters = {
 	[1] = "Food",

@@ -1,6 +1,8 @@
-LevelFilters.lua is an example of the new extensible dropdown filter system.
+LevelFilters.lua and ProvisioningIngredientFilters.lua are examples of the new extensible dropdown filter system.
 
-Comments are included in LevelFilters.lua to generally explain each section.
+ProvisioningIngredientFilters.lua shows the basic usage. LevelFilters.lua shows how to use the submenu option added in Advanced Filters 0.9.0.0.
+
+Comments are included in both files to generally explain each section.
 
 You may submit your filters as plugins for Advanced Filters on ESOUI.
 Do this by:
@@ -18,16 +20,16 @@ Do this by:
 5. Submit
 Remember to include all readme and disclaimer information required by ZOS.
 
-Your addon manifest must look similar to the following (example from Item Saver Filters):
+Your addon manifest must look similar to the following:
 
-    ## Title: Advanced Filters - Item Saver Filters
+    ## Title: Advanced Filters - My Plugin Filters
     ## Author: Randactyl
     ## Version: 1.0
     ## APIVersion: 100009
-    ## DependsOn: AdvancedFilters ItemSaver
+    ## DependsOn: AdvancedFilters Dependency1 Dependency2
 
     AF_ItemSaverFilters.lua
 
 Your title should retain the leading "Advanced Filters - " in order to keep things organized in the game's addon menu.
-If your addon depends on any other addon for functionality, you must include the addon name in the DependsOn line.
+If your addon depends on any other addon for functionality, you must include the addon name in the DependsOn line; each entry separated by a single space.
 AdvancedFilters must always be included in DependsOn.
