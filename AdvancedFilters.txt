@@ -6,6 +6,7 @@
 lib\LibStub\LibStub.lua
 lib\libFilters\libFilters.lua
 lib\libCommonInventoryFilters\libCommonInventoryFilters.lua
+lib\LibCustomMenu\LibCustomMenu.lua
 
 AF_Strings.lua
 AF_TextureMap.lua
