@@ -118,6 +118,10 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 							OnDropdownSelect(callbackEntry, true)
 							button.forceNextDropdownRefresh = true
 							self.m_selectedItemText:SetText(tooltipSet[callbackEntry.name])
+							self.m_selectedItemData = self:CreateItemEntry(tooltipSet[callbackEntry.name],
+								function(comboBox, itemName, item, selectionChanged)
+									OnDropdownSelect(callbackEntry, selectionChanged or button.forceNextDropdownRefresh)
+								end)
 							ClearMenu()
 						end,
 					}
