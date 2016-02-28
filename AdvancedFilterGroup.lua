@@ -97,34 +97,36 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 		local comboBox = dropdown.m_comboBox
 
 		comboBox.AddMenuItems = function(comboBox)
-				local self = comboBox
+			local self = comboBox
 
-				for i = 1, #self.m_sortedItems do
-					-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
-	        		local item = self.m_sortedItems[i]
-	        		AddMenuItem(item.name, function() ZO_ComboBox_Base_ItemSelectedClickHelper(self, item) end, nil, self.m_font, self.m_normalColor, self.m_highlightColor)
-	    		end
+			--ZOS code
+			for i = 1, #self.m_sortedItems do
+				-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
+        		local item = self.m_sortedItems[i]
+        		AddMenuItem(item.name, function() ZO_ComboBox_Base_ItemSelectedClickHelper(self, item) end, nil, self.m_font, self.m_normalColor, self.m_highlightColor)
+    		end
+			--end ZOS code
 
-				local submenuCandidates = self.submenuCandidates
+			local submenuCandidates = self.submenuCandidates
 
-				for _, submenuCandidate in ipairs(submenuCandidates) do
-					local entries = {}
-					for _, callbackEntry in ipairs(submenuCandidate.callbackTable) do
-						local entry = {
-							label = tooltipSet[callbackEntry.name],
-							callback = function()
-									OnDropdownSelect(callbackEntry, true)
-									button.forceNextDropdownRefresh = true
-									self.m_selectedItemText:SetText(callbackEntry.name)
-									ClearMenu()
-								end,
-						}
-						table.insert(entries, entry)
-					end
-
-					AddCustomSubMenuItem(tooltipSet[submenuCandidate.submenuName], entries, "ZoFontGameSmall")
+			for _, submenuCandidate in ipairs(submenuCandidates) do
+				local entries = {}
+				for _, callbackEntry in ipairs(submenuCandidate.callbackTable) do
+					local entry = {
+						label = tooltipSet[callbackEntry.name],
+						callback = function()
+							OnDropdownSelect(callbackEntry, true)
+							button.forceNextDropdownRefresh = true
+							self.m_selectedItemText:SetText(tooltipSet[callbackEntry.name])
+							ClearMenu()
+						end,
+					}
+					table.insert(entries, entry)
 				end
+
+				AddCustomSubMenuItem(tooltipSet[submenuCandidate.submenuName], entries, "ZoFontGameSmall")
 			end
+		end
 
 	    comboBox:SetSortsItems(false)
 
@@ -160,22 +162,22 @@ function AdvancedFilterGroup:AddSubfilter(groupName, subfilterName)
 	button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
 	button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
 	button:SetHandler("OnClicked", function(clickedButton, subfilterName)
-            if(not clickedButton.clickable) then return end
+        if(not clickedButton.clickable) then return end
 
-			self:ActivateButton(clickedButton)
-        end)
+		self:ActivateButton(clickedButton)
+    end)
 	button:SetHandler("OnMouseEnter", function(self)
-			ZO_Tooltips_ShowTextTooltip(self, TOP, tooltipSet[subfilterName])
+		ZO_Tooltips_ShowTextTooltip(self, TOP, tooltipSet[subfilterName])
 
-			if(button.clickable) then
-				highlight:SetHidden(false)
-			end
-		end)
+		if(button.clickable) then
+			highlight:SetHidden(false)
+		end
+	end)
 	button:SetHandler("OnMouseExit", function()
-			ZO_Tooltips_HideTextTooltip()
+		ZO_Tooltips_HideTextTooltip()
 
-			highlight:SetHidden(true)
-		end)
+		highlight:SetHidden(true)
+	end)
 
 	button.name = subfilterName
 	button.texture = texture
