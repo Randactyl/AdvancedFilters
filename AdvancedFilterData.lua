@@ -71,7 +71,7 @@ local function GetFilterCallbackForTrophy()
 
 		if not slot.stolen and (itemType == ITEMTYPE_TROPHY
 		  or itemType == ITEMTYPE_COLLECTIBLE or itemType == ITEMTYPE_FISH
-		  or itemType == ITEMTYPE_TREASURE or itemType == ITEMTYPE_DRINK) then
+		  or itemType == ITEMTYPE_TREASURE) then
 			return true
 		end
 
