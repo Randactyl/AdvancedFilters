@@ -6,13 +6,14 @@ function AF.util.ApplyFilter(button, filterTag, requestUpdate)
     local libFilters = AF.util.libFilters
 	local callback = button.filterCallback
 	local laf
+
     if AF.currentInventoryType == 5 then
         laf = LAF_STORE
     else
         laf = libFilters:GetCurrentLAF(AF.currentInventoryType)
     end
 
-	--if something isn't right. abort
+	--if something isn't right, abort
 	if callback == nil then
         d("callback was nil for " .. filterTag)
         return
@@ -26,14 +27,13 @@ function AF.util.ApplyFilter(button, filterTag, requestUpdate)
 	libFilters:UnregisterFilter(filterTag)
 	--then register new one and hand off update parameter
 	libFilters:RegisterFilter(filterTag, laf, callback)
-	if requestUpdate == true then
-		libFilters:RequestInventoryUpdate(laf)
-	end
+	if requestUpdate == true then libFilters:RequestInventoryUpdate(laf) end
 end
 
 function AF.util.RemoveAllFilters()
     local libFilters = AF.util.libFilters
     local laf
+
     if AF.currentInventoryType == 5 then
         laf = LAF_STORE
     else
@@ -43,9 +43,7 @@ function AF.util.RemoveAllFilters()
 	libFilters:UnregisterFilter(BUTTON_STRING)
 	libFilters:UnregisterFilter(DROPDOWN_STRING)
 
-	if laf ~= nil then
-		libFilters:RequestInventoryUpdate(laf)
-	end
+	if laf ~= nil then libFilters:RequestInventoryUpdate(laf) end
 end
 
 function AF.util.RefreshSubfilterButtons(subfilterBar)
@@ -79,12 +77,12 @@ function AF.util.RefreshSubfilterButtons(subfilterBar)
         inventorySlots = inventory.slots
 
         --check buttons for availability
-        for _, item in pairs(inventory.slots) do
+        for _, item in pairs(inventorySlots) do
             if item.dataEntry and item.dataEntry.data then
                 local itemData = item.dataEntry.data
                 for _, button in pairs(subfilterBar.subfilterButtons) do
-                    if((not button.clickable) and button.filterCallback(item)
-                      and (item.dataEntry.data.filterData[1] == inventory.currentFilter)) then
+                    if button.filterCallback(item) and (not button.clickable)
+                      and (itemData.filterData[1] == inventory.currentFilter) then
                         button.texture:SetColor(1, 1, 1, 1)
                         button:SetEnabled(true)
                         button.clickable = true
@@ -100,58 +98,26 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 	  or subfilterName == "Light" or subfilterName == "Clothing" then
 		subfilterName = "Body"
 	end
+
 	local callbackTable = {}
 	local keys = {
 		["Weapons"] = {
-			[1] = "All",
-			[2] = "OneHand",
-			[3] = "TwoHand",
-			[4] = "Bow",
-			[5] = "DestructionStaff",
-			[6] = "HealStaff",
+			"All", "OneHand", "TwoHand", "Bow", "DestructionStaff", "HealStaff",
 		},
 		["Armor"] = {
-			[1] = "All",
-			[2] = "Body",
-			[3] = "Shield",
-			[4] = "Jewelry",
-			[5] = "Vanity",
+			"All", "Body", "Shield", "Jewelry", "Vanity",
 		},
 		["Consumables"] = {
-			[1] = "All",
-			[2] = "Crown",
-			[3] = "Food",
-			[4] = "Drink",
-			[5] = "Recipe",
-			[6] = "Potion",
-			[7] = "Poison",
-			[8] = "Motif",
-			[9] = "Container",
-			[10] = "Repair",
-			[11] = "Trophy",
+			"All", "Crown", "Food", "Drink", "Recipe", "Potion", --[["Poison",]]
+            "Motif", "Container", "Repair", "Trophy",
 		},
 		["Crafting"] = {
-			[1] = "All",
-			[2] = "Blacksmithing",
-			[3] = "Clothier",
-			[4] = "Woodworking",
-			[5] = "Alchemy",
-			[6] = "Enchanting",
-			[7] = "Provisioning",
-			[8] = "Style",
-			[9] = "WeaponTrait",
-			[10] = "ArmorTrait",
+			"All", "Blacksmithing", "Clothier", "Woodworking", "Alchemy",
+            "Enchanting", "Provisioning", "Style", "WeaponTrait", "ArmorTrait",
 		},
 		["Miscellaneous"] = {
-			[1] = "All",
-			[2] = "Glyphs",
-			[3] = "SoulGem",
-			[4] = "Siege",
-			[5] = "Bait",
-			[6] = "Tool",
-			[7] = "Trophy",
-			[8] = "Fence",
-			[9] = "Trash",
+			"All", "Glyphs", "SoulGem", "Siege", "Bait", "Tool", "Trophy",
+            "Fence", "Trash",
 		},
 	}
 

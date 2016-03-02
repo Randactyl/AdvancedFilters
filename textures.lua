@@ -1,8 +1,8 @@
 AdvancedFilters.textures = {
 	All = {
-		normal = [[/esoui/art/inventory/inventory_tabicon_all_up.dds]],
-		pressed = [[/esoui/art/inventory/inventory_tabicon_all_down.dds]],
-		mouseOver = [[/esoui/art/inventory/inventory_tabicon_all_over.dds]]
+		normal = "/esoui/art/inventory/inventory_tabicon_all_up.dds",
+		pressed = "/esoui/art/inventory/inventory_tabicon_all_down.dds",
+		mouseOver = "/esoui/art/inventory/inventory_tabicon_all_over.dds",
 	},
 	Trophy = {
 		normal = "AdvancedFilters/assets/miscellaneous/trophy/trophy_up.dds",
