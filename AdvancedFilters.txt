@@ -1,19 +1,20 @@
 ## Title: Advanced Filters
-## Author: Randactyl, ingeniousclown
-## Version: 0.9.2.0
-## APIVersion: 100013
+## Author: Randactyl
+## Version: 1.0.0.0
+## APIVersion: 100014
 
 lib\LibStub\LibStub.lua
 lib\libFilters\libFilters.lua
 lib\libCommonInventoryFilters\libCommonInventoryFilters.lua
 lib\LibCustomMenu\LibCustomMenu.lua
 
-AF_Strings.lua
-AF_TextureMap.lua
-AdvancedFilterGroup.xml
-AdvancedFilterGroup.lua
-AdvancedFilterData.lua
-AdvancedFilters.lua
+main.lua
+strings.lua
+textures.lua
+util.lua
+AF_FilterBar.xml
+AF_FilterBar.lua
+data.lua
 
 extrafilters\LevelFilters.lua
 extrafilters\ProvisioningIngredientTypeFilters.lua
