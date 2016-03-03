@@ -59,6 +59,9 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 						local button = self:GetCurrentButton()
 						button.previousDropdownSelection = comboBox.m_sortedItems[1]
 
+						local currentLAF = AF.util.libFilters:GetCurrentLAF(AF.currentInventoryType) or LAF_STORE
+						AF.util.libFilters:RequestInventoryUpdate(currentLAF)
+
 						PlaySound(SOUNDS.MENU_BAR_CLICK)
 					end,
 				},
