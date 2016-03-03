@@ -105,6 +105,8 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 			      ZO_ComboBox_Base_ItemSelectedClickHelper(self, item)
 				  --my code
 				  button.previousDropdownSelection = item
+
+				  PlaySound(SOUNDS.MENU_BAR_CLICK)
 				  --end my code
 			  end,
 			  nil, self.m_font, self.m_normalColor, self.m_highlightColor)
@@ -129,6 +131,9 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 								  selectionChanged or button.forceNextDropdownRefresh)
 							end)
 						button.previousDropdownSelection = self.m_selectedItemData
+
+						PlaySound(SOUNDS.MENU_BAR_CLICK)
+
 						ClearMenu()
 					end,
 				}
