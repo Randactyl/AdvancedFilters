@@ -40,6 +40,56 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 	self.dropdown:SetAnchor(RIGHT, self.control, RIGHT)
 	self.dropdown:SetHeight(24)
 	self.dropdown:SetWidth(136)
+	local function DropdownOnMouseUpHandler(dropdown, mouseButton, upInside)
+		local comboBox = dropdown.m_comboBox
+
+		if mouseButton == 1 and upInside then
+			if comboBox.m_isDropdownVisible then
+				comboBox:HideDropdownInternal()
+			else
+				comboBox:ShowDropdownInternal()
+			end
+		elseif mouseButton == 2 and upInside then
+			local entries = {
+				[1] = {
+					name = AF.strings.ResetToAll,
+					callback = function()
+						comboBox:SelectFirstItem()
+
+						local button = self:GetCurrentButton()
+						button.previousDropdownSelection = comboBox.m_sortedItems[1]
+
+						PlaySound(SOUNDS.MENU_BAR_CLICK)
+					end,
+				},
+				[2] = {
+					name = AF.strings.InvertDropdownFilter,
+					callback = function()
+						local button = self:GetCurrentButton()
+
+						local currentLAF = AF.util.libFilters:GetCurrentLAF(AF.currentInventoryType) or LAF_STORE
+						local originalCallback = AF.util.libFilters.filters[currentLAF].AF_DropdownFilter
+
+						AF.util.libFilters.filters[currentLAF].AF_DropdownFilter = function(slot)
+							return not originalCallback(slot)
+						end
+
+						AF.util.libFilters:RequestInventoryUpdate(currentLAF)
+
+						PlaySound(SOUNDS.MENU_BAR_CLICK)
+					end,
+				},
+			}
+
+			ClearMenu()
+			for _, entry in ipairs(entries) do
+				AddMenuItem(entry.name, entry.callback, MENU_ADD_OPTION_LABEL)
+			end
+			ShowMenu(dropdown)
+		end
+	end
+	self.dropdown:SetHandler("OnMouseUp", DropdownOnMouseUpHandler)
+
 	local comboBox = self.dropdown.m_comboBox
 	comboBox:SetSortsItems(false)
 	comboBox.AddMenuItems = function(comboBox)

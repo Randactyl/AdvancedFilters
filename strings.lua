@@ -174,6 +174,10 @@ local strings = {
 		ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
 		JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
 		WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
+
+		--OTHER
+		ResetToAll = "Reset to All",
+		InvertDropdownFilter = "Invert Dropdown Filter",
 	},
 	es = {
 		--SHARED
