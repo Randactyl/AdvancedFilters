@@ -197,6 +197,7 @@ function AF_FilterBar:ActivateButton(newButton)
 	--select the first item if there is no previos selection
 	if not newButton.previousDropdownSelection then
 		self.dropdown.m_comboBox:SelectFirstItem()
+		newButton.previousDropdownSelection = self.dropdown.m_comboBox.m_sortedItems[1]
 	end
 
 	--refresh button availability
