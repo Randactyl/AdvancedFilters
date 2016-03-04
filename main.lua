@@ -90,7 +90,7 @@ local function InitializeHooks()
 	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
 	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
 	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
-	hookInventory(ZO_StoreWindow, 5)
+	--hookInventory(ZO_StoreWindow, 5)
 
 	local function ChangeFilterInventory(self, filterTab)
 		local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
