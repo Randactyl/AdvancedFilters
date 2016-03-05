@@ -40,8 +40,8 @@ function AF.util.RemoveAllFilters()
         laf = libFilters:GetCurrentLAF(AF.currentInventoryType)
     end
 
-	libFilters:UnregisterFilter(BUTTON_STRING)
-	libFilters:UnregisterFilter(DROPDOWN_STRING)
+	libFilters:UnregisterFilter("AF_ButtonFilter")
+	libFilters:UnregisterFilter("AF_DropdownFilter")
 
 	if laf ~= nil then libFilters:RequestInventoryUpdate(laf) end
 end
