@@ -8,6 +8,7 @@ AF.subfilterGroups = {
 	--[5] = {},
 }
 AF.lastSubfilterBar = nil
+AF.currentInventoryType = INVENTORY_BACKPACK
 
 local function InitializeHooks()
 	local function RefreshSubfilterBar(currentFilter)
@@ -101,7 +102,7 @@ local function InitializeHooks()
 		local currentFilter = filterTab.filterType
 		RefreshSubfilterBar(currentFilter)
 	end
-	ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterStore)
+	--ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterStore)
 end
 
 local function CreateSubfilterBars()
