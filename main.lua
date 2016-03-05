@@ -34,25 +34,20 @@ local function InitializeHooks()
 		subfilterBars = AF.subfilterGroups[AF.currentInventoryType]
 		local subfilterBar = subfilterBars[currentFilter]
 
-		--hide old bar, if it exists
-		if AF.lastSubfilterBar ~= nil then AF.lastSubfilterBar:SetHidden(true) end
+		--hide and update old bar, if it exists
+		if AF.lastSubfilterBar ~= nil then
+			AF.lastSubfilterBar:SetHidden(true)
+			AF.util.RefreshSubfilterButtons(AF.lastSubfilterBar)
+		end
 
-		--refresh button availibility
-		AF.util.RefreshSubfilterButtons(subfilterBar)
-		AF.util.RefreshSubfilterButtons(AF.lastSubfilterBar)
+		--if new bar exists
+		if subfilterBar then
+			--refresh button availibility
+			AF.util.RefreshSubfilterButtons(subfilterBar)
 
-		--set old bar reference
-		AF.lastSubfilterBar = subfilterBar
+			--set old bar reference
+			AF.lastSubfilterBar = subfilterBar
 
-		--if subfilters don't exist, remove filters and remove inventory anchor displacement
-		if subfilterBar == nil then
-			AF.util.RemoveAllFilters()
-			if AF.currentInventoryType == 5 then
-				UpdateListAnchors(STORE_WINDOW, 0)
-			else
-				UpdateListAnchors(PLAYER_INVENTORY, 0)
-			end
-		else
 			--set currentFilter since we need it before the original ChangeFilter updates it
 			if AF.currentInventoryType == 5 then
 				STORE_WINDOW.currentFilter = currentFilter
@@ -71,6 +66,16 @@ local function InitializeHooks()
 				UpdateListAnchors(STORE_WINDOW, subfilterBar.control:GetHeight())
 			else
 				UpdateListAnchors(PLAYER_INVENTORY, subfilterBar.control:GetHeight())
+			end
+		else
+			--remove all filters
+			AF.util.RemoveAllFilters()
+
+			--set original inventory anchor displacement
+			if AF.currentInventoryType == 5 then
+				UpdateListAnchors(STORE_WINDOW, 0)
+			else
+				UpdateListAnchors(PLAYER_INVENTORY, 0)
 			end
 		end
 	end
