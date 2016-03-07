@@ -446,9 +446,10 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 			AF.strings[key] = string
 		end
 	end
-	addStrings("en", filterInformation.enStrings)
-	if filterInformation.deStrings ~= nil then addStrings("de", filterInformation.deStrings) end
-	if filterInformation.frStrings ~= nil then addStrings("fr", filterInformation.frStrings) end
-	if filterInformation.ruStrings ~= nil then addStrings("ru", filterInformation.ruStrings) end
-	if filterInformation.esStrings ~= nil then addStrings("es", filterInformation.esStrings) end
+	local lang = AF.util.GetLanguage()
+	if filterInformation[lang .. "Strings"] ~= nil then
+		addStrings(lang, filterInformation[lang .. "Strings"])
+	else
+		addStrings("en", filterInformation.enStrings)
+	end
 end

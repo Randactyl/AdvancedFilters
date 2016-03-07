@@ -9,9 +9,9 @@ lib\libCommonInventoryFilters\libCommonInventoryFilters.lua
 lib\LibCustomMenu\LibCustomMenu.lua
 
 main.lua
+util.lua
 strings.lua
 textures.lua
-util.lua
 AF_FilterBar.xml
 AF_FilterBar.lua
 data.lua

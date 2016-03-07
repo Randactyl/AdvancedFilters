@@ -183,3 +183,20 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 
 	return callbackTable
 end
+
+function AF.util.GetLanguage()
+	local lang = GetCVar("language.2")
+    local supported = {
+        de = 1,
+        en = 2,
+        es = 3,
+        fr = 4,
+        ru = 5,
+    }
+
+	--check for supported languages
+	if(supported[lang] ~= nil) then return lang end
+
+	--return english if not supported
+	return "en"
+end

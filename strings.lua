@@ -440,14 +440,4 @@ setmetatable(strings["es"], {__index = strings["en"]})
 setmetatable(strings["fr"], {__index = strings["en"]})
 setmetatable(strings["ru"], {__index = strings["en"]})
 
-local function getLanguage()
-	local lang = GetCVar("language.2")
-
-	--check for supported languages
-	if(strings[lang] ~= nil) then return lang end
-
-	--return english if not supported
-	return "en"
-end
-
-AdvancedFilters.strings = strings[getLanguage()]
+AdvancedFilters.strings = strings[AdvancedFilters.util.GetLanguage()]
