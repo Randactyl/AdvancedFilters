@@ -179,9 +179,8 @@ local strings = {
 		do not need to do this.
     The filterType key expects an ITEMFILTERTYPE constant provided by the game.
     The values for key/value pairs in the "subfilters" table can be any of the
-		string keys from the "masterSubfilterData" table in
-		AdvancedFiltersData.lua such as "All", "OneHanded", "Body", or
-		"Blacksmithing".
+		string keys from the "masterSubfilterData" table in data.lua such as
+		"All", "OneHanded", "Body", or "Blacksmithing".
     If your filterType is ITEMFILTERTYPE_ALL then the "subfilters" table must
 		only contain the value "All".
 --]]----------------------------------------------------------------------------
