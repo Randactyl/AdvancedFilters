@@ -74,10 +74,9 @@ local strings = {
 		are assigned the same table here only to demonstrate the key names. You
 		do not need to do this.
     The filterType key expects an ITEMFILTERTYPE constant provided by the game.
-    The values for key/value pairs in the "subfilters" table can be any of the
-		string keys from the "masterSubfilterData" table in
-		AdvancedFiltersData.lua such as "All", "OneHanded", "Body", or
-		"Blacksmithing".
+	The values for key/value pairs in the "subfilters" table can be any of the
+		string keys from the "masterSubfilterData" table in data.lua such as
+		"All", "OneHanded", "Body", or "Blacksmithing".
     If your filterType is ITEMFILTERTYPE_ALL then the "subfilters" table must
 		only contain the value "All".
 	If the field "submenuName" is defined, your filters will be placed into a
