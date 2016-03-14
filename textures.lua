@@ -1,4 +1,4 @@
-AdvancedFilters.textures = {
+local textures = {
 	All = {
 		normal = "/esoui/art/inventory/inventory_tabicon_all_up.dds",
 		pressed = "/esoui/art/inventory/inventory_tabicon_all_down.dds",
@@ -205,3 +205,5 @@ AdvancedFilters.textures = {
 		mouseOver = "AdvancedFilters/assets/miscellaneous/trash/trash_over.dds",
 	},
 }
+
+AdvancedFIlters.textures = textures
