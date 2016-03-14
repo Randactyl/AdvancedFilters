@@ -257,9 +257,6 @@ function AF_FilterBar:ActivateButton(newButton)
 		self.dropdown.m_comboBox:SelectFirstItem()
 		newButton.previousDropdownSelection = self.dropdown.m_comboBox.m_sortedItems[1]
 	end
-
-	--refresh button availability
-	AF.util.RefreshSubfilterButtons(self)
 end
 
 function AF_FilterBar:GetCurrentButton()

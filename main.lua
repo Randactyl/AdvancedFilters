@@ -37,14 +37,10 @@ local function InitializeHooks()
 		--hide and update old bar, if it exists
 		if AF.lastSubfilterBar ~= nil then
 			AF.lastSubfilterBar:SetHidden(true)
-			AF.util.RefreshSubfilterButtons(AF.lastSubfilterBar)
 		end
 
 		--if new bar exists
 		if subfilterBar then
-			--refresh button availibility
-			AF.util.RefreshSubfilterButtons(subfilterBar)
-
 			--set old bar reference
 			AF.lastSubfilterBar = subfilterBar
 
@@ -80,6 +76,7 @@ local function InitializeHooks()
 		end
 	end
 
+	--SCENE SHOWN HOOKS
 	local function hookInventory(control, inventoryType)
 		local function onInventoryShown(control, hidden)
 			AF.currentInventoryType = inventoryType
@@ -98,6 +95,7 @@ local function InitializeHooks()
 	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
 	--hookInventory(ZO_StoreWindow, 5)
 
+	--PREHOOKS
 	local function ChangeFilterInventory(self, filterTab)
 		local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
 		RefreshSubfilterBar(currentFilter)
@@ -108,6 +106,34 @@ local function InitializeHooks()
 		RefreshSubfilterBar(currentFilter)
 	end
 	--ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterStore)
+
+	--POSTHOOKS
+	--create private index
+	--this is my table. There are many like it, but this one is mine.
+    local index = {}
+    --create metatable
+    local mt = {
+		__index = function (t,k)
+        	--d("*access to element " .. tostring(k))
+        	return t[index][k]   -- access the original table
+    	end,
+    	__newindex = function (t,k,v)
+        	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
+        	t[index][k] = v   -- update original table
+			AF.util.RefreshSubfilterButtons(AF.lastSubfilterBar)
+    	end,
+    }
+	--tracking function. Returns a proxy table with our metatable attached.
+	local function track(t)
+		local proxy = {}
+		proxy[index] = t
+		setmetatable(proxy, mt)
+		return proxy
+    end
+	--PLAYER_INVENTORY.isListDirty doesn't "exist" in the first place.
+	--The table in the backing class was being used, so we'll track that table,
+	--	but set the proxy to the lookup point.
+	PLAYER_INVENTORY.isListDirty = track(ZO_InventoryManager.isListDirty)
 end
 
 local function CreateSubfilterBars()
