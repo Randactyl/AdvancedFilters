@@ -206,4 +206,4 @@ local textures = {
 	},
 }
 
-AdvancedFIlters.textures = textures
+AdvancedFilters.textures = textures
