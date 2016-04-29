@@ -1,6 +1,7 @@
 local AF = AdvancedFilters
 AF.util = {}
 AF.util.libFilters = LibStub("libFilters-2.0")
+AF.util.LibMotifCategories = LibStub("LibMotifCategories-1.0")
 
 function AF.util.ApplyFilter(button, filterTag, requestUpdate)
     local libFilters = AF.util.libFilters
