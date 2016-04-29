@@ -118,25 +118,26 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
             "Fence", "Trash",
 		},
 		["Blacksmithing"] = {
-			"All",
+			"All", "RawMaterial", "RefinedMaterial", "Temper",
 		},
 		["Clothing"] = {
-			"All",
+			"All", "RawMaterial", "RefinedMaterial", "Resin",
 		},
 		["Woodworking"] = {
-			"All",
+			"All", "RawMaterial", "RefinedMaterial", "Tannin",
 		},
 		["Alchemy"] = {
-			"All",
+			"All", "Reagent", "Water", "Oil",
 		},
 		["Enchanting"] = {
-			"All",
+			"All", "Aspect", "Essence", "Potency",
 		},
 		["Provisioning"] = {
-			"All",
+			"All", "FoodIngredient", "DrinkIngredient", "OldIngredient",
 		},
 		["Style"] = {
-			"All",
+			"All", "RawMaterial", "NormalStyle", "RareStyle", "AllianceStyle",
+			"ExoticStyle", "CrownStyle",
 		},
 		["Traits"] = {
 			"All", "ArmorTrait", "WeaponTrait",

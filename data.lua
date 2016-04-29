@@ -550,11 +550,35 @@ AF.subfilterCallbacks = {
 			filterCallback = GetFilterCallback(nil),
 			dropdownCallbacks = {},
 		},
+		["RawMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_RAW_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["RefinedMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["Temper"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_BOOSTER}),
+			dropdownCallbacks = {},
+		},
 	},
 	["Clothing"] = {
 		addonDropdownCallbacks = {},
 		["All"] = {
 			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+		["RawMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_RAW_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["RefinedMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["Resin"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_BOOSTER}),
 			dropdownCallbacks = {},
 		},
 	},
@@ -564,11 +588,35 @@ AF.subfilterCallbacks = {
 			filterCallback = GetFilterCallback(nil),
 			dropdownCallbacks = {},
 		},
+		["RawMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_RAW_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["RefinedMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["Tannin"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_BOOSTER}),
+			dropdownCallbacks = {},
+		},
 	},
 	["Alchemy"] = {
 		addonDropdownCallbacks = {},
 		["All"] = {
 			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+		["Reagent"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_REAGENT}),
+			dropdownCallbacks = {},
+		},
+		["Water"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE}),
+			dropdownCallbacks = {},
+		},
+		["Oil"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE}),
 			dropdownCallbacks = {},
 		},
 	},
@@ -578,6 +626,18 @@ AF.subfilterCallbacks = {
 			filterCallback = GetFilterCallback(nil),
 			dropdownCallbacks = {},
 		},
+		["Aspect"] = {
+			filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ASPECT}),
+			dropdownCallbacks = {},
+		},
+		["Essence"] = {
+			filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ESSENCE}),
+			dropdownCallbacks = {},
+		},
+		["Potency"] = {
+			filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_POTENCY}),
+			dropdownCallbacks = {},
+		},
 	},
 	["Provisioning"] = {
 		addonDropdownCallbacks = {},
@@ -585,11 +645,47 @@ AF.subfilterCallbacks = {
 			filterCallback = GetFilterCallback(nil),
 			dropdownCallbacks = {},
 		},
+		["FoodIngredient"] = {
+			filterCallback = GetFilterCallbackForProvisioningIngredient("Food"),
+			dropdownCallbacks = {},
+		},
+		["DrinkIngredient"] = {
+			filterCallback = GetFilterCallbackForProvisioningIngredient("Drink"),
+			dropdownCallbacks = {},
+		},
+		["OldIngredient"] = {
+			filterCallback = GetFilterCallbackForProvisioningIngredient("Old"),
+			dropdownCallbacks = {},
+		},
 	},
 	["Style"] = {
 		addonDropdownCallbacks = {},
 		["All"] = {
 			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+		["RawMaterial"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_RAW_MATERIAL}),
+			dropdownCallbacks = {},
+		},
+		["NormalStyle"] = {
+			filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_NORMAL),
+			dropdownCallbacks = {},
+		},
+		["RareStyle"] = {
+			filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_RARE),
+			dropdownCallbacks = {},
+		},
+		["AllianceStyle"] = {
+			filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_ALLIANCE),
+			dropdownCallbacks = {},
+		},
+		["ExoticStyle"] = {
+			filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_EXOTIC),
+			dropdownCallbacks = {},
+		},
+		["CrownStyle"] = {
+			filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_CROWN),
 			dropdownCallbacks = {},
 		},
 	},
@@ -610,6 +706,7 @@ AF.subfilterCallbacks = {
 	},
 }
 
+--ESO 2.4.0
 if INVENTORY_CRAFT_BAG then
 	AF.subfilterCallbacks.Crafting["Alchemy"] = {
 		filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE}),

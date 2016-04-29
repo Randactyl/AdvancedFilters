@@ -245,25 +245,26 @@ local function CreateSubfilterBars()
 		filterTypeNames[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits"
 		
 		subfilterButtonNames[ITEMFILTERTYPE_BLACKSMITHING] = {
-			"All",
+			"Temper", "RefinedMaterial", "RawMaterial", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_CLOTHING] = {
-			"All",
+			"Resin", "RefinedMaterial", "RawMaterial", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_WOODWORKING] = {
-			"All",
+			"Tannin", "RefinedMaterial", "RawMaterial", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_ALCHEMY] = {
-			"All",
+			"Oil", "Water", "Reagent", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_ENCHANTING] = {
-			"All",
+			"Potency", "Essence", "Aspect", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_PROVISIONING] = {
-			"All",
+			"OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_STYLE_MATERIALS] = {
-			"All",
+			"CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",
+			"NormalStyle", "RawMaterial", "All",
 		}
 		subfilterButtonNames[ITEMFILTERTYPE_TRAIT_ITEMS] = {
 			"WeaponTrait", "ArmorTrait", "All",
