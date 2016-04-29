@@ -446,6 +446,40 @@ AdvancedFilters.strings = strings[AdvancedFilters.util.GetLanguage()]
 if INVENTORY_CRAFT_BAG then
 	AdvancedFilters.strings.Water = AF_Localize(SI_ITEMTYPE33)
 	AdvancedFilters.strings.Oil = AF_Localize(SI_ITEMTYPE58)
-	
+
 	AdvancedFilters.strings.Solvent = nil
+
+	--CRAFT BAG
+	--BLACKSMITHING
+	AdvancedFilters.strings.RawMaterial = AF_Localize(SI_ITEMTYPE17)
+	AdvancedFilters.strings.RefinedMaterial = AF_Localize(SI_ITEMTYPE36)
+	AdvancedFilters.strings.Temper = AF_Localize(SI_ITEMTYPE41)
+	
+	--CLOTHING
+	AdvancedFilters.strings.Resin = AF_Localize(SI_ITEMTYPE43)
+	
+	--WOODWORKING
+	AdvancedFilters.strings.Tannin = AF_Localize(SI_ITEMTYPE42)
+	
+	--ALCHEMY
+	--reagent
+	--water
+	--oil
+
+	--ENCHANTING
+	--aspect
+	--essence
+	--potency
+
+	--PROVISIONING
+	AdvancedFilters.strings.FoodIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_FOOD))
+	AdvancedFilters.strings.DrinkIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_DRINK))
+	AdvancedFilters.strings.OldIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_NONE))
+
+	--STYLE
+	AdvancedFilters.strings.NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL)
+	AdvancedFilters.strings.RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE)
+	AdvancedFilters.strings.AllianceStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_ALLIANCE)
+	AdvancedFilters.strings.ExoticStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_EXOTIC)
+	AdvancedFilters.strings.CrownStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_CROWN)
 end
