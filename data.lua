@@ -87,6 +87,13 @@ local function GetFilterCallbackForEnchanting(filterTypes)
 			itemLink = GetStoreItemLink(slot.slotIndex)
 		end
 
+		local itemType = GetItemLinkItemType(itemLink)
+		if itemType ~= ITEMTYPE_ENCHANTING_RUNE_ASPECT
+		  or itemType ~= ITEMTYPE_ENCHANTING_RUNE_ESSENCE
+		  or itemType ~= ITEMTYPE_ENCHANTING_RUNE_POTENCY then
+			return
+		end
+		
 		local runeType = GetItemLinkEnchantingRuneClassification(itemLink)
 
 		for i=1, #filterTypes do
@@ -388,7 +395,82 @@ AF.subfilterCallbacks = {
 			dropdownCallbacks = {},
 		},
 	},
+	["Blacksmithing"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Clothing"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Woodworking"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Alchemy"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Enchanting"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Provisioning"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Style"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+	},
+	["Traits"] = {
+		addonDropdownCallbacks = {},
+		["All"] = {
+			filterCallback = GetFilterCallback(nil),
+			dropdownCallbacks = {},
+		},
+		["WeaponTrait"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_WEAPON_TRAIT}),
+			dropdownCallbacks = {},
+		},
+		["ArmorTrait"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
+			dropdownCallbacks = {},
+		},
+	},
 }
+
+if INVENTORY_CRAFT_BAG then
+	AF.subfilterCallbacks.Crafting["Alchemy"] = {
+		filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE}),
+		dropdownCallbacks = {
+			[1] = {name = "Reagent", filterCallback = GetFilterCallback({ITEMTYPE_REAGENT})},
+			[2] = {name = "Water", filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE})},
+			[3] = {name = "Oil", filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE})},
+		},
+	}
+end
 
 function AdvancedFilters_RegisterFilter(filterInformation)
 	local filterTypeToGroupName = {

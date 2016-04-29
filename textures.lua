@@ -206,4 +206,43 @@ local textures = {
 	},
 }
 
+--ESO 2.4.0
+if INVENTORY_CRAFT_BAG then
+	textures.Blacksmithing = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_over.dds",
+	}
+	textures.Clothier = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_over.dds",
+	}
+	textures.Woodworking = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_over.dds",
+	}
+	textures.Alchemy = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_over.dds",
+	}
+	textures.Enchanting = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_over.dds",
+	}
+	textures.Provisioning = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_over.dds",
+	}
+	textures.Style = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_over.dds",
+	}
+end
+
 AdvancedFilters.textures = textures

@@ -2,12 +2,50 @@ AdvancedFilters = {}
 local AF = AdvancedFilters
 
 AF.subfilterGroups = {
-	[INVENTORY_BACKPACK] = {},
-	[INVENTORY_BANK] = {},
-	[INVENTORY_GUILD_BANK] = {},
-	--[5] = {},
+	[INVENTORY_BACKPACK] = {
+		[ITEMFILTERTYPE_WEAPONS] = {},
+		[ITEMFILTERTYPE_ARMOR] = {},
+		[ITEMFILTERTYPE_CONSUMABLE] = {},
+		[ITEMFILTERTYPE_CRAFTING] = {},
+		[ITEMFILTERTYPE_MISCELLANEOUS] = {},		
+	},
+	[INVENTORY_BANK] = {
+		[ITEMFILTERTYPE_WEAPONS] = {},
+		[ITEMFILTERTYPE_ARMOR] = {},
+		[ITEMFILTERTYPE_CONSUMABLE] = {},
+		[ITEMFILTERTYPE_CRAFTING] = {},
+		[ITEMFILTERTYPE_MISCELLANEOUS] = {},
+	},
+	[INVENTORY_GUILD_BANK] = {
+		[ITEMFILTERTYPE_WEAPONS] = {},
+		[ITEMFILTERTYPE_ARMOR] = {},
+		[ITEMFILTERTYPE_CONSUMABLE] = {},
+		[ITEMFILTERTYPE_CRAFTING] = {},
+		[ITEMFILTERTYPE_MISCELLANEOUS] = {},
+	},
+	[6] = {
+		[ITEMFILTERTYPE_WEAPONS] = {},
+		[ITEMFILTERTYPE_ARMOR] = {},
+		[ITEMFILTERTYPE_CONSUMABLE] = {},
+		[ITEMFILTERTYPE_CRAFTING] = {},
+		[ITEMFILTERTYPE_MISCELLANEOUS] = {},
+	}, --VENDOR_SELL
 }
-AF.lastSubfilterBar = nil
+
+--ESO 2.4.0
+if INVENTORY_CRAFT_BAG then
+	AF.subfilterGroups[INVENTORY_CRAFT_BAG] = {
+		[ITEMFILTERTYPE_BLACKSMITHING] = {},
+		[ITEMFILTERTYPE_CLOTHING] = {},
+		[ITEMFILTERTYPE_WOODWORKING] = {},
+		[ITEMFILTERTYPE_ALCHEMY] = {},
+		[ITEMFILTERTYPE_ENCHANTING] = {},
+		[ITEMFILTERTYPE_PROVISIONING] = {},
+		[ITEMFILTERTYPE_STYLE_MATERIALS] = {},
+		[ITEMFILTERTYPE_TRAIT_ITEMS] = {},
+	}
+end
+
 AF.currentInventoryType = INVENTORY_BACKPACK
 
 local function InitializeHooks()
@@ -31,24 +69,24 @@ local function InitializeHooks()
 		end
 
 		--get new bar
-		subfilterBars = AF.subfilterGroups[AF.currentInventoryType]
-		local subfilterBar = subfilterBars[currentFilter]
+		local subfilterGroup = AF.subfilterGroups[AF.currentInventoryType]
+		local subfilterBar = subfilterGroup[currentFilter]
 
 		--hide and update old bar, if it exists
-		if AF.lastSubfilterBar ~= nil then
-			AF.lastSubfilterBar:SetHidden(true)
+		if subfilterGroup.lastSubfilterBar ~= nil then
+			subfilterGroup.lastSubfilterBar:SetHidden(true)
 		end
 
 		--if new bar exists
 		if subfilterBar then
 			--set old bar reference
-			AF.lastSubfilterBar = subfilterBar
+			subfilterGroup.lastSubfilterBar = subfilterBar
 
 			--set currentFilter since we need it before the original ChangeFilter updates it
-			if AF.currentInventoryType == 5 then
+			if subfilterBar.inventoryType == 6 then
 				STORE_WINDOW.currentFilter = currentFilter
 			else
-				PLAYER_INVENTORY.inventories[AF.currentInventoryType].currentFilter = currentFilter
+				PLAYER_INVENTORY.inventories[subfilterBar.inventoryType].currentFilter = currentFilter
 			end
 
 			--activate current button
@@ -58,7 +96,7 @@ local function InitializeHooks()
 			subfilterBar:SetHidden(false)
 
 			--set proper inventory anchor displacement
-			if AF.currentInventoryType == 5 then
+			if subfilterBar.inventoryType == 6 then
 				UpdateListAnchors(STORE_WINDOW, subfilterBar.control:GetHeight())
 			else
 				UpdateListAnchors(PLAYER_INVENTORY, subfilterBar.control:GetHeight())
@@ -68,7 +106,7 @@ local function InitializeHooks()
 			AF.util.RemoveAllFilters()
 
 			--set original inventory anchor displacement
-			if AF.currentInventoryType == 5 then
+			if AF.currentInventoryType == 6 then
 				UpdateListAnchors(STORE_WINDOW, 0)
 			else
 				UpdateListAnchors(PLAYER_INVENTORY, 0)
@@ -81,10 +119,14 @@ local function InitializeHooks()
 		local function onInventoryShown(control, hidden)
 			AF.currentInventoryType = inventoryType
 
-			if inventoryType == 5 then
-				RefreshSubfilterBar(STORE_WINDOW.currentFilter)
+			if inventoryType == 6 then
+				AF.util.ThrottledUpdate("showVendorSellBar", 10,
+				  RefreshSubfilterBar, STORE_WINDOW.currentFilter)
 			else
-				RefreshSubfilterBar(PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
+				AF.util.ThrottledUpdate(
+				  "showInventory" .. inventoryType .. "Bar", 10,
+				  RefreshSubfilterBar,
+				  PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
 			end
 		end
 
@@ -93,19 +135,33 @@ local function InitializeHooks()
 	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
 	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
 	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
-	--hookInventory(ZO_StoreWindow, 5)
+	--ESO 2.4.0
+	if INVENTORY_CRAFT_BAG then
+		hookInventory(ZO_CraftBag, INVENTORY_CRAFT_BAG)
+	end
+	hookInventory(ZO_StoreWindow, 6)
 
 	--PREHOOKS
 	local function ChangeFilterInventory(self, filterTab)
 		local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
-		RefreshSubfilterBar(currentFilter)
+		
+		if AF.currentInventoryType ~= 6 then
+			AF.util.ThrottledUpdate(
+			  "showInventory" .. AF.currentInventoryType .. "Bar", 10,
+			  RefreshSubfilterBar, currentFilter)
+		end
 	end
 	ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilterInventory)
-	local function ChangeFilterStore(self, filterTab)
+	local function ChangeFilterVendor(self, filterTab)
 		local currentFilter = filterTab.filterType
-		RefreshSubfilterBar(currentFilter)
+		
+		AF.util.ThrottledUpdate("showVendorSellBar", 10, RefreshSubfilterBar,
+		  currentFilter)
+		
+		AF.util.ThrottledUpdate("changeFilterVendor", 10,
+		  AF.util.RefreshSubfilterGroup, 6)
 	end
-	--ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterStore)
+	ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterVendor)
 
 	--POSTHOOKS
 	--create private index
@@ -113,14 +169,15 @@ local function InitializeHooks()
     local index = {}
     --create metatable
     local mt = {
-		__index = function (t,k)
+		__index = function(t, k)
         	--d("*access to element " .. tostring(k))
         	return t[index][k]   -- access the original table
     	end,
-    	__newindex = function (t,k,v)
+    	__newindex = function(t, k, v)
         	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
         	t[index][k] = v   -- update original table
-			AF.util.RefreshSubfilterButtons(AF.lastSubfilterBar)
+			--refresh subfilters for inventory type
+			AF.util.ThrottledUpdate("isDirtyRefresh", 10, AF.util.RefreshSubfilterGroup, k)
     	end,
     }
 	--tracking function. Returns a proxy table with our metatable attached.
@@ -137,20 +194,22 @@ local function InitializeHooks()
 end
 
 local function CreateSubfilterBars()
-	local inventoryTypes = {
-		["PlayerInventory"] = INVENTORY_BACKPACK,
-		["PlayerBank"] = INVENTORY_BANK,
-		["GuildBank"] = INVENTORY_GUILD_BANK,
-		--["StoreWindow"] = 5,
+	local inventoryNames = {
+		[INVENTORY_BACKPACK] = "PlayerInventory",
+		[INVENTORY_BANK] = "PlayerBank",
+		[INVENTORY_GUILD_BANK] = "GuildBank",
+		[6] = "VendorSell",
 	}
-	local filterTypes = {
-		["Weapons"] = ITEMFILTERTYPE_WEAPONS,
-		["Armor"] = ITEMFILTERTYPE_ARMOR,
-		["Consumables"] = ITEMFILTERTYPE_CONSUMABLE,
-		["Crafting"] = ITEMFILTERTYPE_CRAFTING,
-		["Miscellaneous"] = ITEMFILTERTYPE_MISCELLANEOUS,
+	
+	local filterTypeNames = {
+		[ITEMFILTERTYPE_WEAPONS] = "Weapons",
+		[ITEMFILTERTYPE_ARMOR] = "Armor",
+		[ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
+		[ITEMFILTERTYPE_CRAFTING] = "Crafting",
+		[ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
+		
 	}
-	local subfilterGroups = {
+	local subfilterButtonNames = {
 		[ITEMFILTERTYPE_WEAPONS] = {
 			"HealStaff", "DestructionStaff", "Bow", "TwoHand", "OneHand", "All",
 		},
@@ -159,11 +218,11 @@ local function CreateSubfilterBars()
 			"Heavy", "All",
 		},
 		[ITEMFILTERTYPE_CONSUMABLE] = {
-			"Trophy", "Repair", "Container", "Motif", --[["Poison",]] "Potion",
+			"Trophy", "Repair", "Container", "Motif", "Poison", "Potion",
 			"Recipe", "Drink", "Food", "Crown", "All",
 		},
 		[ITEMFILTERTYPE_CRAFTING] = {
-			"ArmorTrait", "WeaponTrait", "Style", "Provisioning", "Enchanting",
+			"WeaponTrait", "ArmorTrait", "Style", "Provisioning", "Enchanting",
 			"Alchemy", "Woodworking", "Clothier", "Blacksmithing", "All",
 		},
 		[ITEMFILTERTYPE_MISCELLANEOUS] = {
@@ -171,17 +230,62 @@ local function CreateSubfilterBars()
 			"Glyphs", "All",
 		},
 	}
-
-	for inventoryName, inventoryType in pairs(inventoryTypes) do
-		for groupName, filterType in pairs(filterTypes) do
-			local subfilterNames = subfilterGroups[filterType]
-
-			AF.subfilterGroups[inventoryType][filterType] = AF.AF_FilterBar:New(inventoryName, groupName, subfilterNames)
+	
+	--ESO 2.4.0
+	if INVENTORY_CRAFT_BAG then
+		inventoryNames[INVENTORY_CRAFT_BAG] = "CraftBag"
+		
+		filterTypeNames[ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing"
+		filterTypeNames[ITEMFILTERTYPE_CLOTHING] = "Clothing"
+		filterTypeNames[ITEMFILTERTYPE_WOODWORKING] = "Woodworking"
+		filterTypeNames[ITEMFILTERTYPE_ALCHEMY] = "Alchemy"
+		filterTypeNames[ITEMFILTERTYPE_ENCHANTING] = "Enchanting"
+		filterTypeNames[ITEMFILTERTYPE_PROVISIONING] = "Provisioning"
+		filterTypeNames[ITEMFILTERTYPE_STYLE_MATERIALS] = "Style"
+		filterTypeNames[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits"
+		
+		subfilterButtonNames[ITEMFILTERTYPE_BLACKSMITHING] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_CLOTHING] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_WOODWORKING] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_ALCHEMY] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_ENCHANTING] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_PROVISIONING] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_STYLE_MATERIALS] = {
+			"All",
+		}
+		subfilterButtonNames[ITEMFILTERTYPE_TRAIT_ITEMS] = {
+			"WeaponTrait", "ArmorTrait", "All",
+		}
+	end
+	
+	for inventoryType, subfilterGroup in pairs(AF.subfilterGroups) do
+		for itemFilterType, _ in pairs(subfilterGroup) do
+			local subfilterBar = AF.AF_FilterBar:New(
+			  inventoryNames[inventoryType],
+			  filterTypeNames[itemFilterType],
+			  subfilterButtonNames[itemFilterType]
+			)
+			
+			subfilterBar:SetInventoryType(inventoryType)
+			
+			AF.subfilterGroups[inventoryType][itemFilterType] = subfilterBar
 		end
 	end
 end
 
-local function AdvancedFilters_Loaded(eventCode, addonName)
+function AdvancedFilters_Loaded(eventCode, addonName)
 	if addonName ~= "AdvancedFilters" then return end
 	EVENT_MANAGER:UnregisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED)
 
@@ -206,6 +310,16 @@ local function AdvancedFilters_Loaded(eventCode, addonName)
 	guildBankSearch:SetAnchor(BOTTOMLEFT, ZO_GuildBankMenuDivider, TOPLEFT, 0, -11)
 	guildBankSearch:SetHidden(false)
 	guildBankSearch:SetWidth(bagSearch:GetWidth())
+	
+	--ESO 2.4.0
+	if INVENTORY_CRAFT_BAG then
+		local craftBagSearch = ZO_CraftBagSearchBox
+		
+		craftBagSearch:ClearAnchors()
+		craftBagSearch:SetAnchor(RIGHT, ZO_PlayerInventoryMenuBarLabel, LEFT, -5)
+		craftBagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventoryMenuDivider, TOPLEFT, 0, -11)
+		craftBagSearch:SetHidden(false)
+	end
 
 	CreateSubfilterBars()
 

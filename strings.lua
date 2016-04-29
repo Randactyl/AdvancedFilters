@@ -5,7 +5,7 @@ local function AF_Localize(text)
 		text = GetString(text)
 	end
 	-- clean up suffixes such as ^F or ^S
-	return zo_strformat(SI_TOOLTIP_ITEM_NAME, text)
+	return zo_strformat(SI_TOOLTIP_ITEM_NAME, text) or " "
 end
 
 local strings = {
@@ -441,3 +441,11 @@ setmetatable(strings["fr"], {__index = strings["en"]})
 setmetatable(strings["ru"], {__index = strings["en"]})
 
 AdvancedFilters.strings = strings[AdvancedFilters.util.GetLanguage()]
+
+--ESO 2.4.0
+if INVENTORY_CRAFT_BAG then
+	AdvancedFilters.strings.Water = AF_Localize(SI_ITEMTYPE33)
+	AdvancedFilters.strings.Oil = AF_Localize(SI_ITEMTYPE58)
+	
+	AdvancedFilters.strings.Solvent = nil
+end

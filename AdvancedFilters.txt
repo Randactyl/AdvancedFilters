@@ -1,10 +1,12 @@
 ## Title: Advanced Filters
 ## Author: Randactyl
-## Version: 1.0.2.0
-## APIVersion: 100014
+## Version: 1.1.0.0-3
+## APIVersion: 100014 100015
 
 lib\LibStub\LibStub.lua
-lib\libFilters\libFilters.lua
+
+lib\libFilters-2.0\libFilters-2.0.lua
+lib\libFilters-2.0\storeNormaliztion.lua
 lib\libCommonInventoryFilters\libCommonInventoryFilters.lua
 lib\LibCustomMenu\LibCustomMenu.lua
 
@@ -17,4 +19,5 @@ AF_FilterBar.lua
 data.lua
 
 extrafilters\LevelFilters.lua
+extrafilters\LevelFilters_Vet.lua
 extrafilters\ProvisioningIngredientTypeFilters.lua

@@ -1,4 +1,3 @@
-local cpIcon = zo_iconFormat("/esoui/art/menubar/gamepad/gp_playermenu_icon_champion.dds", 18, 18)
 --[[----------------------------------------------------------------------------
     The anonymous function returned by this function handles the actual
 		filtering.
@@ -14,12 +13,11 @@ local function GetFilterCallbackForLevel(minLevel, maxLevel)
 	return function(slot)
 		local link = GetItemLink(slot.bagId, slot.slotIndex)
 		local level = GetItemLinkRequiredLevel(link)
-		local cp = GetItemLinkRequiredChampionPoints(link)
+		local vetLevel = GetItemLinkRequiredVeteranRank(link)
 
-		if cp > 0 then
-			level = level + cp
+		if vetLevel > 0 then
+			level = level + vetLevel
 		end
-		
 		return false or ((level >= minLevel) and (level <= maxLevel))
 	end
 end
@@ -35,14 +33,14 @@ local fullLevelDropdownCallbacks = {
 	[3] = {name = "21-30", filterCallback = GetFilterCallbackForLevel(21, 30)},
 	[4] = {name = "31-40", filterCallback = GetFilterCallbackForLevel(31, 40)},
 	[5] = {name = "41-50", filterCallback = GetFilterCallbackForLevel(41, 50)},
-	[6] = {name = "cp10-20", filterCallback = GetFilterCallbackForLevel(60, 70)},
-	[7] = {name = "cp30-40", filterCallback = GetFilterCallbackForLevel(80, 90)},
-	[8] = {name = "cp50-60", filterCallback = GetFilterCallbackForLevel(100, 110)},
-	[9] = {name = "cp70-80", filterCallback = GetFilterCallbackForLevel(120, 130)},
-	[10] = {name = "cp90-100", filterCallback = GetFilterCallbackForLevel(140, 150)},
-	[11] = {name = "cp110-120", filterCallback = GetFilterCallbackForLevel(160, 170)},
-	[12] = {name = "cp130-140", filterCallback = GetFilterCallbackForLevel(180, 190)},
-	[13] = {name = "cp150-160", filterCallback = GetFilterCallbackForLevel(200, 210)},
+	[6] = {name = "V1-V2", filterCallback = GetFilterCallbackForLevel(51, 52)},
+	[7] = {name = "V3-V4", filterCallback = GetFilterCallbackForLevel(53, 54)},
+	[8] = {name = "V5-V6", filterCallback = GetFilterCallbackForLevel(55, 56)},
+	[9] = {name = "V7-V8", filterCallback = GetFilterCallbackForLevel(57, 58)},
+	[10] = {name = "V9-V10", filterCallback = GetFilterCallbackForLevel(59, 60)},
+	[11] = {name = "V11-V12", filterCallback = GetFilterCallbackForLevel(61, 62)},
+	[12] = {name = "V13-V14", filterCallback = GetFilterCallbackForLevel(63, 64)},
+	[13] = {name = "V15-V16", filterCallback = GetFilterCallbackForLevel(65, 66)},
 }
 
 --[[----------------------------------------------------------------------------
@@ -59,14 +57,14 @@ local strings = {
 	["21-30"] = "21-30",
 	["31-40"] = "31-40",
 	["41-50"] = "41-50",
-	["cp10-20"] = cpIcon .. "10-20",
-	["cp30-40"] = cpIcon .. "30-40",
-	["cp50-60"] = cpIcon .. "50-60",
-	["cp70-80"] = cpIcon .. "70-80",
-	["cp90-100"] = cpIcon .. "90-100",
-	["cp110-120"] = cpIcon .. "110-120",
-	["cp130-140"] = cpIcon .. "130-140",
-	["cp150-160"] = cpIcon .. "150-160",
+	["V1-V2"] = "V1-V2",
+	["V3-V4"] = "V3-V4",
+	["V5-V6"] = "V5-V6",
+	["V7-V8"] = "V7-V8",
+	["V9-V10"] = "V9-V10",
+	["V11-V12"] = "V11-V12",
+	["V13-V14"] = "V13-V14",
+	["V15-V16"] = "V15-V16",
 }
 
 --[[----------------------------------------------------------------------------
@@ -103,7 +101,7 @@ local filterInformation = {
 --[[----------------------------------------------------------------------------
     Register your filters by passing your filter information to this function.
 --]]----------------------------------------------------------------------------
-if INVENTORY_CRAFT_BAG then
+if INVENTORY_CRAFT_BAG == nil then
 	AdvancedFilters_RegisterFilter(filterInformation)
 end
 
@@ -126,7 +124,7 @@ filterInformation = {
 	Again, register your filters by passing your new filter information to this
 		function.
 --]]----------------------------------------------------------------------------
-if INVENTORY_CRAFT_BAG then
+if INVENTORY_CRAFT_BAG == nil then
 	AdvancedFilters_RegisterFilter(filterInformation)
 end
 
@@ -142,6 +140,6 @@ filterInformation.subfilters = {
 	[4] = "Poison",
 }
 
-if INVENTORY_CRAFT_BAG then
+if INVENTORY_CRAFT_BAG == nil then
 	AdvancedFilters_RegisterFilter(filterInformation)
 end

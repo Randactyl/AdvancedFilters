@@ -1,86 +1,130 @@
-local MAJOR, MINOR = "libFilters", 16.1
+local MAJOR, MINOR = "libFilters-2.0", 1
 local libFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not libFilters then return end	--the same or newer version of this lib is already loaded into memory
 --thanks to Seerah for the previous lines and library
 
 --some constants for your filters
-LAF_BAGS = 1
-LAF_BANK = 2
-LAF_GUILDBANK = 3
-LAF_STORE = 4
-LAF_DECONSTRUCTION = 5
-LAF_GUILDSTORE = 6
-LAF_MAIL = 7
-LAF_TRADE = 8
-LAF_ENCHANTING_CREATION = 11
-LAF_ENCHANTING_EXTRACTION = 12
-LAF_IMPROVEMENT = 13
-LAF_FENCE = 14
-LAF_LAUNDER = 15
-LAF_ALCHEMY = 16
+LF_INVENTORY             = 1 --done
+LF_BANK_WITHDRAW         = 2 --done
+LF_BANK_DEPOSIT          = 3 --done
+LF_GUILDBANK_WITHDRAW    = 4 --done
+LF_GUILDBANK_DEPOSIT     = 5 --done
+LF_VENDOR_BUY            = 6 --done
+LF_VENDOR_SELL           = 7 --done
+LF_VENDOR_BUYBACK        = 8
+LF_VENDOR_REPAIR         = 9
+LF_GUILDSTORE_BROWSE     = 10
+LF_GUILDSTORE_SELL       = 11 --done
+LF_MAIL_SEND             = 12 --done
+LF_TRADE                 = 13
+LF_SMITHING_REFINE       = 14
+LF_SMITHING_CREATION     = 15
+LF_SMITHING_DECONSTRUCT  = 16
+LF_SMITHING_IMPROVEMENT  = 17
+LF_SMITHING_RESEARCH     = 18
+LF_ALCHEMY_CREATION      = 19
+LF_ENCHANTING_CREATION   = 20
+LF_ENCHANTING_EXTRACTION = 21
+LF_PROVISIONING_COOK     = 22
+LF_PROVISIONING_BREW     = 23
+LF_FENCE_SELL            = 24 --done
+LF_FENCE_LAUNDER         = 25 --done
+LF_CRAFTBAG				 = 26 --done
 
 libFilters.filters = {
-	[LAF_BAGS] = {},
-	[LAF_BANK] = {},
-	[LAF_GUILDBANK] = {},
-	[LAF_STORE] = {},
-	[LAF_DECONSTRUCTION] = {},
-	[LAF_GUILDSTORE] = {},
-	[LAF_MAIL] = {},
-	[LAF_TRADE] = {},
-	[LAF_ENCHANTING_CREATION] = {},
-	[LAF_ENCHANTING_EXTRACTION] = {},
-	[LAF_IMPROVEMENT] = {},
-	[LAF_FENCE] = {},
-	[LAF_LAUNDER] = {},
-	[LAF_ALCHEMY] = {},
+	[LF_INVENTORY] = {},
+	[LF_BANK_WITHDRAW] = {},
+	[LF_BANK_DEPOSIT] = {},
+	[LF_GUILDBANK_WITHDRAW] = {},
+	[LF_GUILDBANK_DEPOSIT] = {},
+	[LF_VENDOR_BUY] = {},
+	[LF_VENDOR_SELL] = {},
+	[LF_VENDOR_BUYBACK] = {},
+	[LF_VENDOR_REPAIR] = {},
+	[LF_GUILDSTORE_BROWSE] = {},
+	[LF_GUILDSTORE_SELL] = {},
+	[LF_MAIL_SEND] = {},
+	[LF_TRADE] = {},
+	[LF_SMITHING_REFINE] = {},
+	[LF_SMITHING_CREATION] = {},
+	[LF_SMITHING_DECONSTRUCT] = {},
+	[LF_SMITHING_IMPROVEMENT] = {},
+	[LF_SMITHING_RESEARCH] = {},
+	[LF_ALCHEMY_CREATION] = {},
+	[LF_ENCHANTING_CREATION] = {},
+	[LF_ENCHANTING_EXTRACTION] = {},
+	[LF_PROVISIONING_COOK] = {},
+	[LF_PROVISIONING_BREW] = {},
+	[LF_FENCE_SELL] = {},
+	[LF_FENCE_LAUNDER] = {},
+	[LF_CRAFTBAG] = {},
 }
 local filters = libFilters.filters
 
 local enchantingModeToFilterType = {
-	[ENCHANTING_MODE_CREATION] = LAF_ENCHANTING_CREATION,
-	[ENCHANTING_MODE_EXTRACTION] = LAF_ENCHANTING_EXTRACTION,
+	[ENCHANTING_MODE_CREATION] = LF_ENCHANTING_CREATION,
+	[ENCHANTING_MODE_EXTRACTION] = LF_ENCHANTING_EXTRACTION,
 }
 
 local filterTypeToUpdaterName = {
-	[LAF_BAGS] = "BACKPACK",
-	[LAF_BANK] = "BANK",
-	[LAF_GUILDBANK] = "GUILD_BANK",
-	[LAF_STORE] = "BACKPACK",
-	[LAF_DECONSTRUCTION] = "DECONSTRUCTION",
-	[LAF_GUILDSTORE] = "BACKPACK",
-	[LAF_MAIL] = "BACKPACK",
-	[LAF_TRADE] = "BACKPACK",
-	[LAF_ENCHANTING_CREATION] = "ENCHANTING",
-	[LAF_ENCHANTING_EXTRACTION] = "ENCHANTING",
-	[LAF_IMPROVEMENT] = "IMPROVEMENT",
-	[LAF_FENCE] = "BACKPACK",
-	[LAF_LAUNDER] = "BACKPACK",
-	[LAF_ALCHEMY] = "ALCHEMY",
+	[LF_INVENTORY] = "INVENTORY", --done
+	[LF_BANK_WITHDRAW] = "BANK_WITHDRAW", --done
+	[LF_BANK_DEPOSIT] = "INVENTORY", --done
+	[LF_GUILDBANK_WITHDRAW] = "GUILDBANK_WITHDRAW", --done
+	[LF_GUILDBANK_DEPOSIT] = "INVENTORY", --done
+	[LF_VENDOR_BUY] = "VENDOR_BUY", --done
+	[LF_VENDOR_SELL] = "INVENTORY", --done
+	[LF_VENDOR_BUYBACK] = "VENDOR_BUYBACK",
+	[LF_VENDOR_REPAIR] = "VENDOR_REPAIR",
+	[LF_GUILDSTORE_BROWSE] = "GUILDSTORE_BROWSE",
+	[LF_GUILDSTORE_SELL] = "INVENTORY", --done
+	[LF_MAIL_SEND] = "INVENTORY", --done
+	[LF_TRADE] = "INVENTORY", --done
+	[LF_SMITHING_REFINE] = "SMITHING_REFINE",
+	[LF_SMITHING_CREATION] = "SMITHING_CREATION",
+	[LF_SMITHING_DECONSTRUCT] = "SMITHING_DECONSTRUCT", --done
+	[LF_SMITHING_IMPROVEMENT] = "SMITHING_IMPROVEMENT", --done
+	[LF_SMITHING_RESEARCH] = "SMITHING_RESEARCH",
+	[LF_ALCHEMY_CREATION] = "ALCHEMY_CREATION", --done
+	[LF_ENCHANTING_CREATION] = "ENCHANTING", --done
+	[LF_ENCHANTING_EXTRACTION] = "ENCHANTING", --done
+	[LF_PROVISIONING_COOK] = "PROVISIONING_COOK",
+	[LF_PROVISIONING_BREW] = "PROVISIONING_BREW",
+	[LF_FENCE_SELL] = "INVENTORY", --done
+	[LF_FENCE_LAUNDER] = "INVENTORY", --done
+	[LF_CRAFTBAG] = "CRAFTBAG", --done
 }
 
 local inventoryUpdaters = {
-	BACKPACK = function()
+	INVENTORY = function()
 		PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
 	end,
-	BANK = function()
+	BANK_WITHDRAW = function()
 		PLAYER_INVENTORY:UpdateList(INVENTORY_BANK)
 	end,
-	GUILD_BANK = function()
+	GUILDBANK_WITHDRAW = function()
 		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
 	end,
-	DECONSTRUCTION = function()
+	VENDOR_BUY = function()
+		STORE_WINDOW:UpdateList()
+	end,
+	SMITHING_DECONSTRUCT = function()
 		SMITHING.deconstructionPanel.inventory:HandleDirtyEvent()
 	end,
-	IMPROVEMENT = function()
+	SMITHING_IMPROVEMENT = function()
 		SMITHING.improvementPanel.inventory:HandleDirtyEvent()
+	end,
+	ALCHEMY_CREATION = function()
+		ALCHEMY.inventory:HandleDirtyEvent()
 	end,
 	ENCHANTING = function()
 		ENCHANTING.inventory:HandleDirtyEvent()
 	end,
-	ALCHEMY = function()
-		ALCHEMY.inventory:HandleDirtyEvent()
-	end,
+	CRAFTBAG = function()
+		if INVENTORY_CRAFT_BAG then
+			PLAYER_INVENTORY:UpdateList(INVENTORY_CRAFT_BAG)
+		end
+	end
 }
 
 local function df(...)
@@ -99,13 +143,13 @@ end
 --LAF_DECONSTRUCTION
 --since this is a PreHook using ZO_PreHook, a return of true means don't add
 local function DeconstructionFilter(self, bagId, slotIndex, ...)
-	return not runFilters(LAF_DECONSTRUCTION, bagId, slotIndex)
+	return not runFilters(LF_SMITHING_DECONSTRUCT, bagId, slotIndex)
 end
 
 --LAF_IMPROVEMENT
 --since this is a PreHook using ZO_PreHook, a return of true means don't add
 local function ImprovementFilter(self, bagId, slotIndex, ...)
-	return not runFilters(LAF_IMPROVEMENT, bagId, slotIndex)
+	return not runFilters(LF_SMITHING_IMPROVEMENT, bagId, slotIndex)
 end
 
 --LAF_ENCHANTING
@@ -118,7 +162,7 @@ end
 --LAF_ALCHEMY
 --since this is a PreHook using ZO_PreHook, a return of true means don't add
 local function AlchemyFilter(self, bagId, slotIndex, ...)
-	return not runFilters(LAF_ALCHEMY, bagId, slotIndex)
+	return not runFilters(LF_ALCHEMY_CREATION, bagId, slotIndex)
 end
 
 -- _inventory_ should be one of:
@@ -177,8 +221,8 @@ function libFilters:RegisterFilter(filterTag, filterType, filterCallback)
 		return
 	end
 
-	--d("registered "..filterTag)
 	callbacks[filterTag] = filterCallback
+	--d("registered "..filterTag)
 end
 
 function libFilters:UnregisterFilter(filterTag, filterType)
@@ -211,15 +255,17 @@ function libFilters:IsFilterRegistered(filterTag, filterType)
 				return true
 			end
 		end
+		
 		return false
 	else
 		-- check only the specified filter type
 		local callbacks = filters[filterType]
+		
 		return callbacks[filterTag] ~= nil
 	end
 end
 
-function libFilters:GetCurrentLAF(inventoryType)
+function libFilters:GetCurrentFilterType(inventoryType)
 	local inventory = PLAYER_INVENTORY.inventories[inventoryType]
 	local layoutData = PLAYER_INVENTORY.appliedLayout
 
@@ -232,9 +278,9 @@ function libFilters:GetCurrentLAF(inventoryType)
 	return inventory.libFilters_filterType
 end
 
-function libFilters:InventoryTypeToLAF(inventoryType)
+function libFilters:InventoryTypeToFilterType(inventoryType)
 	if(inventoryType == INVENTORY_BACKPACK) then
-		return LAF_BAGS
+		return LF_INVENTORY
 	elseif(inventoryType == INVENTORY_BANK) then
 		return LAF_BANK
 	elseif(inventoryType == INVENTORY_GUILD_BANK) then
@@ -244,9 +290,9 @@ function libFilters:InventoryTypeToLAF(inventoryType)
 	return 0
 end
 
-function libFilters:BagIdToLAF(bagId)
+function libFilters:BagIdToFilterType(bagId)
 	if(bagId == BAG_BACKPACK) then
-		return LAF_BAGS
+		return LF_INVENTORY
 	elseif(bagId == BAG_BANK) then
 		return LAF_BANK
 	elseif(bagId == BAG_GUILDBANK) then
@@ -260,26 +306,49 @@ function libFilters:InitializeLibFilters()
 	if self.IS_INITIALIZED then return end
 	self.IS_INITIALIZED = true
 
-	-- PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK].additionalFilter
-	-- is reset every time a different backpack layout fragment is shown,
-	-- therefore it needs to be hooked in each fragment's layout data
-	self:HookAdditionalFilter(LAF_BAGS, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
-	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_BANK_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_BAGS, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_STORE, BACKPACK_STORE_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_GUILDSTORE, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_MAIL, BACKPACK_MAIL_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_FENCE, BACKPACK_FENCE_LAYOUT_FRAGMENT)
-	self:HookAdditionalFilter(LAF_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
-
-	-- other inventories seem to never reset additionalFilter
-	self:HookAdditionalFilter(LAF_BANK, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
-	self:HookAdditionalFilter(LAF_GUILDBANK, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
-
+	self:HookAdditionalFilter(LF_INVENTORY, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
+	self:HookAdditionalFilter(LF_INVENTORY, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
+	
+	self:HookAdditionalFilter(LF_BANK_WITHDRAW, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
+	self:HookAdditionalFilter(LF_BANK_DEPOSIT, BACKPACK_BANK_LAYOUT_FRAGMENT)
+	
+	self:HookAdditionalFilter(LF_GUILDBANK_WITHDRAW, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
+	self:HookAdditionalFilter(LF_GUILDBANK_DEPOSIT, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
+	
+	self:HookAdditionalFilter(LF_VENDOR_BUY, STORE_WINDOW)
+	self:HookAdditionalFilter(LF_VENDOR_SELL, BACKPACK_STORE_LAYOUT_FRAGMENT)
+	--self:HookAdditionalFilter(LF_VENDOR_BUYBACK, )
+	--self:HookAdditionalFilter(LF_VENDOR_REPAIR, )
+	
+	--self:HookAdditionalFilter(LF_GUILDSTORE_BROWSE, )
+	self:HookAdditionalFilter(LF_GUILDSTORE_SELL, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
+	
+	self:HookAdditionalFilter(LF_MAIL_SEND, BACKPACK_MAIL_LAYOUT_FRAGMENT)
+	
+	self:HookAdditionalFilter(LF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
+	
+	--self:HookAdditionalFilter(LF_SMITHING_REFINE, )
+	--self:HookAdditionalFilter(LF_SMITHING_CREATION, )
+	--self:HookAdditionalFilter(LF_SMITHING_DECONSTRUCT, )
 	ZO_PreHook(SMITHING.deconstructionPanel.inventory, "AddItemData", DeconstructionFilter)
+	--self:HookAdditionalFilter(LF_SMITHING_IMPROVEMENT, )
 	ZO_PreHook(SMITHING.improvementPanel.inventory, "AddItemData", ImprovementFilter)
-	ZO_PreHook(ENCHANTING.inventory, "AddItemData", EnchantingFilter)
+	--self:HookAdditionalFilter(LF_SMITHING_RESEARCH, )
+	
+	--self:HookAdditionalFilter(LF_ALCHEMY_CREATION, )
 	ZO_PreHook(ALCHEMY.inventory, "AddItemData", AlchemyFilter)
+	
+	--self:HookAdditionalFilter(LF_ENCHANTING_CREATION, )
+	--self:HookAdditionalFilter(LF_ENCHANTING_EXTRACTION, )
+	ZO_PreHook(ENCHANTING.inventory, "AddItemData", EnchantingFilter)
+	
+	--self:HookAdditionalFilter(LF_PROVISIONING_COOK, )
+	--self:HookAdditionalFilter(LF_PROVISIONING_BREW, )
+	
+	self:HookAdditionalFilter(LF_FENCE_SELL, BACKPACK_FENCE_LAYOUT_FRAGMENT)
+	self:HookAdditionalFilter(LF_FENCE_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
+	
+	if INVENTORY_CRAFT_BAG then
+		self:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
+	end
 end

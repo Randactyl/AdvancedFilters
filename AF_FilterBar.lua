@@ -17,7 +17,8 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 		["PlayerInventory"] = ZO_PlayerInventory,
 		["PlayerBank"] = ZO_PlayerBank,
 		["GuildBank"] = ZO_GuildBank,
-		["StoreWindow"] = ZO_StoreWindow,
+		["VendorSell"] = ZO_StoreWindow,
+		["CraftBag"] = ZO_CraftBag,
 	}
 	local parent = parents[inventoryName]
 
@@ -34,7 +35,7 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 	self.divider = self.control:GetNamedChild("Divider")
 
 	self.subfilterButtons = {}
-	self.activeButtonByInventory = {}
+	self.activeButton = nil
 
 	self.dropdown = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name .. "DropdownFilter", self.control, "ZO_ComboBox")
 	self.dropdown:SetAnchor(RIGHT, self.control, RIGHT)
@@ -59,8 +60,8 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 						local button = self:GetCurrentButton()
 						button.previousDropdownSelection = comboBox.m_sortedItems[1]
 
-						local currentLAF = AF.util.libFilters:GetCurrentLAF(AF.currentInventoryType) or LAF_STORE
-						AF.util.libFilters:RequestInventoryUpdate(currentLAF)
+						local filterType = AF.util.libFilters:GetCurrentFilterType(self.inventoryType) or LF_VENDOR_BUY
+						AF.util.libFilters:RequestInventoryUpdate(filterType)
 
 						PlaySound(SOUNDS.MENU_BAR_CLICK)
 					end,
@@ -70,14 +71,14 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 					callback = function()
 						local button = self:GetCurrentButton()
 
-						local currentLAF = AF.util.libFilters:GetCurrentLAF(AF.currentInventoryType) or LAF_STORE
-						local originalCallback = AF.util.libFilters.filters[currentLAF].AF_DropdownFilter
+						local filterType = AF.util.libFilters:GetCurrentFilterType(self.inventoryType) or LF_VENDOR_BUY
+						local originalCallback = AF.util.libFilters.filters[filterType].AF_DropdownFilter
 
-						AF.util.libFilters.filters[currentLAF].AF_DropdownFilter = function(slot)
+						AF.util.libFilters.filters[filterType].AF_DropdownFilter = function(slot)
 							return not originalCallback(slot)
 						end
 
-						AF.util.libFilters:RequestInventoryUpdate(currentLAF)
+						AF.util.libFilters:RequestInventoryUpdate(filterType)
 
 						PlaySound(SOUNDS.MENU_BAR_CLICK)
 					end,
@@ -197,10 +198,7 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
 	button.pressed = icon.pressed
 	button.dropdownCallbacks = dropdownCallbacks
 
-	self.activeButtonByInventory[INVENTORY_BACKPACK] = button
-	self.activeButtonByInventory[INVENTORY_BANK] = button
-	self.activeButtonByInventory[INVENTORY_GUILD_BANK] = button
-	self.activeButtonByInventory[5] = button
+	self.activeButton = button
 
 	table.insert(self.subfilterButtons, button)
 end
@@ -230,7 +228,7 @@ function AF_FilterBar:ActivateButton(newButton)
 	local name = newButton.name
 	self.label:SetText(AF.strings[name])
 
-    local oldButton = self.activeButtonByInventory[AF.currentInventoryType]
+    local oldButton = self.activeButton
 
     --hide old pressed texture
 	oldButton:GetNamedChild("Texture"):SetTexture(oldButton.normal)
@@ -244,7 +242,7 @@ function AF_FilterBar:ActivateButton(newButton)
 	AF.util.ApplyFilter(newButton, "AF_ButtonFilter", true)
 
 	--set new active button reference
-	self.activeButtonByInventory[AF.currentInventoryType] = newButton
+	self.activeButton = newButton
 
 	--clear old dropdown data
 	self.dropdown.m_comboBox.m_sortedItems = {}
@@ -260,9 +258,13 @@ function AF_FilterBar:ActivateButton(newButton)
 end
 
 function AF_FilterBar:GetCurrentButton()
-	return self.activeButtonByInventory[AF.currentInventoryType]
+	return self.activeButton
 end
 
 function AF_FilterBar:SetHidden(shouldHide)
 	self.control:SetHidden(shouldHide)
+end
+
+function AF_FilterBar:SetInventoryType(inventoryType)
+	self.inventoryType = inventoryType
 end
