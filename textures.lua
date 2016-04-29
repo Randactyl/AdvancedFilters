@@ -39,6 +39,21 @@ local textures = {
 
 	--ARMOR
 	Heavy = {
+		normal = "/esoui/art/icons/progression_tabicon_armorheavy_up.dds",
+		pressed = "/esoui/art/icons/progression_tabicon_armorheavy_down.dds",
+		mouseOver = "/esoui/art/icons/progression_tabicon_armorheavy_over.dds",
+	},
+	Medium = {
+		normal = "/esoui/art/icons/progression_tabicon_armormedium_up.dds",
+		pressed = "/esoui/art/icons/progression_tabicon_armormedium_down.dds",
+		mouseOver = "/esoui/art/icons/progression_tabicon_armormedium_over.dds",
+	},
+	Light = {
+		normal = "/esoui/art/icons/progression_tabicon_armorlight_up.dds",
+		pressed = "/esoui/art/icons/progression_tabicon_armorlight_down.dds",
+		mouseOver = "/esoui/art/icons/progression_tabicon_armorlight_over.dds",
+	},
+	--[[Heavy = {
 		normal = "/esoui/art/inventory/inventory_tabicon_armor_up.dds",
 		pressed = "/esoui/art/inventory/inventory_tabicon_armor_down.dds",
 		mouseOver = "/esoui/art/inventory/inventory_tabicon_armor_over.dds",
@@ -52,7 +67,7 @@ local textures = {
 		normal = "AdvancedFilters/assets/apparel/light_up.dds",
 		pressed = "AdvancedFilters/assets/apparel/light_down.dds",
 		mouseOver = "AdvancedFilters/assets/apparel/light_over.dds",
-	},
+	},]]
 	Clothing = {
 		normal = "AdvancedFilters/assets/materials/style/style_up.dds",
 		pressed = "AdvancedFilters/assets/materials/style/style_down.dds",
@@ -207,6 +222,7 @@ local textures = {
 }
 
 --ESO 2.4.0
+--reorganize assets folder when 2.4 moves to live
 if INVENTORY_CRAFT_BAG then
 	textures.Blacksmithing = {
 		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_up.dds",
@@ -243,6 +259,88 @@ if INVENTORY_CRAFT_BAG then
 		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_down.dds",
 		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_over.dds",
 	}
+
+	--CRAFT BAG
+	--BLACKSMITHING
+	textures.RawMaterial = {
+		normal = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_up.dds",
+		pressed = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_down.dds",
+		mouseOver = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_over.dds",
+	}
+	textures.RefinedMaterial = {
+		normal = "AdvancedFilters/assets/craftbag/smithing/material_up.dds",
+		pressed = "AdvancedFilters/assets/craftbag/smithing/material_down.dds",
+		mouseOver = "AdvancedFilters/assets/craftbag/smithing/material_over.dds",
+	}
+	textures.Temper = {
+		normal = "EsoUI/Art/WorldMap/map_ava_tabIcon_resourceProduction_up.dds",
+		pressed = "EsoUI/Art/WorldMap/map_ava_tabIcon_resourceProduction_down.dds",
+		mouseOver = "EsoUI/Art/WorldMap/map_ava_tabIcon_resourceProduction_over.dds",
+	}
+	
+	--CLOTHING
+	textures.Resin = textures.Temper
+	
+	--WOODWORKING
+	textures.Tannin = textures.Temper
+
+	--ALCHEMY
+	textures.Reagent = {
+		normal = "AdvancedFilters/assets/materials/alchemy/alchemy_up.dds",
+		pressed = "AdvancedFilters/assets/materials/alchemy/alchemy_down.dds",
+		mouseOver = "AdvancedFilters/assets/materials/alchemy/alchemy_over.dds",
+	}
+	textures.Water = textures.Potion
+	textures.Oil = textures.Poison
+
+	--ENCHANTING
+	textures.Aspect = {
+		normal = "EsoUI/Art/Crafting/enchantment_tabIcon_aspect_up.dds",
+		pressed = "EsoUI/Art/Crafting/enchantment_tabIcon_aspect_down.dds",
+		mouseOver = "EsoUI/Art/Crafting/enchantment_tabIcon_aspect_over.dds",
+	}
+	textures.Essence = {
+		normal = "EsoUI/Art/Crafting/enchantment_tabIcon_essence_up.dds",
+		pressed = "EsoUI/Art/Crafting/enchantment_tabIcon_essence_down.dds",
+		mouseOver = "EsoUI/Art/Crafting/enchantment_tabIcon_essence_over.dds",
+	}
+	textures.Potency = {
+		normal = "EsoUI/Art/Crafting/enchantment_tabIcon_potency_up.dds",
+		pressed = "EsoUI/Art/Crafting/enchantment_tabIcon_potency_down.dds",
+		mouseOver = "EsoUI/Art/Crafting/enchantment_tabIcon_potency_over.dds",
+	}
+
+	--PROVISIONING
+	textures.FoodIngredient = textures.Food
+	textures.DrinkIngredient = textures.Drink
+	textures.OldIngredient = {
+		normal = "/esoui/art/worldmap/map_ava_tabicon_foodfarm_up.dds",
+		pressed = "/esoui/art/worldmap/map_ava_tabicon_foodfarm_down.dds",
+		mouseOver = "/esoui/art/worldmap/map_ava_tabicon_foodfarm_over.dds",
+	}
+
+	--STYLE
+	textures.NormalStyle = {
+		normal = "/esoui/art/progression/progression_indexicon_race_up.dds",
+		pressed = "/esoui/art/progression/progression_indexicon_race_down.dds",
+		mouseOver = "/esoui/art/progression/progression_indexicon_race_over.dds",
+	}
+	textures.RareStyle = {
+		normal = "/esoui/art/progression/progression_indexicon_world_up.dds",
+		pressed = "/esoui/art/progression/progression_indexicon_world_down.dds",
+		mouseOver = "/esoui/art/progression/progression_indexicon_world_over.dds",
+	}
+	textures.AllianceStyle = {
+		normal = "AdvancedFilters/assets/craftbag/style/ouroboros_up.dds",
+		pressed = "AdvancedFilters/assets/craftbag/style/ouroboros_down.dds",
+		mouseOver = "AdvancedFilters/assets/craftbag/style/ouroboros_over.dds",
+	}
+	textures.ExoticStyle = {
+		normal = "/esoui/art/icons/progression_tabicon_magma_up.dds",
+		pressed = "/esoui/art/icons/progression_tabicon_magma_down.dds",
+		mouseOver = "/esoui/art/icons/progression_tabicon_magma_over.dds",
+	}
+	textures.CrownStyle = textures.Crown
 end
 
 AdvancedFilters.textures = textures
