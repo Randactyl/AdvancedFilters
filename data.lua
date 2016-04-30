@@ -465,7 +465,14 @@ AF.subfilterCallbacks = {
 		},
 		["Style"] = {
 			filterCallback = GetFilterCallback({ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
-			dropdownCallbacks = {},
+			dropdownCallbacks = {
+				[1] = {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_RAW_MATERIAL})},
+				[2] = {name = "NormalStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_NORMAL)},
+				[3] = {name = "RareStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_RARE)},
+				[4] = {name = "AllianceStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_ALLIANCE)},
+				[5] = {name = "ExoticStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_EXOTIC)},
+				[6] = {name = "CrownStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_CROWN)},
+			},
 		},
 		["WeaponTrait"] = {
 			filterCallback = GetFilterCallback({ITEMTYPE_WEAPON_TRAIT}),
