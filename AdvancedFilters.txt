@@ -21,3 +21,4 @@ data.lua
 
 extrafilters\LevelFilters.lua
 extrafilters\LevelFilters_Vet.lua
+extrafilters\NewStyleItems.lua
