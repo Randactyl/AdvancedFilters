@@ -709,6 +709,18 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 		[ITEMFILTERTYPE_CRAFTING] = "Crafting",
 		[ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
 	}
+	
+	--ESO 2.4.0
+	if INVENTORY_CRAFT_BAG then
+		filterTypeToGroupName[ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing"
+		filterTypeToGroupName[ITEMFILTERTYPE_CLOTHING] = "Clothing"
+		filterTypeToGroupName[ITEMFILTERTYPE_WOODWORKING] = "Woodworking"
+		filterTypeToGroupName[ITEMFILTERTYPE_ALCHEMY] = "Alchemy"
+		filterTypeToGroupName[ITEMFILTERTYPE_ENCHANTING] = "Enchanting"
+		filterTypeToGroupName[ITEMFILTERTYPE_PROVISIONING] = "Provisioning"
+		filterTypeToGroupName[ITEMFILTERTYPE_STYLE_MATERIALS] = "Style"
+		filterTypeToGroupName[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits"
+	end
 
 	--make sure all necessary information is present
 	if filterInformation == nil then
