@@ -87,20 +87,14 @@ function LibMotifCategories:Initialize()
     
     local strings = {
         ["de"] = {
-            [1] = "Normal",
-            [2] = "Selten",
-            [3] = "Allianz",
-            [4] = "Exotisch",
-            [5] = "Kronen",
+            "Normal", "Selten", "Allianz", "Exotisch", "Kronen",
         },
         ["en"] = {
-            [1] = "Normal",
-            [2] = "Rare",
-            [3] = "Alliance",
-            [4] = "Exotic",
-            [5] = "Crown",
+            "Normal", "Rare", "Alliance", "Exotic", "Crown",
         },
-        ["fr"] = {},
+        ["fr"] = {
+            "Normal", "Rare", "Alliance", "Exotique", "Couronnes",
+        },
     }
     
     local lang = GetCVar("language.2")
