@@ -77,31 +77,6 @@ local function GetFilterCallbackForClothing()
 	end
 end
 
-local function GetFilterCallbackForEnchanting(filterTypes)
-	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
-
-		local itemType = GetItemLinkItemType(itemLink)
-		if itemType ~= ITEMTYPE_ENCHANTING_RUNE_ASPECT
-		  or itemType ~= ITEMTYPE_ENCHANTING_RUNE_ESSENCE
-		  or itemType ~= ITEMTYPE_ENCHANTING_RUNE_POTENCY then
-			return
-		end
-		
-		local runeType = GetItemLinkEnchantingRuneClassification(itemLink)
-
-		for i=1, #filterTypes do
-			if filterTypes[i] == runeType then return true end
-		end
-	end
-end
-
 local function GetFilterCallbackForTrophy()
 	return function(slot)
 		local itemLink
@@ -475,9 +450,9 @@ AF.subfilterCallbacks = {
 		["Enchanting"] = {
 			filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT, ITEMTYPE_ENCHANTING_RUNE_ESSENCE, ITEMTYPE_ENCHANTING_RUNE_POTENCY}),
 			dropdownCallbacks = {
-				[1] = {name = "Aspect", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ASPECT})},
-				[2] = {name = "Essence", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ESSENCE})},
-				[3] = {name = "Potency", filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_POTENCY})},
+				[1] = {name = "Aspect", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT})},
+				[2] = {name = "Essence", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ESSENCE})},
+				[3] = {name = "Potency", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_POTENCY})},
 			},
 		},
 		["Provisioning"] = {
@@ -627,15 +602,15 @@ AF.subfilterCallbacks = {
 			dropdownCallbacks = {},
 		},
 		["Aspect"] = {
-			filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ASPECT}),
+			filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT}),
 			dropdownCallbacks = {},
 		},
 		["Essence"] = {
-			filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_ESSENCE}),
+			filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ESSENCE}),
 			dropdownCallbacks = {},
 		},
 		["Potency"] = {
-			filterCallback = GetFilterCallbackForEnchanting({ENCHANTING_RUNE_POTENCY}),
+			filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_POTENCY}),
 			dropdownCallbacks = {},
 		},
 	},
