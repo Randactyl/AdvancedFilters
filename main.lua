@@ -290,40 +290,7 @@ function AdvancedFilters_Loaded(eventCode, addonName)
 	if addonName ~= "AdvancedFilters" then return end
 	EVENT_MANAGER:UnregisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED)
 
-	--enable ZOS inventory search boxes
-	local bagSearch = ZO_PlayerInventorySearchBox
-	local bankSearch = ZO_PlayerBankSearchBox
-	local guildBankSearch = ZO_GuildBankSearchBox
-
-	bagSearch:ClearAnchors()
-	bagSearch:SetAnchor(RIGHT, ZO_PlayerInventoryMenuBarLabel, LEFT, -5)
-	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventoryMenuDivider, TOPLEFT, 0, -11)
-	bagSearch:SetHidden(false)
-
-	bankSearch:ClearAnchors()
-	bankSearch:SetAnchor(RIGHT, ZO_PlayerBankMenuBarLabel, LEFT, -5)
-	bankSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerBankMenuDivider, TOPLEFT, 0, -11)
-	bankSearch:SetHidden(false)
-	bankSearch:SetWidth(bagSearch:GetWidth())
-
-	guildBankSearch:ClearAnchors()
-	guildBankSearch:SetAnchor(RIGHT, ZO_GuildBankMenuBarLabel, LEFT, -5)
-	guildBankSearch:SetAnchor(BOTTOMLEFT, ZO_GuildBankMenuDivider, TOPLEFT, 0, -11)
-	guildBankSearch:SetHidden(false)
-	guildBankSearch:SetWidth(bagSearch:GetWidth())
-	
-	--ESO 2.4.0
-	if INVENTORY_CRAFT_BAG then
-		local craftBagSearch = ZO_CraftBagSearchBox
-		
-		craftBagSearch:ClearAnchors()
-		craftBagSearch:SetAnchor(RIGHT, ZO_PlayerInventoryMenuBarLabel, LEFT, -5)
-		craftBagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventoryMenuDivider, TOPLEFT, 0, -11)
-		craftBagSearch:SetHidden(false)
-	end
-
 	CreateSubfilterBars()
-
 	InitializeHooks()
 end
 EVENT_MANAGER:RegisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED, AdvancedFilters_Loaded)
