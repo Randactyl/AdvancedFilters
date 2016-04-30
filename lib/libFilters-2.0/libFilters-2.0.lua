@@ -106,9 +106,7 @@ local inventoryUpdaters = {
 		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
 	end,
 	VENDOR_BUY = function()
-		if not BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT.state == "shown" then
-			STORE_WINDOW:UpdateList()
-		end
+		STORE_WINDOW:UpdateList()
 	end,
 	SMITHING_DECONSTRUCT = function()
 		SMITHING.deconstructionPanel.inventory:HandleDirtyEvent()

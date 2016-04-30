@@ -296,8 +296,8 @@ function AdvancedFilters_Loaded(eventCode, addonName)
 	local guildBankSearch = ZO_GuildBankSearchBox
 
 	bagSearch:ClearAnchors()
-	bagSearch:SetAnchor(RIGHT, ZO_PlayerInventoryMenuBarLabel, LEFT, -200)
-	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventoryMenuDivider, TOPLEFT, -200, -11)
+	bagSearch:SetAnchor(RIGHT, ZO_PlayerInventoryMenuBarLabel, LEFT, -5)
+	bagSearch:SetAnchor(BOTTOMLEFT, ZO_PlayerInventoryMenuDivider, TOPLEFT, 0, -11)
 	bagSearch:SetHidden(false)
 
 	bankSearch:ClearAnchors()
