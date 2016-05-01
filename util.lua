@@ -13,6 +13,8 @@ function AF.util.ApplyFilter(button, filterTag, requestUpdate)
     else
         filterType = libFilters:GetCurrentFilterType(AF.currentInventoryType)
     end
+	
+	--d("Apply " .. button.name .. " from " .. filterTag .. " for filterType " .. filterType)
 
 	--if something isn't right, abort
 	if callback == nil then

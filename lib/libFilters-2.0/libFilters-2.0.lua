@@ -106,7 +106,7 @@ local inventoryUpdaters = {
 		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
 	end,
 	VENDOR_BUY = function()
-		if not BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT.state == "shown" then
+		if BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT.state ~= "shown" then
 			STORE_WINDOW:UpdateList()
 		end
 	end,
@@ -177,7 +177,7 @@ function libFilters:HookAdditionalFilter(filterType, inventory)
     local layoutData = inventory.layoutData or inventory
 	local originalFilter = layoutData.additionalFilter
 
-	layoutData.libFilters_filterType = filterType
+	layoutData.libFilters2_filterType = filterType
 
 	if type(originalFilter) == "function" then
 		layoutData.additionalFilter = function(slot)
@@ -272,12 +272,12 @@ function libFilters:GetCurrentFilterType(inventoryType)
 	local layoutData = PLAYER_INVENTORY.appliedLayout
 
 	if inventoryType == INVENTORY_BACKPACK then
-		if layoutData and layoutData.libFilters_filterType then
-			return layoutData.libFilters_filterType
+		if layoutData and layoutData.libFilters2_filterType then
+			return layoutData.libFilters2_filterType
 		end
 	end
 
-	return inventory.libFilters_filterType
+	return inventory.libFilters2_filterType
 end
 
 function libFilters:InventoryTypeToFilterType(inventoryType)
