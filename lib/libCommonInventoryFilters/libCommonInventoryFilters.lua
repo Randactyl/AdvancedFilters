@@ -71,23 +71,23 @@ local function showSearchBoxes()
     -- re-anchoring is necessary because they overlap with sort headers
 
     ZO_PlayerInventorySearchBox:ClearAnchors()
-    ZO_PlayerInventorySearchBox:SetAnchor(TOPRIGHT, nil, BOTTOMRIGHT, -10, 30)
+    ZO_PlayerInventorySearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
     ZO_PlayerInventorySearchBox:SetHidden(false)
 
     ZO_PlayerBankSearchBox:ClearAnchors()
-    ZO_PlayerBankSearchBox:SetAnchor(TOPRIGHT, nil, BOTTOMRIGHT, -10, 55)
+    ZO_PlayerBankSearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
     ZO_PlayerBankSearchBox:SetWidth(ZO_PlayerInventorySearchBox:GetWidth())
     ZO_PlayerBankSearchBox:SetHidden(false)
 
     ZO_GuildBankSearchBox:ClearAnchors()
-    ZO_GuildBankSearchBox:SetAnchor(TOPRIGHT, nil, BOTTOMRIGHT, -10, 55)
+    ZO_GuildBankSearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
     ZO_GuildBankSearchBox:SetWidth(ZO_PlayerInventorySearchBox:GetWidth())
     ZO_GuildBankSearchBox:SetHidden(false)
     
     --ESO 2.4.0
     if ZO_CraftBagSearchBox then
         ZO_CraftBagSearchBox:ClearAnchors()
-        ZO_CraftBagSearchBox:SetAnchor(TOPRIGHT, nil, BOTTOMRIGHT, -10, 5)
+        ZO_CraftBagSearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
         ZO_CraftBagSearchBox:SetWidth(ZO_PlayerInventorySearchBox:GetWidth())
         ZO_CraftBagSearchBox:SetHidden(false)
     end
