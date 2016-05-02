@@ -1,6 +1,7 @@
 local AF = AdvancedFilters
 AF.util = {}
 AF.util.libFilters = LibStub("libFilters-2.0")
+AF.util.libFilters:InitializeLibFilters()
 AF.util.LibMotifCategories = LibStub("LibMotifCategories-1.0")
 
 function AF.util.ApplyFilter(button, filterTag, requestUpdate)
@@ -14,7 +15,7 @@ function AF.util.ApplyFilter(button, filterTag, requestUpdate)
         filterType = libFilters:GetCurrentFilterType(AF.currentInventoryType)
     end
 	
-	--d("Apply " .. button.name .. " from " .. filterTag .. " for filterType " .. filterType)
+	--d("Apply " .. button.name .. " from " .. filterTag .. " for filterType " .. filterType .. " and inventoryType " .. AF.currentInventoryType)
 
 	--if something isn't right, abort
 	if callback == nil then
