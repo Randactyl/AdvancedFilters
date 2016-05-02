@@ -2,16 +2,15 @@ STORE_WINDOW.ShouldAddItemToList = function(self, itemData)
     if(self.currentFilter == ITEMFILTERTYPE_ALL) then return true end
 
     local additionalFilter = self.additionalFilter
+    local result = true
     
     if type(additionalFilter) == "function" then
-        additionalFilter = additionalFilter(itemData)
-    else
-        additionalFilter = true
+        result = self.additionalFilter(itemData)
     end
 
     for i = 1, #itemData.filterData do
         if(itemData.filterData[i] == self.currentFilter) then
-            return additionalFilter and true
+            return result and true
         end
     end
     
