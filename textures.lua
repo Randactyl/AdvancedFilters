@@ -53,25 +53,10 @@ local textures = {
 		pressed = "/esoui/art/icons/progression_tabicon_armorlight_down.dds",
 		mouseOver = "/esoui/art/icons/progression_tabicon_armorlight_over.dds",
 	},
-	--[[Heavy = {
-		normal = "/esoui/art/inventory/inventory_tabicon_armor_up.dds",
-		pressed = "/esoui/art/inventory/inventory_tabicon_armor_down.dds",
-		mouseOver = "/esoui/art/inventory/inventory_tabicon_armor_over.dds",
-	},
-	Medium = {
-		normal = "AdvancedFilters/assets/apparel/medium_up.dds",
-		pressed = "AdvancedFilters/assets/apparel/medium_down.dds",
-		mouseOver = "AdvancedFilters/assets/apparel/medium_over.dds",
-	},
-	Light = {
-		normal = "AdvancedFilters/assets/apparel/light_up.dds",
-		pressed = "AdvancedFilters/assets/apparel/light_down.dds",
-		mouseOver = "AdvancedFilters/assets/apparel/light_over.dds",
-	},]]
 	Clothing = {
-		normal = "AdvancedFilters/assets/materials/style/style_up.dds",
-		pressed = "AdvancedFilters/assets/materials/style/style_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/style/style_over.dds",
+		normal = "AdvancedFilters/assets/apparel/clothing_up.dds",
+		pressed = "AdvancedFilters/assets/apparel/clothing_down.dds",
+		mouseOver = "AdvancedFilters/assets/apparel/clothing_over.dds",
 	},
 	Shield = {
 		normal = "AdvancedFilters/assets/apparel/shield_up.dds",
@@ -138,39 +123,39 @@ local textures = {
 
 	--MATERIALS
 	Blacksmithing = {
-		normal = "AdvancedFilters/assets/materials/blacksmithing/blacksmithing_up.dds",
-		pressed = "AdvancedFilters/assets/materials/blacksmithing/blacksmithing_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/blacksmithing/blacksmithing_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_over.dds",
 	},
 	Clothier = {
-		normal = "AdvancedFilters/assets/materials/clothier/clothier_up.dds",
-		pressed = "AdvancedFilters/assets/materials/clothier/clothier_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/clothier/clothier_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_over.dds",
 	},
 	Woodworking = {
-		normal = "AdvancedFilters/assets/materials/woodworking/woodworking_up.dds",
-		pressed = "AdvancedFilters/assets/materials/woodworking/woodworking_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/woodworking/woodworking_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_over.dds",
 	},
 	Alchemy = {
-		normal = "AdvancedFilters/assets/materials/alchemy/alchemy_up.dds",
-		pressed = "AdvancedFilters/assets/materials/alchemy/alchemy_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/alchemy/alchemy_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_over.dds",
 	},
 	Enchanting = {
-		normal = "AdvancedFilters/assets/materials/enchanting/enchanting_up.dds",
-		pressed = "AdvancedFilters/assets/materials/enchanting/enchanting_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/enchanting/enchanting_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_over.dds",
 	},
 	Provisioning = {
-		normal = "AdvancedFilters/assets/materials/provisioning/provisioning_up.dds",
-		pressed = "AdvancedFilters/assets/materials/provisioning/provisioning_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/provisioning/provisioning_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_over.dds",
 	},
 	Style = {
-		normal = "AdvancedFilters/assets/materials/style/style_up.dds",
-		pressed = "AdvancedFilters/assets/materials/style/style_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/style/style_over.dds",
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_over.dds",
 	},
 	WeaponTrait = {
 		normal = "AdvancedFilters/assets/materials/wtrait/wtrait_up.dds",
@@ -219,128 +204,94 @@ local textures = {
 		pressed = "AdvancedFilters/assets/miscellaneous/trash/trash_down.dds",
 		mouseOver = "AdvancedFilters/assets/miscellaneous/trash/trash_over.dds",
 	},
-}
-
---ESO 2.4.0
---reorganize assets folder when 2.4 moves to live
-if INVENTORY_CRAFT_BAG then
-	textures.Blacksmithing = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_blacksmithing_over.dds",
-	}
-	textures.Clothier = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_clothing_over.dds",
-	}
-	textures.Woodworking = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_woodworking_over.dds",
-	}
-	textures.Alchemy = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_alchemy_over.dds",
-	}
-	textures.Enchanting = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_enchanting_over.dds",
-	}
-	textures.Provisioning = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_provisioning_over.dds",
-	}
-	textures.Style = {
-		normal = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_up.dds",
-		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_down.dds",
-		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_styleMaterial_over.dds",
-	}
 
 	--CRAFT BAG
 	--BLACKSMITHING
-	textures.RawMaterial = {
+	RawMaterial = {
 		normal = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_up.dds",
 		pressed = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_down.dds",
 		mouseOver = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_over.dds",
-	}
-	textures.RefinedMaterial = {
+	},
+	RefinedMaterial = {
 		normal = "AdvancedFilters/assets/craftbag/smithing/material_up.dds",
 		pressed = "AdvancedFilters/assets/craftbag/smithing/material_down.dds",
 		mouseOver = "AdvancedFilters/assets/craftbag/smithing/material_over.dds",
-	}
-	textures.Temper = {
+	},
+	Temper = {
 		normal = "EsoUI/Art/WorldMap/map_ava_tabIcon_resourceProduction_up.dds",
 		pressed = "EsoUI/Art/WorldMap/map_ava_tabIcon_resourceProduction_down.dds",
 		mouseOver = "EsoUI/Art/WorldMap/map_ava_tabIcon_resourceProduction_over.dds",
-	}
-	
-	--CLOTHING
-	textures.Resin = textures.Temper
-	
-	--WOODWORKING
-	textures.Tannin = textures.Temper
+	},
 
 	--ALCHEMY
-	textures.Reagent = {
-		normal = "AdvancedFilters/assets/materials/alchemy/alchemy_up.dds",
-		pressed = "AdvancedFilters/assets/materials/alchemy/alchemy_down.dds",
-		mouseOver = "AdvancedFilters/assets/materials/alchemy/alchemy_over.dds",
-	}
-	textures.Water = textures.Potion
-	textures.Oil = textures.Poison
+	Reagent = {
+		normal = "AdvancedFilters/assets/craftbag/alchemy/reagent_up.dds",
+		pressed = "AdvancedFilters/assets/craftbag/alchemy/reagent_down.dds",
+		mouseOver = "AdvancedFilters/assets/craftbag/alchemy/reagent_over.dds",
+	},
 
 	--ENCHANTING
-	textures.Aspect = {
+	Aspect = {
 		normal = "EsoUI/Art/Crafting/enchantment_tabIcon_aspect_up.dds",
 		pressed = "EsoUI/Art/Crafting/enchantment_tabIcon_aspect_down.dds",
 		mouseOver = "EsoUI/Art/Crafting/enchantment_tabIcon_aspect_over.dds",
-	}
-	textures.Essence = {
+	},
+	Essence = {
 		normal = "EsoUI/Art/Crafting/enchantment_tabIcon_essence_up.dds",
 		pressed = "EsoUI/Art/Crafting/enchantment_tabIcon_essence_down.dds",
 		mouseOver = "EsoUI/Art/Crafting/enchantment_tabIcon_essence_over.dds",
-	}
-	textures.Potency = {
+	},
+	Potency = {
 		normal = "EsoUI/Art/Crafting/enchantment_tabIcon_potency_up.dds",
 		pressed = "EsoUI/Art/Crafting/enchantment_tabIcon_potency_down.dds",
 		mouseOver = "EsoUI/Art/Crafting/enchantment_tabIcon_potency_over.dds",
-	}
+	},
 
 	--PROVISIONING
-	textures.FoodIngredient = textures.Food
-	textures.DrinkIngredient = textures.Drink
-	textures.OldIngredient = {
+	OldIngredient = {
 		normal = "/esoui/art/worldmap/map_ava_tabicon_foodfarm_up.dds",
 		pressed = "/esoui/art/worldmap/map_ava_tabicon_foodfarm_down.dds",
 		mouseOver = "/esoui/art/worldmap/map_ava_tabicon_foodfarm_over.dds",
-	}
+	},
 
 	--STYLE
-	textures.NormalStyle = {
+	NormalStyle = {
 		normal = "/esoui/art/progression/progression_indexicon_race_up.dds",
 		pressed = "/esoui/art/progression/progression_indexicon_race_down.dds",
 		mouseOver = "/esoui/art/progression/progression_indexicon_race_over.dds",
-	}
-	textures.RareStyle = {
+	},
+	RareStyle = {
 		normal = "/esoui/art/progression/progression_indexicon_world_up.dds",
 		pressed = "/esoui/art/progression/progression_indexicon_world_down.dds",
 		mouseOver = "/esoui/art/progression/progression_indexicon_world_over.dds",
-	}
-	textures.AllianceStyle = {
-		normal = "AdvancedFilters/assets/craftbag/style/ouroboros_up.dds",
-		pressed = "AdvancedFilters/assets/craftbag/style/ouroboros_down.dds",
-		mouseOver = "AdvancedFilters/assets/craftbag/style/ouroboros_over.dds",
-	}
-	textures.ExoticStyle = {
+	},
+	AllianceStyle = {
+		normal = "esoui/art/charactercreate/charactercreate_raceicon_up.dds",
+		pressed = "esoui/art/charactercreate/charactercreate_raceicon_down.dds",
+		mouseOver = "esoui/art/charactercreate/charactercreate_raceicon_over.dds",
+	},
+	ExoticStyle = {
 		normal = "/esoui/art/icons/progression_tabicon_magma_up.dds",
 		pressed = "/esoui/art/icons/progression_tabicon_magma_down.dds",
 		mouseOver = "/esoui/art/icons/progression_tabicon_magma_over.dds",
-	}
-	textures.CrownStyle = textures.Crown
-end
+	},
+}
+
+--CLOTHING
+textures.Resin = textures.Temper
+
+--WOODWORKING
+textures.Tannin = textures.Temper
+
+--ALCHEMY
+textures.Water = textures.Potion
+textures.Oil = textures.Poison
+
+--PROVISIONING
+textures.FoodIngredient = textures.Food
+textures.DrinkIngredient = textures.Drink
+
+--STYLE
+textures.CrownStyle = textures.Crown
 
 AdvancedFilters.textures = textures
