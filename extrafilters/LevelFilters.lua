@@ -1,4 +1,6 @@
 local cpIcon = zo_iconFormat("/esoui/art/menubar/gamepad/gp_playermenu_icon_champion.dds", 18, 18)
+local util = AdvancedFilters.util
+
 --[[----------------------------------------------------------------------------
     The anonymous function returned by this function handles the actual
 		filtering.
@@ -12,9 +14,9 @@ local cpIcon = zo_iconFormat("/esoui/art/menubar/gamepad/gp_playermenu_icon_cham
 --]]----------------------------------------------------------------------------
 local function GetFilterCallbackForLevel(minLevel, maxLevel)
 	return function(slot)
-		local link = GetItemLink(slot.bagId, slot.slotIndex)
-		local level = GetItemLinkRequiredLevel(link)
-		local cp = GetItemLinkRequiredChampionPoints(link)
+		local itemLink = util.GetItemLink(slot)
+		local level = GetItemLinkRequiredLevel(itemLink)
+		local cp = GetItemLinkRequiredChampionPoints(itemLink)
 
 		if cp > 0 then
 			level = level + cp
@@ -90,9 +92,7 @@ local filterInformation = {
 	submenuName = "LevelFilters",
 	callbackTable = fullLevelDropdownCallbacks,
 	filterType = ITEMFILTERTYPE_WEAPONS,
-	subfilters = {
-		[1] = "All",
-	},
+	subfilters = {"All",},
 	enStrings = strings,
 	deStrings = strings,
 	frStrings = strings,
@@ -103,9 +103,7 @@ local filterInformation = {
 --[[----------------------------------------------------------------------------
     Register your filters by passing your filter information to this function.
 --]]----------------------------------------------------------------------------
-if INVENTORY_CRAFT_BAG then
-	AdvancedFilters_RegisterFilter(filterInformation)
-end
+AdvancedFilters_RegisterFilter(filterInformation)
 
 --[[----------------------------------------------------------------------------
 	If you want your filters to show up under more than one main filter,
@@ -116,9 +114,7 @@ filterInformation = {
 	submenuName = "LevelFilters",
 	callbackTable = fullLevelDropdownCallbacks,
 	filterType = ITEMFILTERTYPE_ARMOR,
-	subfilters = {
-		[1] = "All",
-	},
+	subfilters = {"All",},
 	enStrings = strings,
 }
 
@@ -126,22 +122,13 @@ filterInformation = {
 	Again, register your filters by passing your new filter information to this
 		function.
 --]]----------------------------------------------------------------------------
-if INVENTORY_CRAFT_BAG then
-	AdvancedFilters_RegisterFilter(filterInformation)
-end
+AdvancedFilters_RegisterFilter(filterInformation)
 
 --[[----------------------------------------------------------------------------
 	If you only need to redefine some fields for the next registration, you can
 	    do that as well.
 --]]----------------------------------------------------------------------------
 filterInformation.filterType = ITEMFILTERTYPE_CONSUMABLE
-filterInformation.subfilters = {
-	[1] = "Food",
-	[2] = "Drink",
-	[3] = "Potion",
-	[4] = "Poison",
-}
+filterInformation.subfilters = {"Food", "Drink", "Potion", "Poison",}
 
-if INVENTORY_CRAFT_BAG then
-	AdvancedFilters_RegisterFilter(filterInformation)
-end
+AdvancedFilters_RegisterFilter(filterInformation)

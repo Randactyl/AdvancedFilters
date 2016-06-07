@@ -161,7 +161,8 @@ local strings = {
 		ArmorTrait = AF_Localize(SI_ITEMTYPE45),
 
 		Reagent = AF_Localize(SI_ITEMTYPE31),
-		Solvent = AF_Localize(SI_ITEMTYPE33),
+		Water = AF_Localize(SI_ITEMTYPE33),
+		Oil = AF_Localize(SI_ITEMTYPE58),
 		Aspect = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 		Essence = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 		Potency = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
@@ -185,6 +186,26 @@ local strings = {
 		--DROPDOWN CONTEXT MENU
 		ResetToAll = "Reset to All",
 		InvertDropdownFilter = "Invert Dropdown Filter",
+		
+		--LibMotifCategories
+		NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL),
+		RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE),
+		AllianceStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_ALLIANCE),
+		ExoticStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_EXOTIC),
+		DroppedStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_DROPPED),
+		CrownStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_CROWN),
+
+		--CRAFT BAG
+		--BLACKSMITHING
+		RawMaterial = AF_Localize(SI_ITEMTYPE17),
+		RefinedMaterial = AF_Localize(SI_ITEMTYPE36),
+		Temper = AF_Localize(SI_ITEMTYPE41),
+		
+		--CLOTHING
+		Resin = AF_Localize(SI_ITEMTYPE43),
+		
+		--WOODWORKING
+		Tannin = AF_Localize(SI_ITEMTYPE42),
 	},
 	es = {
 		--SHARED
@@ -444,30 +465,3 @@ setmetatable(strings["fr"], {__index = strings["en"]})
 setmetatable(strings["ru"], {__index = strings["en"]})
 
 AdvancedFilters.strings = strings[AdvancedFilters.util.GetLanguage()]
-
---ESO 2.4.0
-if INVENTORY_CRAFT_BAG then
-	AdvancedFilters.strings.Water = AF_Localize(SI_ITEMTYPE33)
-	AdvancedFilters.strings.Oil = AF_Localize(SI_ITEMTYPE58)
-
-	AdvancedFilters.strings.Solvent = nil
-
-	--CRAFT BAG
-	--BLACKSMITHING
-	AdvancedFilters.strings.RawMaterial = AF_Localize(SI_ITEMTYPE17)
-	AdvancedFilters.strings.RefinedMaterial = AF_Localize(SI_ITEMTYPE36)
-	AdvancedFilters.strings.Temper = AF_Localize(SI_ITEMTYPE41)
-	
-	--CLOTHING
-	AdvancedFilters.strings.Resin = AF_Localize(SI_ITEMTYPE43)
-	
-	--WOODWORKING
-	AdvancedFilters.strings.Tannin = AF_Localize(SI_ITEMTYPE42)
-
-	--STYLE
-	AdvancedFilters.strings.NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL)
-	AdvancedFilters.strings.RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE)
-	AdvancedFilters.strings.AllianceStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_ALLIANCE)
-	AdvancedFilters.strings.ExoticStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_EXOTIC)
-	AdvancedFilters.strings.CrownStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_CROWN)
-end

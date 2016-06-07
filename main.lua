@@ -23,18 +23,7 @@ AF.subfilterGroups = {
 		[ITEMFILTERTYPE_CRAFTING] = {},
 		[ITEMFILTERTYPE_MISCELLANEOUS] = {},
 	},
-	[6] = {
-		[ITEMFILTERTYPE_WEAPONS] = {},
-		[ITEMFILTERTYPE_ARMOR] = {},
-		[ITEMFILTERTYPE_CONSUMABLE] = {},
-		[ITEMFILTERTYPE_CRAFTING] = {},
-		[ITEMFILTERTYPE_MISCELLANEOUS] = {},
-	}, --VENDOR_SELL
-}
-
---ESO 2.4.0
-if INVENTORY_CRAFT_BAG then
-	AF.subfilterGroups[INVENTORY_CRAFT_BAG] = {
+	[INVENTORY_CRAFT_BAG] = {
 		[ITEMFILTERTYPE_BLACKSMITHING] = {},
 		[ITEMFILTERTYPE_CLOTHING] = {},
 		[ITEMFILTERTYPE_WOODWORKING] = {},
@@ -43,8 +32,15 @@ if INVENTORY_CRAFT_BAG then
 		[ITEMFILTERTYPE_PROVISIONING] = {},
 		[ITEMFILTERTYPE_STYLE_MATERIALS] = {},
 		[ITEMFILTERTYPE_TRAIT_ITEMS] = {},
-	}
-end
+	},
+	[6] = {
+		[ITEMFILTERTYPE_WEAPONS] = {},
+		[ITEMFILTERTYPE_ARMOR] = {},
+		[ITEMFILTERTYPE_CONSUMABLE] = {},
+		[ITEMFILTERTYPE_CRAFTING] = {},
+		[ITEMFILTERTYPE_MISCELLANEOUS] = {},
+	}, --VENDOR_SELL
+}
 
 AF.currentInventoryType = INVENTORY_BACKPACK
 
@@ -135,10 +131,7 @@ local function InitializeHooks()
 	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
 	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
 	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
-	--ESO 2.4.0
-	if INVENTORY_CRAFT_BAG then
-		hookInventory(ZO_CraftBag, INVENTORY_CRAFT_BAG)
-	end
+	hookInventory(ZO_CraftBag, INVENTORY_CRAFT_BAG)
 	hookInventory(ZO_StoreWindow, 6)
 
 	--PREHOOKS
@@ -198,6 +191,7 @@ local function CreateSubfilterBars()
 		[INVENTORY_BACKPACK] = "PlayerInventory",
 		[INVENTORY_BANK] = "PlayerBank",
 		[INVENTORY_GUILD_BANK] = "GuildBank",
+		[INVENTORY_CRAFT_BAG] = "CraftBag",
 		[6] = "VendorSell",
 	}
 	
@@ -207,6 +201,14 @@ local function CreateSubfilterBars()
 		[ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
 		[ITEMFILTERTYPE_CRAFTING] = "Crafting",
 		[ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
+		[ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
+		[ITEMFILTERTYPE_CLOTHING] = "Clothing",
+		[ITEMFILTERTYPE_WOODWORKING] = "Woodworking",
+		[ITEMFILTERTYPE_ALCHEMY] = "Alchemy",
+		[ITEMFILTERTYPE_ENCHANTING] = "Enchanting",
+		[ITEMFILTERTYPE_PROVISIONING] = "Provisioning",
+		[ITEMFILTERTYPE_STYLE_MATERIALS] = "Style",
+		[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits",
 		
 	}
 	local subfilterButtonNames = {
@@ -229,47 +231,32 @@ local function CreateSubfilterBars()
 			"Trash", "Fence", "Trophy", "Tool", "Bait", "Siege", "SoulGem",
 			"Glyphs", "All",
 		},
-	}
-	
-	--ESO 2.4.0
-	if INVENTORY_CRAFT_BAG then
-		inventoryNames[INVENTORY_CRAFT_BAG] = "CraftBag"
-		
-		filterTypeNames[ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing"
-		filterTypeNames[ITEMFILTERTYPE_CLOTHING] = "Clothing"
-		filterTypeNames[ITEMFILTERTYPE_WOODWORKING] = "Woodworking"
-		filterTypeNames[ITEMFILTERTYPE_ALCHEMY] = "Alchemy"
-		filterTypeNames[ITEMFILTERTYPE_ENCHANTING] = "Enchanting"
-		filterTypeNames[ITEMFILTERTYPE_PROVISIONING] = "Provisioning"
-		filterTypeNames[ITEMFILTERTYPE_STYLE_MATERIALS] = "Style"
-		filterTypeNames[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits"
-		
-		subfilterButtonNames[ITEMFILTERTYPE_BLACKSMITHING] = {
+		[ITEMFILTERTYPE_BLACKSMITHING] = {
 			"Temper", "RefinedMaterial", "RawMaterial", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_CLOTHING] = {
+		},
+		[ITEMFILTERTYPE_CLOTHING] = {
 			"Resin", "RefinedMaterial", "RawMaterial", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_WOODWORKING] = {
+		},
+		[ITEMFILTERTYPE_WOODWORKING] = {
 			"Tannin", "RefinedMaterial", "RawMaterial", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_ALCHEMY] = {
+		},
+		[ITEMFILTERTYPE_ALCHEMY] = {
 			"Oil", "Water", "Reagent", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_ENCHANTING] = {
+		},
+		[ITEMFILTERTYPE_ENCHANTING] = {
 			"Potency", "Essence", "Aspect", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_PROVISIONING] = {
+		},
+		[ITEMFILTERTYPE_PROVISIONING] = {
 			"OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_STYLE_MATERIALS] = {
+		},
+		[ITEMFILTERTYPE_STYLE_MATERIALS] = {
 			"CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",
 			"NormalStyle", "RawMaterial", "All",
-		}
-		subfilterButtonNames[ITEMFILTERTYPE_TRAIT_ITEMS] = {
+		},
+		[ITEMFILTERTYPE_TRAIT_ITEMS] = {
 			"WeaponTrait", "ArmorTrait", "All",
-		}
-	end
+		},
+	}
 	
 	for inventoryType, subfilterGroup in pairs(AF.subfilterGroups) do
 		for itemFilterType, _ in pairs(subfilterGroup) do

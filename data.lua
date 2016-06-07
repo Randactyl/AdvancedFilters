@@ -258,7 +258,7 @@ local function GetFilterCallbackForStyleMaterial(categoryConst)
 	return function(slot)
 		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
 		
-		if categoryConst == AF.util.LibMotifCategories:GetCategory(itemLink) then
+		if categoryConst == AF.util.LibMotifCategories:GetMotifCategory(itemLink) then
 			return true
 		end
 	end
@@ -441,10 +441,11 @@ AF.subfilterCallbacks = {
 			dropdownCallbacks = {},
 		},
 		["Alchemy"] = {
-			filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_ALCHEMY_BASE}),
+			filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE}),
 			dropdownCallbacks = {
 				[1] = {name = "Reagent", filterCallback = GetFilterCallback({ITEMTYPE_REAGENT})},
-				[2] = {name = "Solvent", filterCallback = GetFilterCallback({ITEMTYPE_ALCHEMY_BASE})},
+				[2] = {name = "Water", filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE})},
+				[3] = {name = "Oil", filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE})},
 			},
 		},
 		["Enchanting"] = {
@@ -688,18 +689,6 @@ AF.subfilterCallbacks = {
 	},
 }
 
---ESO 2.4.0
-if INVENTORY_CRAFT_BAG then
-	AF.subfilterCallbacks.Crafting["Alchemy"] = {
-		filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE}),
-		dropdownCallbacks = {
-			[1] = {name = "Reagent", filterCallback = GetFilterCallback({ITEMTYPE_REAGENT})},
-			[2] = {name = "Water", filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE})},
-			[3] = {name = "Oil", filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE})},
-		},
-	}
-end
-
 function AdvancedFilters_RegisterFilter(filterInformation)
 	local filterTypeToGroupName = {
 		[ITEMFILTERTYPE_ALL] = "All",
@@ -708,19 +697,15 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 		[ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
 		[ITEMFILTERTYPE_CRAFTING] = "Crafting",
 		[ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
+		[ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
+		[ITEMFILTERTYPE_CLOTHING] = "Clothing",
+		[ITEMFILTERTYPE_WOODWORKING] = "Woodworking",
+		[ITEMFILTERTYPE_ALCHEMY] = "Alchemy",
+		[ITEMFILTERTYPE_ENCHANTING] = "Enchanting",
+		[ITEMFILTERTYPE_PROVISIONING] = "Provisioning",
+		[ITEMFILTERTYPE_STYLE_MATERIALS] = "Style",
+		[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits",
 	}
-	
-	--ESO 2.4.0
-	if INVENTORY_CRAFT_BAG then
-		filterTypeToGroupName[ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing"
-		filterTypeToGroupName[ITEMFILTERTYPE_CLOTHING] = "Clothing"
-		filterTypeToGroupName[ITEMFILTERTYPE_WOODWORKING] = "Woodworking"
-		filterTypeToGroupName[ITEMFILTERTYPE_ALCHEMY] = "Alchemy"
-		filterTypeToGroupName[ITEMFILTERTYPE_ENCHANTING] = "Enchanting"
-		filterTypeToGroupName[ITEMFILTERTYPE_PROVISIONING] = "Provisioning"
-		filterTypeToGroupName[ITEMFILTERTYPE_STYLE_MATERIALS] = "Style"
-		filterTypeToGroupName[ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits"
-	end
 
 	--make sure all necessary information is present
 	if filterInformation == nil then

@@ -2,7 +2,6 @@ local myNAME, myVERSION = "libCommonInventoryFilters", 1.3
 local libCIF = LibStub:NewLibrary(myNAME, myVERSION)
 if not libCIF then return end
 
-
 local function enableGuildStoreSellFilters()
     local tradingHouseLayout = BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT.layoutData
 
@@ -33,12 +32,9 @@ local function enableGuildStoreSellFilters()
     end
 end
 
-
 local function fixSearchBoxBugs()
     -- http://www.esoui.com/forums/showthread.php?t=4551
-
     -- search box bug #1: stale searchData after swapping equipment
-
     SHARED_INVENTORY:RegisterCallback("SlotUpdated",
         function(bagId, slotIndex, slotData)
             if slotData and slotData.searchData then
@@ -48,7 +44,6 @@ local function fixSearchBoxBugs()
         end)
 
     -- guild bank search box bug #2: wrong inventory updated
-
     ZO_GuildBankSearchBox:SetHandler("OnTextChanged",
         function(editBox)
             ZO_EditDefaultText_OnTextChanged(editBox)
@@ -56,7 +51,6 @@ local function fixSearchBoxBugs()
         end)
 
     -- guild bank search box bug #3: wrong search box cleared
-
     local guildBankScene = SCENE_MANAGER:GetScene("guildBank")
     guildBankScene:RegisterCallback("StateChange",
         function(oldState, newState)
@@ -65,7 +59,6 @@ local function fixSearchBoxBugs()
             end
         end)
 end
-
 
 local function showSearchBoxes()
     -- re-anchoring is necessary because they overlap with sort headers
@@ -83,16 +76,12 @@ local function showSearchBoxes()
     ZO_GuildBankSearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
     ZO_GuildBankSearchBox:SetWidth(ZO_PlayerInventorySearchBox:GetWidth())
     ZO_GuildBankSearchBox:SetHidden(false)
-    
-    --ESO 2.4.0
-    if ZO_CraftBagSearchBox then
-        ZO_CraftBagSearchBox:ClearAnchors()
-        ZO_CraftBagSearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
-        ZO_CraftBagSearchBox:SetWidth(ZO_PlayerInventorySearchBox:GetWidth())
-        ZO_CraftBagSearchBox:SetHidden(false)
-    end
-end
 
+    ZO_CraftBagSearchBox:ClearAnchors()
+    ZO_CraftBagSearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
+    ZO_CraftBagSearchBox:SetWidth(ZO_PlayerInventorySearchBox:GetWidth())
+    ZO_CraftBagSearchBox:SetHidden(false)
+end
 
 local function onPlayerActivated(eventCode)
     EVENT_MANAGER:UnregisterForEvent(myNAME, eventCode)
@@ -123,10 +112,7 @@ local function onPlayerActivated(eventCode)
         doShift(BACKPACK_STORE_LAYOUT_FRAGMENT.layoutData)
         doShift(BACKPACK_FENCE_LAYOUT_FRAGMENT.layoutData)
         doShift(BACKPACK_LAUNDER_LAYOUT_FRAGMENT.layoutData)
-        -- added in ESO 2.1
-        if BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT then
-            doShift(BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT.layoutData)
-        end
+        doShift(BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT.layoutData)
     end
 
     -- replace ZO_InventoryManager:SetTradingHouseModeEnabled
@@ -137,7 +123,6 @@ local function onPlayerActivated(eventCode)
     --  2) shows the search box and hides the filters tab, or vice versa
     --      - we want to show or hide them according to add-on requirements
     --        specified during start-up
-
     local savedSearchBoxAnchor = {false}
 
     function PLAYER_INVENTORY:SetTradingHouseModeEnabled(enabled)
@@ -167,13 +152,11 @@ local function onPlayerActivated(eventCode)
     end
 end
 
-
 -- shift backpack sort headers and item list down (shiftY > 0) or up (shiftY < 0)
 -- add-ons should only call this from their EVENT_ADD_ON_LOADED handler
 function libCIF:addBackpackLayoutShiftY(shiftY)
     libCIF._backpackLayoutShiftY = (libCIF._backpackLayoutShiftY or 0) + shiftY
 end
-
 
 -- tell libCIF to skip enabling inventory filters on guild store sell tab
 -- add-ons should only call this from their EVENT_ADD_ON_LOADED handler
@@ -181,13 +164,11 @@ function libCIF:disableGuildStoreSellFilters()
     libCIF._guildStoreSellFiltersDisabled = true
 end
 
-
 -- tell libCIF to skip showing inventory search boxes outside guild store sell tab
 -- add-ons should only call this from their EVENT_ADD_ON_LOADED handler
 function libCIF:disableSearchBoxes()
     libCIF._searchBoxesDisabled = true
 end
-
 
 EVENT_MANAGER:UnregisterForEvent(myNAME, EVENT_PLAYER_ACTIVATED)
 EVENT_MANAGER:RegisterForEvent(myNAME, EVENT_PLAYER_ACTIVATED, onPlayerActivated)

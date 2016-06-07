@@ -123,9 +123,7 @@ local inventoryUpdaters = {
 		ENCHANTING.inventory:HandleDirtyEvent()
 	end,
 	CRAFTBAG = function()
-		if INVENTORY_CRAFT_BAG then
-			PLAYER_INVENTORY:UpdateList(INVENTORY_CRAFT_BAG)
-		end
+		PLAYER_INVENTORY:UpdateList(INVENTORY_CRAFT_BAG)
 	end
 }
 
@@ -349,8 +347,5 @@ function libFilters:InitializeLibFilters()
 	
 	self:HookAdditionalFilter(LF_FENCE_SELL, BACKPACK_FENCE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LF_FENCE_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
-	
-	if INVENTORY_CRAFT_BAG then
-		self:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
-	end
+	self:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
 end
