@@ -236,3 +236,11 @@ function AF.util.ThrottledUpdate(callbackName, timer, callback, ...)
 		callback(unpack(args))
 	end)
 end
+
+function AF.util.GetItemLink(slot)
+	if slot.bagId then
+		return GetItemLink(slot.bagId, slot.slotIndex)
+	else
+		return GetStoreItemLink(slot.slotIndex)
+	end
+end
