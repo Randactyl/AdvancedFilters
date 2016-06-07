@@ -20,5 +20,5 @@ AF_FilterBar.lua
 data.lua
 
 extrafilters\LevelFilters.lua
-extrafilters\LevelFilters_Vet.lua
-extrafilters\NewStyleItems.lua
+extrafilters\NewMotif.lua
+extrafilters\MotifKnowledge.lua
