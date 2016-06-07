@@ -534,7 +534,7 @@ AF.subfilterCallbacks = {
 			dropdownCallbacks = {},
 		},
 		["RawMaterial"] = {
-			filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_RAW_MATERIAL}),
+			filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
 			dropdownCallbacks = {},
 		},
 		["RefinedMaterial"] = {
@@ -553,7 +553,7 @@ AF.subfilterCallbacks = {
 			dropdownCallbacks = {},
 		},
 		["RawMaterial"] = {
-			filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_RAW_MATERIAL}),
+			filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
 			dropdownCallbacks = {},
 		},
 		["RefinedMaterial"] = {
@@ -572,7 +572,7 @@ AF.subfilterCallbacks = {
 			dropdownCallbacks = {},
 		},
 		["RawMaterial"] = {
-			filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_RAW_MATERIAL}),
+			filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
 			dropdownCallbacks = {},
 		},
 		["RefinedMaterial"] = {
@@ -645,10 +645,6 @@ AF.subfilterCallbacks = {
 		addonDropdownCallbacks = {},
 		["All"] = {
 			filterCallback = GetFilterCallback(nil),
-			dropdownCallbacks = {},
-		},
-		["RawMaterial"] = {
-			filterCallback = GetFilterCallback({ITEMTYPE_RAW_MATERIAL}),
 			dropdownCallbacks = {},
 		},
 		["NormalStyle"] = {

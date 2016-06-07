@@ -251,7 +251,7 @@ local function CreateSubfilterBars()
 		},
 		[ITEMFILTERTYPE_STYLE_MATERIALS] = {
 			"CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",
-			"NormalStyle", "RawMaterial", "All",
+			"NormalStyle", "All",
 		},
 		[ITEMFILTERTYPE_TRAIT_ITEMS] = {
 			"WeaponTrait", "ArmorTrait", "All",
