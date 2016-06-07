@@ -228,13 +228,13 @@ end
 function LibMotifCategories:Initialize()
     local strings = {
         ["de"] = {
-            "Normal", "Selten", "Allianz", "Exotisch", "", "Kronen",
+            "Normal", "Selten", "Allianz", "Exotisch", "Erbeutet", "Kronen",
         },
         ["en"] = {
             "Normal", "Rare", "Alliance", "Exotic", "Dropped", "Crown",
         },
         ["fr"] = {
-            "Normal", "Rare", "Alliance", "Exotique", "", "Couronnes",
+            "Normal", "Rare", "Alliance", "Exotique", "Looté", "Couronnes",
         },
     }
     

@@ -74,10 +74,14 @@ local strings = {
 		ArmorTrait = AF_Localize(SI_ITEMTYPE45),
 
 		Reagent = AF_Localize(SI_ITEMTYPE31),
-        Solvent = AF_Localize(SI_ITEMTYPE33),
+        Water = AF_Localize(SI_ITEMTYPE33),
+		Oil = AF_Localize(SI_ITEMTYPE58),
 		Aspect = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 		Essence = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 		Potency = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
+		FoodIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_FOOD)),
+	    DrinkIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_DRINK)),
+		OldIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_NONE)),
 
 		--MISCELLANEOUS
 		Glyphs = "Glyphe",
@@ -85,16 +89,36 @@ local strings = {
 		Siege = AF_Localize(SI_ITEMTYPE6),
 		Bait = "K\195\182der",
 		Tool = AF_Localize(SI_ITEMTYPE9),
-		Fence = "Hehlerware",
+		Fence = AF_Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
 		Trash = AF_Localize(SI_ITEMTYPE48),
 
 		ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
 
-		--OTHER
+		--DROPDOWN CONTEXT MENU
 		ResetToAll = "Alle anzeigen",
 		InvertDropdownFilter = "Filter umdrehen",
+
+		--LibMotifCategories
+		NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL),
+		RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE),
+		AllianceStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_ALLIANCE),
+		ExoticStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_EXOTIC),
+		DroppedStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_DROPPED),
+		CrownStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_CROWN),
+
+		--CRAFT BAG
+		--BLACKSMITHING
+		RawMaterial = AF_Localize(SI_ITEMTYPE17),
+		RefinedMaterial = AF_Localize(SI_ITEMTYPE36),
+		Temper = AF_Localize(SI_ITEMTYPE41),
+		
+		--CLOTHING
+		Resin = AF_Localize(SI_ITEMTYPE43),
+		
+		--WOODWORKING
+		Tannin = AF_Localize(SI_ITEMTYPE42),
 	},
 	en = {
 		--SHARED
@@ -176,7 +200,7 @@ local strings = {
 		Siege = AF_Localize(SI_ITEMTYPE6),
 		Bait = "Bait",
 		Tool = AF_Localize(SI_ITEMTYPE9),
-		Fence = "Fence",
+		Fence = AF_Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
 		Trash = AF_Localize(SI_ITEMTYPE48),
 
 		ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
@@ -272,10 +296,14 @@ local strings = {
 		ArmorTrait = AF_Localize(SI_ITEMTYPE45),
 
 		Reagent = AF_Localize(SI_ITEMTYPE31),
-        Solvent = AF_Localize(SI_ITEMTYPE33),
+        Water = AF_Localize(SI_ITEMTYPE33),
+		Oil = AF_Localize(SI_ITEMTYPE58),
 		Aspect = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 		Essence = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 		Potency = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
+		FoodIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_FOOD)),
+	    DrinkIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_DRINK)),
+		OldIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_NONE)),
 
 		--MISCELLANEOUS
 		Glyphs = "Glifos",
@@ -283,12 +311,36 @@ local strings = {
 		Siege = AF_Localize(SI_ITEMTYPE6),
 		Bait = "Cebo",
 		Tool = AF_Localize(SI_ITEMTYPE9),
-		--Fence = "",
+		Fence = AF_Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
 		Trash = AF_Localize(SI_ITEMTYPE48),
 
 		ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
+
+		--DROPDOWN CONTEXT MENU
+		ResetToAll = "Reset to All",
+		InvertDropdownFilter = "Invert Dropdown Filter",
+		
+		--LibMotifCategories
+		NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL),
+		RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE),
+		AllianceStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_ALLIANCE),
+		ExoticStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_EXOTIC),
+		DroppedStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_DROPPED),
+		CrownStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_CROWN),
+
+		--CRAFT BAG
+		--BLACKSMITHING
+		RawMaterial = AF_Localize(SI_ITEMTYPE17),
+		RefinedMaterial = AF_Localize(SI_ITEMTYPE36),
+		Temper = AF_Localize(SI_ITEMTYPE41),
+		
+		--CLOTHING
+		Resin = AF_Localize(SI_ITEMTYPE43),
+		
+		--WOODWORKING
+		Tannin = AF_Localize(SI_ITEMTYPE42),
 	},
 	fr = {
 		--SHARED
@@ -317,7 +369,7 @@ local strings = {
         Heavy = AF_Localize(SI_ARMORTYPE3),
         Medium = AF_Localize(SI_ARMORTYPE2),
 		Light = AF_Localize(SI_ARMORTYPE1),
-		--Clothing = ,
+		Clothing = "Vêtements",
 		Shield = "Boucliers",
 		Jewelry = "Bijoux",
 		Vanity = "Divers",
@@ -355,10 +407,14 @@ local strings = {
 		ArmorTrait = AF_Localize(SI_ITEMTYPE45),
 
 		Reagent = AF_Localize(SI_ITEMTYPE31),
-        Solvent = AF_Localize(SI_ITEMTYPE33),
+        Water = AF_Localize(SI_ITEMTYPE33),
+		Oil = AF_Localize(SI_ITEMTYPE58),
 		Aspect = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
 		Essence = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
 		Potency = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
+		FoodIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_FOOD)),
+	    DrinkIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_DRINK)),
+		OldIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_NONE)),
 
 		--MISCELLANEOUS
 		Glyphs = "Glyphs",
@@ -366,12 +422,36 @@ local strings = {
 		Siege = AF_Localize(SI_ITEMTYPE6),
 		Bait = "App\195\162ts",
 		Tool = AF_Localize(SI_ITEMTYPE9),
-		--Fence = ,
+		Fence = AF_Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
 		Trash = AF_Localize(SI_ITEMTYPE48),
 
         ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
+
+		--DROPDOWN CONTEXT MENU
+		ResetToAll = "Réinitialiser à Tout",
+		InvertDropdownFilter = "Inverser la sélection",
+		
+		--LibMotifCategories
+		NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL),
+		RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE),
+		AllianceStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_ALLIANCE),
+		ExoticStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_EXOTIC),
+		DroppedStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_DROPPED),
+		CrownStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_CROWN),
+
+		--CRAFT BAG
+		--BLACKSMITHING
+		RawMaterial = AF_Localize(SI_ITEMTYPE17),
+		RefinedMaterial = AF_Localize(SI_ITEMTYPE36),
+		Temper = AF_Localize(SI_ITEMTYPE41),
+		
+		--CLOTHING
+		Resin = AF_Localize(SI_ITEMTYPE43),
+		
+		--WOODWORKING
+		Tannin = AF_Localize(SI_ITEMTYPE42),
 	},
 	ru = {
 		--SHARED
@@ -449,7 +529,7 @@ local strings = {
 		Siege = AF_Localize(SI_ITEMTYPE6),
 		Bait = "Îaæèáêa",
 		Tool = AF_Localize(SI_ITEMTYPE9),
-		--Fence = ,
+		Fence = AF_Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
 		Trash = AF_Localize(SI_ITEMTYPE48),
 
         ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
