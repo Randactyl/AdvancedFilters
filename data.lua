@@ -640,6 +640,10 @@ AF.subfilterCallbacks = {
 			filterCallback = GetFilterCallbackForProvisioningIngredient("Old"),
 			dropdownCallbacks = {},
 		},
+		["Bait"] = {
+			filterCallback = GetFilterCallback({ITEMTYPE_LURE}),
+			dropdownCallbacks = {},
+		},
 	},
 	["Style"] = {
 		addonDropdownCallbacks = {},
