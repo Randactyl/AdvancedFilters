@@ -87,7 +87,7 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 
 			ClearMenu()
 			for _, entry in ipairs(entries) do
-				AddMenuItem(entry.name, entry.callback, MENU_ADD_OPTION_LABEL)
+				AddCustomMenuItem(entry.name, entry.callback, MENU_ADD_OPTION_LABEL)
 			end
 			ShowMenu(dropdown)
 		end
@@ -104,7 +104,8 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 		for i = 1, #self.m_sortedItems do
 			-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
 			local item = self.m_sortedItems[i]
-			AddMenuItem(item.name,
+			--use LibCustomMenu
+			AddCustomMenuItem(item.name,
 			  function()
 			      ZO_ComboBox_Base_ItemSelectedClickHelper(self, item)
 				  --my code
