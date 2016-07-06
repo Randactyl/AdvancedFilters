@@ -120,6 +120,10 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 			"All", "Glyphs", "SoulGem", "Siege", "Bait", "Tool", "Trophy",
             "Fence", "Trash",
 		},
+		["Junk"] = {
+			"All", "Weapon", "Apparel", "Consumable", "Materials",
+			"Miscellaneous"
+		},
 		["Blacksmithing"] = {
 			"All", "RawMaterial", "RefinedMaterial", "Temper",
 		},

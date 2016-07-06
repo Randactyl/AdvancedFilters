@@ -205,6 +205,33 @@ local textures = {
 		mouseOver = "AdvancedFilters/assets/miscellaneous/trash/trash_over.dds",
 	},
 
+	--JUNK
+	Weapon = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_weapons_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_weapons_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_weapons_over.dds",
+	},
+	Apparel = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_armor_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_armor_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_armor_over.dds",
+	},
+	Consumable = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_consumables_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_consumables_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_consumables_over.dds",
+	},
+	Materials = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_crafting_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_crafting_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_crafting_over.dds",
+	},
+	Miscellaneous = {
+		normal = "EsoUI/Art/Inventory/inventory_tabIcon_misc_up.dds",
+		pressed = "EsoUI/Art/Inventory/inventory_tabIcon_misc_down.dds",
+		mouseOver = "EsoUI/Art/Inventory/inventory_tabIcon_misc_over.dds",
+	},
+
 	--CRAFT BAG
 	--BLACKSMITHING
 	RawMaterial = {

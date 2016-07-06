@@ -96,6 +96,13 @@ local strings = {
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
 
+		--JUNK
+		Weapon = AF_Localize(SI_ITEMFILTERTYPE1),
+		Apparel = AF_Localize(SI_ITEMFILTERTYPE2),
+		Consumable = AF_Localize(SI_ITEMFILTERTYPE3),
+		Materials = AF_Localize(SI_ITEMFILTERTYPE4),
+		Miscellaneous = AF_Localize(SI_ITEMFILTERTYPE5),
+
 		--DROPDOWN CONTEXT MENU
 		ResetToAll = "Alle anzeigen",
 		InvertDropdownFilter = "Filter umdrehen",
@@ -206,6 +213,13 @@ local strings = {
 		ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
 		JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
 		WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
+
+		--JUNK
+		Weapon = AF_Localize(SI_ITEMFILTERTYPE1),
+		Apparel = AF_Localize(SI_ITEMFILTERTYPE2),
+		Consumable = AF_Localize(SI_ITEMFILTERTYPE3),
+		Materials = AF_Localize(SI_ITEMFILTERTYPE4),
+		Miscellaneous = AF_Localize(SI_ITEMFILTERTYPE5),
 
 		--DROPDOWN CONTEXT MENU
 		ResetToAll = "Reset to All",
@@ -318,6 +332,13 @@ local strings = {
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
 
+		--JUNK
+		Weapon = AF_Localize(SI_ITEMFILTERTYPE1),
+		Apparel = AF_Localize(SI_ITEMFILTERTYPE2),
+		Consumable = AF_Localize(SI_ITEMFILTERTYPE3),
+		Materials = AF_Localize(SI_ITEMFILTERTYPE4),
+		Miscellaneous = AF_Localize(SI_ITEMFILTERTYPE5),
+
 		--DROPDOWN CONTEXT MENU
 		ResetToAll = "Reset to All",
 		InvertDropdownFilter = "Invert Dropdown Filter",
@@ -429,6 +450,13 @@ local strings = {
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
 
+		--JUNK
+		Weapon = AF_Localize(SI_ITEMFILTERTYPE1),
+		Apparel = AF_Localize(SI_ITEMFILTERTYPE2),
+		Consumable = AF_Localize(SI_ITEMFILTERTYPE3),
+		Materials = AF_Localize(SI_ITEMFILTERTYPE4),
+		Miscellaneous = AF_Localize(SI_ITEMFILTERTYPE5),
+
 		--DROPDOWN CONTEXT MENU
 		ResetToAll = "Réinitialiser à Tout",
 		InvertDropdownFilter = "Inverser la sélection",
@@ -535,6 +563,13 @@ local strings = {
         ArmorGlyph = AF_Localize(SI_ITEMTYPE21),
         JewelryGlyph = AF_Localize(SI_ITEMTYPE26),
         WeaponGlyph = AF_Localize(SI_ITEMTYPE20),
+
+		--JUNK
+		Weapon = AF_Localize(SI_ITEMFILTERTYPE1),
+		Apparel = AF_Localize(SI_ITEMFILTERTYPE2),
+		Consumable = AF_Localize(SI_ITEMFILTERTYPE3),
+		Materials = AF_Localize(SI_ITEMFILTERTYPE4),
+		Miscellaneous = AF_Localize(SI_ITEMFILTERTYPE5),
 	},
 }
 
