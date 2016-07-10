@@ -113,29 +113,35 @@ local function InitializeHooks()
 		end
 	end
 
-	--SCENE SHOWN HOOKS
-	local function hookInventory(control, inventoryType)
-		local function onInventoryShown(control, hidden)
+	--FRAGMENT HOOKS
+	local function hookFragment(fragment, inventoryType)
+		local function onFragmentShowing()
 			AF.currentInventoryType = inventoryType
 
 			if inventoryType == 6 then
 				AF.util.ThrottledUpdate("showVendorSellBar", 10,
-				  RefreshSubfilterBar, STORE_WINDOW.currentFilter)
+					RefreshSubfilterBar, STORE_WINDOW.currentFilter)
 			else
 				AF.util.ThrottledUpdate(
-				  "showInventory" .. inventoryType .. "Bar", 10,
-				  RefreshSubfilterBar,
-				  PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
+					"showInventory" .. inventoryType .. "Bar", 10,
+					RefreshSubfilterBar,
+					PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
+			end
+		end
+		
+		local function onFragmentStateChange(oldState, newState)
+			if newState == SCENE_FRAGMENT_SHOWING then
+				onFragmentShowing()
 			end
 		end
 
-		ZO_PreHookHandler(control, "OnEffectivelyShown", onInventoryShown)
+		fragment:RegisterCallback("StateChange", onFragmentStateChange)
 	end
-	hookInventory(ZO_PlayerInventory, INVENTORY_BACKPACK)
-	hookInventory(ZO_PlayerBank, INVENTORY_BANK)
-	hookInventory(ZO_GuildBank, INVENTORY_GUILD_BANK)
-	hookInventory(ZO_CraftBag, INVENTORY_CRAFT_BAG)
-	hookInventory(ZO_StoreWindow, 6)
+	hookFragment(INVENTORY_FRAGMENT, INVENTORY_BACKPACK)
+	hookFragment(BANK_FRAGMENT, INVENTORY_BANK)
+	hookFragment(GUILD_BANK_FRAGMENT, INVENTORY_GUILD_BANK)
+	hookFragment(CRAFT_BAG_FRAGMENT, INVENTORY_CRAFT_BAG)
+	hookFragment(STORE_FRAGMENT, 6)
 
 	--PREHOOKS
 	local function ChangeFilterInventory(self, filterTab)
