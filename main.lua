@@ -116,6 +116,55 @@ local function InitializeHooks()
 		end
 	end
 
+	--TABLE TRACKER
+	--[[
+		this is a hacky way of knowing when items go in and out of an inventory.
+
+		t = the tracked table (ZO_InventoryManager.isListDirty/PLAYER_INVENTORY.isListDirty)
+		k = inventoryType
+		v = isDirty
+		pk = private key (no two empty tables are the same) where we store t
+		mt = our metatable where we can do the tracking
+	]]
+	--create private key
+    local pk = {}
+    --create metatable
+    local mt = {
+		__index = function(t, k)
+        	--d("*access to element " .. tostring(k))
+
+			--access the tracked table
+        	return t[pk][k]
+    	end,
+    	__newindex = function(t, k, v)
+        	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
+
+			--update the tracked table
+        	t[pk][k] = v
+
+			--refresh subfilters for inventory type
+			local subfilterGroup = AF.subfilterGroups[k]
+			if not subfilterGroup then return end
+			local currentSubfilterBar = subfilterGroup.currentSubfilterBar
+			if not currentSubfilterBar then return end
+
+			AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10, AF.util.RefreshSubfilterBar, currentSubfilterBar)
+    	end,
+    }
+	--tracking function. Returns a proxy table with our metatable attached.
+	local function track(t)
+		local proxy = {}
+		proxy[pk] = t
+		setmetatable(proxy, mt)
+		return proxy
+    end
+	--untracking function. Returns the tracked table and destroys the proxy.
+	local function untrack(proxy)
+		local t = proxy[pk]
+		proxy = nil
+		return t
+	end
+
 	--FRAGMENT HOOKS
 	local function hookFragment(fragment, inventoryType)
 		local function onFragmentShowing()
@@ -130,11 +179,22 @@ local function InitializeHooks()
 					RefreshSubfilterBar,
 					PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
 			end
+
+			--PLAYER_INVENTORY.isListDirty doesn't "exist" in the first place.
+			--The table in the backing class was being used, so we'll track that table,
+			--	but set the proxy to the lookup point.
+			PLAYER_INVENTORY.isListDirty = track(ZO_InventoryManager.isListDirty)
+		end
+
+		local function onFragmentHiding()
+			PLAYER_INVENTORY.isListDirty = untrack(ZO_InventoryManager.isListDirty)
 		end
 		
 		local function onFragmentStateChange(oldState, newState)
 			if newState == SCENE_FRAGMENT_SHOWING then
 				onFragmentShowing()
+			elseif newState == SCENE_FRAGMENT_HIDING then
+				onFragmentHiding()
 			end
 		end
 
@@ -167,48 +227,6 @@ local function InitializeHooks()
 		  AF.util.RefreshSubfilterGroup, 6)
 	end
 	ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterVendor)
-
-	--POSTHOOKS
-	--[[
-		this is a hacky way of knowing when items go in and out of an inventory.
-
-		t = the tracked table (ZO_InventoryManager.isListDirty/PLAYER_INVENTORY.isListDirty)
-		k = inventoryType
-		v = isDirty
-		pk = private key (no two empty tables are the same) where we store t
-		mt = our metatable where we can do the tracking
-	]]
-	--create private key
-    local pk = {}
-    --create metatable
-    local mt = {
-		__index = function(t, k)
-        	--d("*access to element " .. tostring(k))
-
-			--access the tracked table
-        	return t[pk][k]
-    	end,
-    	__newindex = function(t, k, v)
-        	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
-
-			--update the tracked table
-        	t[pk][k] = v
-
-			--refresh subfilters for inventory type
-			AF.util.ThrottledUpdate("isDirtyRefresh", 10, AF.util.RefreshSubfilterGroup, k)
-    	end,
-    }
-	--tracking function. Returns a proxy table with our metatable attached.
-	local function track(t)
-		local proxy = {}
-		proxy[pk] = t
-		setmetatable(proxy, mt)
-		return proxy
-    end
-	--PLAYER_INVENTORY.isListDirty doesn't "exist" in the first place.
-	--The table in the backing class was being used, so we'll track that table,
-	--	but set the proxy to the lookup point.
-	PLAYER_INVENTORY.isListDirty = track(ZO_InventoryManager.isListDirty)
 end
 
 local function CreateSubfilterBars()
