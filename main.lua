@@ -48,7 +48,7 @@ AF.subfilterGroups = {
 AF.currentInventoryType = INVENTORY_BACKPACK
 
 local function InitializeHooks()
-	local function RefreshSubfilterBar(currentFilter)
+	local function ShowSubfilterBar(currentFilter)
 		local function UpdateListAnchors(self, shiftY)
 			local layoutData = self.appliedLayout or BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData
 			if not layoutData then return end
@@ -71,15 +71,15 @@ local function InitializeHooks()
 		local subfilterGroup = AF.subfilterGroups[AF.currentInventoryType]
 		local subfilterBar = subfilterGroup[currentFilter]
 
-		--hide and update old bar, if it exists
-		if subfilterGroup.lastSubfilterBar ~= nil then
-			subfilterGroup.lastSubfilterBar:SetHidden(true)
+		--hide old bar, if it exists
+		if subfilterGroup.currentSubfilterBar ~= nil then
+			subfilterGroup.currentSubfilterBar:SetHidden(true)
 		end
 
 		--if new bar exists
 		if subfilterBar then
-			--set old bar reference
-			subfilterGroup.lastSubfilterBar = subfilterBar
+			--set current bar reference
+			subfilterGroup.currentSubfilterBar = subfilterBar
 
 			--set currentFilter since we need it before the original ChangeFilter updates it
 			if subfilterBar.inventoryType == 6 then
@@ -110,6 +110,9 @@ local function InitializeHooks()
 			else
 				UpdateListAnchors(PLAYER_INVENTORY, 0)
 			end
+
+			--remove current bar reference
+			subfilterGroup.currentSubfilterBar = nil
 		end
 	end
 
