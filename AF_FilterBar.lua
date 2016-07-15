@@ -112,7 +112,6 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 				PlaySound(SOUNDS.MENU_BAR_CLICK)
 			end
 
-			--use LibCustomMenu
 			AddCustomMenuItem(item.name, OnSelect, nil, self.m_font,
 			  self.m_normalColor, self.m_highlightColor)
 		end

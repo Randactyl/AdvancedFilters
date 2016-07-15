@@ -52,7 +52,7 @@ end
 
 function AF.util.RefreshSubfilterBar(subfilterBar)
 	if not subfilterBar then return end
-	
+
 	local inventoryType = subfilterBar.inventoryType
     local inventory, inventorySlots
 
