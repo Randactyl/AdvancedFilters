@@ -148,7 +148,7 @@ local function InitializeHooks()
 			local currentSubfilterBar = subfilterGroup.currentSubfilterBar
 			if not currentSubfilterBar then return end
 
-			AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10, AF.util.RefreshSubfilterBar, currentSubfilterBar)
+			AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 1, AF.util.RefreshSubfilterBar, currentSubfilterBar)
     	end,
     }
 	--tracking function. Returns a proxy table with our metatable attached.
@@ -171,11 +171,11 @@ local function InitializeHooks()
 			AF.currentInventoryType = inventoryType
 
 			if inventoryType == 6 then
-				AF.util.ThrottledUpdate("ShowSubfilterBar" .. inventoryType, 10,
+				AF.util.ThrottledUpdate("ShowSubfilterBar" .. inventoryType, 1,
 				  ShowSubfilterBar, STORE_WINDOW.currentFilter)
 			else
 				AF.util.ThrottledUpdate(
-				  "ShowSubfilterBar" .. inventoryType, 10, ShowSubfilterBar,
+				  "ShowSubfilterBar" .. inventoryType, 1, ShowSubfilterBar,
 				  PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
 			end
 
@@ -211,7 +211,7 @@ local function InitializeHooks()
 		
 		if AF.currentInventoryType ~= 6 then
 			AF.util.ThrottledUpdate(
-			  "ShowSubfilterBar" .. AF.currentInventoryType, 10,
+			  "ShowSubfilterBar" .. AF.currentInventoryType, 1,
 			  ShowSubfilterBar, currentFilter)
 		end
 	end
@@ -219,7 +219,7 @@ local function InitializeHooks()
 	local function ChangeFilterVendor(self, filterTab)
 		local currentFilter = filterTab.filterType
 		
-		AF.util.ThrottledUpdate("ShowSubfilterBar6", 10, ShowSubfilterBar,
+		AF.util.ThrottledUpdate("ShowSubfilterBar6", 1, ShowSubfilterBar,
 		  currentFilter)
 
 		local subfilterGroup = AF.subfilterGroups[6]
@@ -227,7 +227,7 @@ local function InitializeHooks()
 		local currentSubfilterBar = subfilterGroup.currentSubfilterBar
 		if not currentSubfilterBar then return end
 		
-		AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 50,
+		AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 1,
 		  AF.util.RefreshSubfilterBar, currentSubfilterBar)
 	end
 	ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterVendor)

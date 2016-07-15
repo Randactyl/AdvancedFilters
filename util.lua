@@ -222,15 +222,24 @@ function AF.util.GetLanguage()
 	return "en"
 end
 
-function AF.util.ThrottledUpdate(callbackName, timer, callback, ...)
-	local args = {...}
-	local function Update()
-		EVENT_MANAGER:UnregisterForUpdate(callbackName)
-		callback(unpack(args))
+lastUpdates = {}
+
+function AF.util.ThrottledUpdate(callbackName, lockoutTime, callback, ...)
+	local timestamp = GetTimeStamp()
+	local lastUpdate = lastUpdates[callbackName] or 0
+	local isLockedOut = true
+
+	if (timestamp - lastUpdate) > lockoutTime then
+			isLockedOut = false
 	end
-	
-	EVENT_MANAGER:UnregisterForUpdate(callbackName)
-	EVENT_MANAGER:RegisterForUpdate(callbackName, timer, Update)
+
+	if not isLockedOut then
+		local args = {...}
+
+		callback(unpack(args))
+
+		lastUpdates[callbackName] = timestamp
+	end
 end
 
 function AF.util.GetItemLink(slot)
