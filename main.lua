@@ -166,18 +166,31 @@ local function InitializeHooks()
 	ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterVendor)
 
 	--POSTHOOKS
-	--create private index
-	--this is my table. There are many like it, but this one is mine.
-    local index = {}
+	--[[
+		this is a hacky way of knowing when items go in and out of an inventory.
+
+		t = the tracked table (ZO_InventoryManager.isListDirty/PLAYER_INVENTORY.isListDirty)
+		k = inventoryType
+		v = isDirty
+		pk = private key (no two empty tables are the same) where we store t
+		mt = our metatable where we can do the tracking
+	]]
+	--create private key
+    local pk = {}
     --create metatable
     local mt = {
 		__index = function(t, k)
         	--d("*access to element " .. tostring(k))
-        	return t[index][k]   -- access the original table
+
+			--access the tracked table
+        	return t[pk][k]
     	end,
     	__newindex = function(t, k, v)
         	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
-        	t[index][k] = v   -- update original table
+
+			--update the tracked table
+        	t[pk][k] = v
+
 			--refresh subfilters for inventory type
 			AF.util.ThrottledUpdate("isDirtyRefresh", 10, AF.util.RefreshSubfilterGroup, k)
     	end,
@@ -185,7 +198,7 @@ local function InitializeHooks()
 	--tracking function. Returns a proxy table with our metatable attached.
 	local function track(t)
 		local proxy = {}
-		proxy[index] = t
+		proxy[pk] = t
 		setmetatable(proxy, mt)
 		return proxy
     end
