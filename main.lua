@@ -171,13 +171,12 @@ local function InitializeHooks()
 			AF.currentInventoryType = inventoryType
 
 			if inventoryType == 6 then
-				AF.util.ThrottledUpdate("showVendorSellBar", 10,
-					RefreshSubfilterBar, STORE_WINDOW.currentFilter)
+				AF.util.ThrottledUpdate("ShowSubfilterBar" .. inventoryType, 10,
+				  ShowSubfilterBar, STORE_WINDOW.currentFilter)
 			else
 				AF.util.ThrottledUpdate(
-					"showInventory" .. inventoryType .. "Bar", 10,
-					RefreshSubfilterBar,
-					PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
+				  "ShowSubfilterBar" .. inventoryType, 10, ShowSubfilterBar,
+				  PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
 			end
 
 			--PLAYER_INVENTORY.isListDirty doesn't "exist" in the first place.
@@ -212,15 +211,15 @@ local function InitializeHooks()
 		
 		if AF.currentInventoryType ~= 6 then
 			AF.util.ThrottledUpdate(
-			  "showInventory" .. AF.currentInventoryType .. "Bar", 10,
-			  RefreshSubfilterBar, currentFilter)
+			  "ShowSubfilterBar" .. AF.currentInventoryType, 10,
+			  ShowSubfilterBar, currentFilter)
 		end
 	end
 	ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilterInventory)
 	local function ChangeFilterVendor(self, filterTab)
 		local currentFilter = filterTab.filterType
 		
-		AF.util.ThrottledUpdate("showVendorSellBar", 10, RefreshSubfilterBar,
+		AF.util.ThrottledUpdate("ShowSubfilterBar6", 10, ShowSubfilterBar,
 		  currentFilter)
 
 		local subfilterGroup = AF.subfilterGroups[6]
