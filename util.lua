@@ -51,7 +51,8 @@ function AF.util.RemoveAllFilters()
 end
 
 function AF.util.RefreshSubfilterBar(subfilterBar)
-    if not subfilterBar then return end
+	if not subfilterBar then return end
+	
 	local inventoryType = subfilterBar.inventoryType
     local inventory, inventorySlots
 
@@ -81,16 +82,6 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
 				button.clickable = true
 			end
 		end
-	end
-end
-
-function AF.util.RefreshSubfilterGroup(inventoryType)
-	if inventoryType == INVENTORY_QUEST_ITEM then return end
-	
-	local subfilterGroup = AF.subfilterGroups[inventoryType]
-	
-	for itemFilterType, subfilterBar in pairs(subfilterGroup) do
-		AF.util.RefreshSubfilterBar(subfilterBar)
 	end
 end
 

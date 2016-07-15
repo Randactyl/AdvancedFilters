@@ -222,9 +222,14 @@ local function InitializeHooks()
 		
 		AF.util.ThrottledUpdate("showVendorSellBar", 10, RefreshSubfilterBar,
 		  currentFilter)
+
+		local subfilterGroup = AF.subfilterGroups[6]
+		if not subfilterGroup then return end
+		local currentSubfilterBar = subfilterGroup.currentSubfilterBar
+		if not currentSubfilterBar then return end
 		
-		AF.util.ThrottledUpdate("changeFilterVendor", 10,
-		  AF.util.RefreshSubfilterGroup, 6)
+		AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 50,
+		  AF.util.RefreshSubfilterBar, currentSubfilterBar)
 	end
 	ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterVendor)
 end
