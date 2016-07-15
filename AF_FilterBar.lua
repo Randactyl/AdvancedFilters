@@ -100,23 +100,22 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 		local button = self:GetCurrentButton()
 		local self = comboBox
 
-		--ZOS code
 		for i = 1, #self.m_sortedItems do
 			-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
 			local item = self.m_sortedItems[i]
-			--use LibCustomMenu
-			AddCustomMenuItem(item.name,
-			  function()
-			      ZO_ComboBox_Base_ItemSelectedClickHelper(self, item)
-				  --my code
-				  button.previousDropdownSelection = item
 
-				  PlaySound(SOUNDS.MENU_BAR_CLICK)
-				  --end my code
-			  end,
-			  nil, self.m_font, self.m_normalColor, self.m_highlightColor)
+			local function OnSelect()
+				ZO_ComboBox_Base_ItemSelectedClickHelper(self, item)
+
+				button.previousDropdownSelection = item
+
+				PlaySound(SOUNDS.MENU_BAR_CLICK)
+			end
+
+			--use LibCustomMenu
+			AddCustomMenuItem(item.name, OnSelect, nil, self.m_font,
+			  self.m_normalColor, self.m_highlightColor)
 		end
-		--end ZOS code
 
 		local submenuCandidates = self.submenuCandidates
 
@@ -173,23 +172,30 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
 
 	button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
 	button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
-	button:SetHandler("OnClicked", function(clickedButton, subfilterName)
-        if(not clickedButton.clickable) then return end
 
-		self:ActivateButton(clickedButton)
-    end)
-	button:SetHandler("OnMouseEnter", function(self)
-		ZO_Tooltips_ShowTextTooltip(self, TOP, AF.strings[subfilterName])
+	local function OnClicked(thisButton)
+		if(not thisButton.clickable) then return end
 
-		if(button.clickable) then
+		self:ActivateButton(thisButton)
+	end
+
+	local function OnMouseEnter(thisButton)
+		ZO_Tooltips_ShowTextTooltip(thisButton, TOP, AF.strings[subfilterName])
+
+		if(thisButton.clickable) then
 			highlight:SetHidden(false)
 		end
-	end)
-	button:SetHandler("OnMouseExit", function()
+	end
+
+	local function OnMouseExit()
 		ZO_Tooltips_HideTextTooltip()
 
 		highlight:SetHidden(true)
-	end)
+	end
+
+	button:SetHandler("OnClicked", OnClicked)
+	button:SetHandler("OnMouseEnter", OnMouseEnter)
+	button:SetHandler("OnMouseExit", OnMouseExit)
 
 	button.name = subfilterName
 	button.texture = texture

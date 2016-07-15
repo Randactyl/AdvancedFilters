@@ -233,12 +233,13 @@ end
 
 function AF.util.ThrottledUpdate(callbackName, timer, callback, ...)
 	local args = {...}
-	
-	EVENT_MANAGER:UnregisterForUpdate(callbackName)
-	EVENT_MANAGER:RegisterForUpdate(callbackName, timer, function()
+	local function Update()
 		EVENT_MANAGER:UnregisterForUpdate(callbackName)
 		callback(unpack(args))
-	end)
+	end
+	
+	EVENT_MANAGER:UnregisterForUpdate(callbackName)
+	EVENT_MANAGER:RegisterForUpdate(callbackName, timer, Update)
 end
 
 function AF.util.GetItemLink(slot)
