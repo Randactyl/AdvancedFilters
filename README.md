@@ -26,6 +26,6 @@ Finally, Advanced Filters! The default inventory has type filters, but they're s
 
 If you would like to further filter your quickslot items, I wholly recommend installing [Mer Quickslot Filters](http://www.esoui.com/downloads/info707-MerQuickslotFilters.html) or [Mer Quickslot Filters - Split up consumables (drink, food, potion)](http://www.esoui.com/downloads/info953-MerQuickslotFilters-Splitupconsumablesdrinkfoodpotion.html)!
 
-Fully compatible with [AwesomGuildStore](http://www.esoui.com/downloads/info695-AwesomeGuildStore.html)!
+Fully compatible with [AwesomeGuildStore](http://www.esoui.com/downloads/info695-AwesomeGuildStore.html)!
 
 ingeniousclown has stepped away from this addon, however I'm continuing to support it and add new features! If you encounter any bugs or have a suggestion, leave a comment here or message me either on the site or ingame at @Randactyl. If you'd like to donate, I'm always willing to accept in-game gold :D
