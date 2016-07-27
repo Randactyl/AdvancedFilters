@@ -60,8 +60,8 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 						local button = self:GetCurrentButton()
 						button.previousDropdownSelection = comboBox.m_sortedItems[1]
 
-						local filterType = AF.util.libFilters:GetCurrentFilterType(self.inventoryType) or LF_VENDOR_BUY
-						AF.util.libFilters:RequestInventoryUpdate(filterType)
+						local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
+						AF.util.LibFilters:RequestUpdate(filterType)
 
 						PlaySound(SOUNDS.MENU_BAR_CLICK)
 					end,
@@ -71,14 +71,15 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 					callback = function()
 						local button = self:GetCurrentButton()
 
-						local filterType = AF.util.libFilters:GetCurrentFilterType(self.inventoryType) or LF_VENDOR_BUY
-						local originalCallback = AF.util.libFilters.filters[filterType].AF_DropdownFilter
-
-						AF.util.libFilters.filters[filterType].AF_DropdownFilter = function(slot)
+						local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
+						local originalCallback = AF.util.LibFilters:GetFilterCallback("AF_DropdownFilter", filterType)
+						local filterCallback = function(slot)
 							return not originalCallback(slot)
 						end
 
-						AF.util.libFilters:RequestInventoryUpdate(filterType)
+						AF.util.LibFilters:UnregisterFilter("AF_DropdownFilter", filterType)
+						AF.util.LibFilters:RegisterFilter("AF_DropdownFilter", filterType, filterCallback)
+						AF.util.LibFilters:RequestUpdate(filterType)
 
 						PlaySound(SOUNDS.MENU_BAR_CLICK)
 					end,

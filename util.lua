@@ -1,18 +1,18 @@
 local AF = AdvancedFilters
 AF.util = {}
-AF.util.libFilters = LibStub("libFilters-2.0")
-AF.util.libFilters:InitializeLibFilters()
+AF.util.LibFilters = LibStub("LibFilters-2.0")
+AF.util.LibFilters:InitializeLibFilters()
 AF.util.LibMotifCategories = LibStub("LibMotifCategories-1.0")
 
 function AF.util.ApplyFilter(button, filterTag, requestUpdate)
-    local libFilters = AF.util.libFilters
+    local LibFilters = AF.util.LibFilters
 	local callback = button.filterCallback
 	local filterType
 
     if AF.currentInventoryType == 6 then
         filterType = LF_VENDOR_BUY
     else
-        filterType = libFilters:GetCurrentFilterType(AF.currentInventoryType)
+        filterType = LibFilters:GetCurrentFilterTypeForInventory(AF.currentInventoryType)
     end
 	
 	--d("Apply " .. button.name .. " from " .. filterTag .. " for filterType " .. filterType .. " and inventoryType " .. AF.currentInventoryType)
@@ -28,26 +28,26 @@ function AF.util.ApplyFilter(button, filterTag, requestUpdate)
     end
 
 	--first, clear current filters without an update
-	libFilters:UnregisterFilter(filterTag)
+	LibFilters:UnregisterFilter(filterTag)
 	--then register new one and hand off update parameter
-	libFilters:RegisterFilter(filterTag, filterType, callback)
-	if requestUpdate == true then libFilters:RequestInventoryUpdate(filterType) end
+	LibFilters:RegisterFilter(filterTag, filterType, callback)
+	if requestUpdate == true then LibFilters:RequestUpdate(filterType) end
 end
 
 function AF.util.RemoveAllFilters()
-    local libFilters = AF.util.libFilters
+    local LibFilters = AF.util.LibFilters
     local filterType
 
     if AF.currentInventoryType == 6 then
         filterType = LF_VENDOR_BUY
     else
-        filterType = libFilters:GetCurrentFilterType(AF.currentInventoryType)
+        filterType = LibFilters:GetCurrentFilterTypeForInventory(AF.currentInventoryType)
     end
 
-	libFilters:UnregisterFilter("AF_ButtonFilter")
-	libFilters:UnregisterFilter("AF_DropdownFilter")
+	LibFilters:UnregisterFilter("AF_ButtonFilter")
+	LibFilters:UnregisterFilter("AF_DropdownFilter")
 
-	if filterType ~= nil then libFilters:RequestInventoryUpdate(filterType) end
+	if filterType ~= nil then LibFilters:RequestUpdate(filterType) end
 end
 
 function AF.util.RefreshSubfilterBar(subfilterBar)

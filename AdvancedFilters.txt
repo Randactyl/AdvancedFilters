@@ -2,6 +2,7 @@
 ## Author: Randactyl
 ## Version: 1.3.1.0
 ## APIVersion: 100015
+## OptionalDependsOn: LibFilters-2.0
 
 lib\LibStub\LibStub.lua
 
