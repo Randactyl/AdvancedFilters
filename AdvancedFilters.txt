@@ -6,8 +6,8 @@
 
 lib\LibStub\LibStub.lua
 
-lib\libFilters-2.0\libFilters-2.0.lua
-lib\libFilters-2.0\storeNormaliztion.lua
+lib\LibFilters-2.0\LibFilters-2.0.lua
+lib\LibFilters-2.0\helper.lua
 lib\libCommonInventoryFilters\libCommonInventoryFilters.lua
 lib\LibCustomMenu\LibCustomMenu.lua
 lib\LibMotifCategories-1.0\LibMotifCategories-1.0.lua
