@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 1
+local MAJOR, MINOR = "LibFilters-2.0", 2
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
@@ -29,6 +29,7 @@ LF_PROVISIONING_BREW     = 23
 LF_FENCE_SELL            = 24
 LF_FENCE_LAUNDER         = 25
 LF_CRAFTBAG				 = 26
+LF_QUICKSLOT             = 27
 
 LibFilters.isInitialized = false
 LibFilters.filters = {
@@ -58,36 +59,38 @@ LibFilters.filters = {
 	[LF_FENCE_SELL] = {},
 	[LF_FENCE_LAUNDER] = {},
 	[LF_CRAFTBAG] = {},
+	[LF_QUICKSLOT] = {},
 }
 local filters = LibFilters.filters
 
 local filterTypeToUpdaterName = {
-	[LF_INVENTORY] = "INVENTORY", --done
-	[LF_BANK_WITHDRAW] = "BANK_WITHDRAW", --done
-	[LF_BANK_DEPOSIT] = "INVENTORY", --done
-	[LF_GUILDBANK_WITHDRAW] = "GUILDBANK_WITHDRAW", --done
-	[LF_GUILDBANK_DEPOSIT] = "INVENTORY", --done
-	[LF_VENDOR_BUY] = "VENDOR_BUY", --done
-	[LF_VENDOR_SELL] = "INVENTORY", --done
-	[LF_VENDOR_BUYBACK] = "VENDOR_BUYBACK", --done
-	[LF_VENDOR_REPAIR] = "VENDOR_REPAIR", --done
+	[LF_INVENTORY] = "INVENTORY",
+	[LF_BANK_WITHDRAW] = "BANK_WITHDRAW",
+	[LF_BANK_DEPOSIT] = "INVENTORY",
+	[LF_GUILDBANK_WITHDRAW] = "GUILDBANK_WITHDRAW",
+	[LF_GUILDBANK_DEPOSIT] = "INVENTORY",
+	[LF_VENDOR_BUY] = "VENDOR_BUY",
+	[LF_VENDOR_SELL] = "INVENTORY",
+	[LF_VENDOR_BUYBACK] = "VENDOR_BUYBACK",
+	[LF_VENDOR_REPAIR] = "VENDOR_REPAIR",
 	[LF_GUILDSTORE_BROWSE] = "GUILDSTORE_BROWSE",
-	[LF_GUILDSTORE_SELL] = "INVENTORY", --done
-	[LF_MAIL_SEND] = "INVENTORY", --done
-	[LF_TRADE] = "INVENTORY", --done
-	[LF_SMITHING_REFINE] = "SMITHING_REFINE", --done
+	[LF_GUILDSTORE_SELL] = "INVENTORY",
+	[LF_MAIL_SEND] = "INVENTORY",
+	[LF_TRADE] = "INVENTORY",
+	[LF_SMITHING_REFINE] = "SMITHING_REFINE",
 	[LF_SMITHING_CREATION] = "SMITHING_CREATION",
-	[LF_SMITHING_DECONSTRUCT] = "SMITHING_DECONSTRUCT", --done
-	[LF_SMITHING_IMPROVEMENT] = "SMITHING_IMPROVEMENT", --done
-	[LF_SMITHING_RESEARCH] = "SMITHING_RESEARCH", --done
-	[LF_ALCHEMY_CREATION] = "ALCHEMY_CREATION", --done
-	[LF_ENCHANTING_CREATION] = "ENCHANTING", --done
-	[LF_ENCHANTING_EXTRACTION] = "ENCHANTING", --done
+	[LF_SMITHING_DECONSTRUCT] = "SMITHING_DECONSTRUCT",
+	[LF_SMITHING_IMPROVEMENT] = "SMITHING_IMPROVEMENT",
+	[LF_SMITHING_RESEARCH] = "SMITHING_RESEARCH",
+	[LF_ALCHEMY_CREATION] = "ALCHEMY_CREATION",
+	[LF_ENCHANTING_CREATION] = "ENCHANTING",
+	[LF_ENCHANTING_EXTRACTION] = "ENCHANTING",
 	[LF_PROVISIONING_COOK] = "PROVISIONING_COOK",
 	[LF_PROVISIONING_BREW] = "PROVISIONING_BREW",
-	[LF_FENCE_SELL] = "INVENTORY", --done
-	[LF_FENCE_LAUNDER] = "INVENTORY", --done
-	[LF_CRAFTBAG] = "CRAFTBAG", --done
+	[LF_FENCE_SELL] = "INVENTORY",
+	[LF_FENCE_LAUNDER] = "INVENTORY",
+	[LF_CRAFTBAG] = "CRAFTBAG",
+	[LF_QUICKSLOT] = "QUICKSLOT",
 }
 
 local inventoryUpdaters = {
@@ -140,7 +143,10 @@ local inventoryUpdaters = {
 	end,
 	CRAFTBAG = function()
 		PLAYER_INVENTORY:UpdateList(INVENTORY_CRAFT_BAG)
-	end
+	end,
+	QUICKSLOT = function()
+		QUICKSLOT_WINDOW:UpdateList()
+	end,
 }
 
 local function df(...)
@@ -166,7 +172,6 @@ function LibFilters:HookAdditionalFilter(filterType, inventory)
 		layoutData.additionalFilter = function(...)
 			--for enchanting
 			if (filterType == LF_ENCHANTING_CREATION or filterType == LF_ENCHANTING_EXTRACTION) then
-
 				return runFilters(filterType, ...)
 			end
 
@@ -220,7 +225,10 @@ function LibFilters:InitializeLibFilters()
 	
 	self:HookAdditionalFilter(LF_FENCE_SELL, BACKPACK_FENCE_LAYOUT_FRAGMENT)
 	self:HookAdditionalFilter(LF_FENCE_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
+
 	self:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
+
+	self:HookAdditionalFilter(LF_QUICKSLOT, QUICKSLOT_WINDOW)
 end
 
 function LibFilters:GetCurrentFilterTypeForInventory(inventoryType)
@@ -303,6 +311,7 @@ function LibFilters:UnregisterFilter(filterTag, filterType)
 	else
 		--unregister only the specified filter type
 		local callbacks = filters[filterType]
+		
 		if callbacks[filterTag] ~= nil then
 			callbacks[filterTag] = nil
 		end

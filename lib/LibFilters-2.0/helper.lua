@@ -1,9 +1,8 @@
 --enable LF_VENDOR_BUY
 STORE_WINDOW.ShouldAddItemToList = function(self, itemData)
-    local additionalFilter = self.additionalFilter
     local result = true
     
-    if type(additionalFilter) == "function" then
+    if type(self.additionalFilter) == "function" then
         result = self.additionalFilter(itemData)
     end
 
@@ -210,4 +209,21 @@ function SMITHING.researchPanel.Refresh(self)
     if self.activeRow then
         self:OnResearchRowActivate(self.activeRow)
     end
+end
+
+--enable LF_QUICKSLOT
+function QUICKSLOT_WINDOW.ShouldAddItemToList(self, itemData)
+    local result = true
+    
+    if type(self.additionalFilter) == "function" then
+        result = self.additionalFilter(itemData)
+    end
+
+    for i = 1, #itemData.filterData do
+        if(itemData.filterData[i] == ITEMFILTERTYPE_QUICKSLOT) then
+            return result and true
+        end
+    end
+
+    return false
 end
