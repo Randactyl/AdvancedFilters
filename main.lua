@@ -209,7 +209,7 @@ local function InitializeHooks()
 	local function ChangeFilterInventory(self, filterTab)
 		local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
 		
-		if AF.currentInventoryType ~= 6 then
+		if AF.currentInventoryType ~= 6 and filterTab.inventoryType == AF.currentInventoryType then
 			AF.util.ThrottledUpdate(
 			  "ShowSubfilterBar" .. AF.currentInventoryType, 10,
 			  ShowSubfilterBar, currentFilter)
