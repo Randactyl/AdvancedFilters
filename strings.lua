@@ -483,14 +483,14 @@ local strings = {
 	},
 	ru = {
 		--SHARED
-		All = "Áce",
+		All = "Все",
 		Trophy = AF_Localize(SI_ITEMTYPE5),
 
 		--WEAPON
-		OneHand = "Oäîopóùîoe",
-		TwoHand = "Äáópóùîoe",
+		OneHand = "Одноручное",
+		TwoHand = "Двуручное",
 		Bow = AF_Localize(SI_WEAPONTYPE8),
-		DestructionStaff = "Ïocox paçpóúeîèü",
+		DestructionStaff = "Посох разрушения",
 		HealStaff = AF_Localize(SI_WEAPONTYPE9),
 
 		Axe = AF_Localize(SI_WEAPONTYPE1),
@@ -509,19 +509,19 @@ local strings = {
         Medium = AF_Localize(SI_ARMORTYPE2),
 		Light = AF_Localize(SI_ARMORTYPE1),
 		--Clothing = ,
-		Shield = "Ûèò",
-		Jewelry = "Àèæóòepèü",
-		Vanity = "Paçîoe",
+		Shield = "Щит",
+		Jewelry = "Бижутерия",
+		Vanity = "Разное",
 
-		Head = "Âoìoáa",
-		Chest = "Òopc",
-		Shoulders = "Ïìeùè",
-		Hand = "Póêè",
-		Waist = "Ïoüc",
-		Legs = "Îoâè",
-		Feet = "Còóïîè",
-		Ring = "Êoìöœo",
-		Neck = "Úeü",
+		Head = "Голова",
+		Chest = "Торс",
+		Shoulders = "Плечи",
+		Hand = "Руки",
+		Waist = "Пояс",
+		Legs = "Ноги",
+		Feet = "Ступни",
+		Ring = "Кольцо",
+		Neck = "Шея",
 
 		--CONSUMABLES
 		Crown = AF_Localize(SI_ITEMTYPE57),
@@ -532,15 +532,15 @@ local strings = {
         Poison = AF_Localize(SI_ITEMTYPE30),
         Motif = AF_Localize(SI_ITEMTYPE8),
 		Container = AF_Localize(SI_ITEMTYPE18),
-		Repair = "Peíoîò",
+		Repair = "Ремонт",
 
 		--MATERIALS
-		Blacksmithing = "Êóçîeùecòáo",
-		Clothier = "Úèòöe",
-		Woodworking = "Äpeáooàpaàoòêa",
-		Alchemy = "Aìxèíèü",
-		Enchanting = "Çaùapoáaîèe",
-		Provisioning = "Êóìèîapèü",
+		Blacksmithing = "Кузнечество",
+		Clothier = "Шитье",
+		Woodworking = "Древообработка",
+		Alchemy = "Алхимия",
+		Enchanting = "Зачарование",
+		Provisioning = "Кулинария",
         Style = AF_Localize(SI_ITEMTYPE44),
         WeaponTrait = AF_Localize(SI_ITEMTYPE46),
 		ArmorTrait = AF_Localize(SI_ITEMTYPE45),
@@ -552,10 +552,10 @@ local strings = {
 		Potency = AF_Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
 
 		--MISCELLANEOUS
-		Glyphs = "Âìè³ÿ",
+		Glyphs = "Глифы",
         SoulGem = AF_Localize(SI_ITEMTYPE19),
 		Siege = AF_Localize(SI_ITEMTYPE6),
-		Bait = "Îaæèáêa",
+		Bait = "Наживка",
 		Tool = AF_Localize(SI_ITEMTYPE9),
 		Fence = AF_Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
 		Trash = AF_Localize(SI_ITEMTYPE48),
@@ -570,6 +570,10 @@ local strings = {
 		Consumable = AF_Localize(SI_ITEMFILTERTYPE3),
 		Materials = AF_Localize(SI_ITEMFILTERTYPE4),
 		Miscellaneous = AF_Localize(SI_ITEMFILTERTYPE5),
+
+		--DROPDOWN CONTEXT MENU
+		ResetToAll = "Сбросить все",
+		InvertDropdownFilter = "Инверт.выпадающий фильтр",
 	},
 }
 
