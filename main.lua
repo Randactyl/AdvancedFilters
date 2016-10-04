@@ -48,6 +48,55 @@ AF.subfilterGroups = {
 AF.currentInventoryType = INVENTORY_BACKPACK
 
 local function InitializeHooks()
+	--TABLE TRACKER
+	--[[
+		this is a hacky way of knowing when items go in and out of an inventory.
+
+		t = the tracked table (ZO_InventoryManager.isListDirty/PLAYER_INVENTORY.isListDirty)
+		k = inventoryType
+		v = isDirty
+		pk = private key (no two empty tables are the same) where we store t
+		mt = our metatable where we can do the tracking
+	]]
+	--create private key
+    local pk = {}
+    --create metatable
+    local mt = {
+		__index = function(t, k)
+        	--d("*access to element " .. tostring(k))
+
+			--access the tracked table
+        	return t[pk][k]
+    	end,
+    	__newindex = function(t, k, v)
+        	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
+
+			--update the tracked table
+        	t[pk][k] = v
+
+			--refresh subfilters for inventory type
+			local subfilterGroup = AF.subfilterGroups[k]
+			if not subfilterGroup then return end
+			local currentSubfilterBar = subfilterGroup.currentSubfilterBar
+			if not currentSubfilterBar then return end
+
+			AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10, AF.util.RefreshSubfilterBar, currentSubfilterBar)
+    	end,
+    }
+	--tracking function. Returns a proxy table with our metatable attached.
+	local function track(t)
+		local proxy = {}
+		proxy[pk] = t
+		setmetatable(proxy, mt)
+		return proxy
+    end
+	--untracking function. Returns the tracked table and destroys the proxy.
+	local function untrack(proxy)
+		local t = proxy[pk]
+		proxy = nil
+		return t
+	end
+
 	local function ShowSubfilterBar(currentFilter)
 		local function UpdateListAnchors(self, shiftY)
 			local layoutData = self.appliedLayout or BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData
@@ -114,55 +163,6 @@ local function InitializeHooks()
 			--remove current bar reference
 			subfilterGroup.currentSubfilterBar = nil
 		end
-	end
-
-	--TABLE TRACKER
-	--[[
-		this is a hacky way of knowing when items go in and out of an inventory.
-
-		t = the tracked table (ZO_InventoryManager.isListDirty/PLAYER_INVENTORY.isListDirty)
-		k = inventoryType
-		v = isDirty
-		pk = private key (no two empty tables are the same) where we store t
-		mt = our metatable where we can do the tracking
-	]]
-	--create private key
-    local pk = {}
-    --create metatable
-    local mt = {
-		__index = function(t, k)
-        	--d("*access to element " .. tostring(k))
-
-			--access the tracked table
-        	return t[pk][k]
-    	end,
-    	__newindex = function(t, k, v)
-        	--d("*update of element " .. tostring(k) .. " to " .. tostring(v))
-
-			--update the tracked table
-        	t[pk][k] = v
-
-			--refresh subfilters for inventory type
-			local subfilterGroup = AF.subfilterGroups[k]
-			if not subfilterGroup then return end
-			local currentSubfilterBar = subfilterGroup.currentSubfilterBar
-			if not currentSubfilterBar then return end
-
-			AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10, AF.util.RefreshSubfilterBar, currentSubfilterBar)
-    	end,
-    }
-	--tracking function. Returns a proxy table with our metatable attached.
-	local function track(t)
-		local proxy = {}
-		proxy[pk] = t
-		setmetatable(proxy, mt)
-		return proxy
-    end
-	--untracking function. Returns the tracked table and destroys the proxy.
-	local function untrack(proxy)
-		local t = proxy[pk]
-		proxy = nil
-		return t
 	end
 
 	--FRAGMENT HOOKS
