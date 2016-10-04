@@ -1,15 +1,13 @@
 local util = AdvancedFilters.util
 
-local function BoPCallback()
-    return function(slot)
-        local bagId, slotIndex = slot.bagId, slot.slotIndex
+local function BoPCallback(slot)
+    local bagId, slotIndex = slot.bagId, slot.slotIndex
 
-        if not bagId or not slotIndex then return false end
+    if not bagId or not slotIndex then return false end
 
-        if IsItemBoPAndTradeable(bagId, slotIndex) then return true end
+    if IsItemBoPAndTradeable(bagId, slotIndex) then return true end
 
-        return false
-    end
+    return false
 end
 
 local dropdownCallback = {
