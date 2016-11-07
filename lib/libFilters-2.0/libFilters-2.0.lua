@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 2
+local MAJOR, MINOR = "LibFilters-2.0", 2.1
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
@@ -93,15 +93,25 @@ local filterTypeToUpdaterName = {
 	[LF_QUICKSLOT] = "QUICKSLOT",
 }
 
+local function SafePlayerInventoryUpdateList(inventoryType)
+	PLAYER_INVENTORY:UpdateList(inventoryType)
+
+	--if the mouse is visible, cycle its visibility to refresh the integrity of the control beneath it
+	if SCENE_MANAGER:IsInUIMode() then
+		HideMouse()
+		ShowMouse()
+	end
+end
+
 local inventoryUpdaters = {
 	INVENTORY = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_BACKPACK)
+		SafePlayerInventoryUpdateList(INVENTORY_BACKPACK)
 	end,
 	BANK_WITHDRAW = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_BANK)
+		SafePlayerInventoryUpdateList(INVENTORY_BANK)
 	end,
 	GUILDBANK_WITHDRAW = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
+		SafePlayerInventoryUpdateList(INVENTORY_GUILD_BANK)
 	end,
 	VENDOR_BUY = function()
 		if BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT.state ~= "shown" then
@@ -142,7 +152,7 @@ local inventoryUpdaters = {
 	PROVISIONING_BREW = function()
 	end,
 	CRAFTBAG = function()
-		PLAYER_INVENTORY:UpdateList(INVENTORY_CRAFT_BAG)
+		SafePlayerInventoryUpdateList(INVENTORY_CRAFT_BAG)
 	end,
 	QUICKSLOT = function()
 		QUICKSLOT_WINDOW:UpdateList()
@@ -159,6 +169,7 @@ local function runFilters(filterType, ...)
 			return false
 		end
 	end
+
 	return true
 end
 
