@@ -222,6 +222,16 @@ function AF.util.GetLanguage()
 	return "en"
 end
 
+--thanks ckaotik
+function AF.util.Localize(text)
+	if type(text) == 'number' then
+		-- get the string from this constant
+		text = GetString(text)
+	end
+	-- clean up suffixes such as ^F or ^S
+	return zo_strformat(SI_TOOLTIP_ITEM_NAME, text) or " "
+end
+
 function AF.util.ThrottledUpdate(callbackName, timer, callback, ...)
 	local args = {...}
 	local function Update()

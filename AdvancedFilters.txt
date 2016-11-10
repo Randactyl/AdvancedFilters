@@ -15,7 +15,8 @@ lib\LibCustomTitles\LibCustomTitles.lua
 
 main.lua
 util.lua
-strings.lua
+strings\en.lua
+strings\$(language).lua
 textures.lua
 AF_FilterBar.xml
 AF_FilterBar.lua
