@@ -329,6 +329,8 @@ function AdvancedFilters_Loaded(eventCode, addonName)
 	if addonName ~= "AdvancedFilters" then return end
 	EVENT_MANAGER:UnregisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED)
 
+	AF.util.LibFilters:InitializeLibFilters()
+
 	CreateSubfilterBars()
 	InitializeHooks()
 end
