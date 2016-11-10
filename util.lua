@@ -213,6 +213,7 @@ function AF.util.GetLanguage()
         es = 3,
         fr = 4,
         ru = 5,
+		jp = 6,
     }
 
 	--check for supported languages
