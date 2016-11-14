@@ -1,14 +1,9 @@
 local AF = AdvancedFilters
+local util = AF.util
 
 local function GetFilterCallbackForWeaponType(filterTypes)
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local weaponType = GetItemLinkWeaponType(itemLink)
 
@@ -20,13 +15,7 @@ end
 
 local function GetFilterCallbackForArmorType(filterTypes)
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local armorType = GetItemLinkArmorType(itemLink)
 
@@ -38,13 +27,7 @@ end
 
 local function GetFilterCallbackForGear(filterTypes)
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local _, _, _, equipType = GetItemLinkInfo(itemLink)
 
@@ -56,13 +39,7 @@ end
 
 local function GetFilterCallbackForClothing()
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local armorType = GetItemLinkArmorType(itemLink)
 		local _, _, _, equipType = GetItemLinkInfo(itemLink)
@@ -79,13 +56,7 @@ end
 
 local function GetFilterCallbackForTrophy()
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local itemType = GetItemLinkItemType(itemLink)
 
@@ -99,13 +70,7 @@ end
 
 local function GetFilterCallbackForFence()
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local itemType = GetItemLinkItemType(itemLink)
 
@@ -245,7 +210,7 @@ local function GetFilterCallbackForProvisioningIngredient(ingredientType)
 			["45523"] = "Old", --Old Emperor Grapes^p
 			["45524"] = "Old", --Old Imperial Mash
 		}
-		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
+		local itemLink = util.GetItemLink(slot)
 		local itemId = select(4, ZO_LinkHandler_ParseLink(itemLink))
 
 		if GetItemLinkItemType(itemLink) ~= ITEMTYPE_INGREDIENT then return false end
@@ -256,7 +221,7 @@ end
 
 local function GetFilterCallbackForStyleMaterial(categoryConst)
 	return function(slot)
-		local itemLink = GetItemLink(slot.bagId, slot.slotIndex)
+		local itemLink = util.GetItemLink(slot)
 		
 		if categoryConst == AF.util.LibMotifCategories:GetMotifCategory(itemLink) then
 			return true
@@ -268,13 +233,7 @@ local function GetFilterCallback(filterTypes)
 	if(not filterTypes) then return function(slot) return true end end
 
 	return function(slot)
-		local itemLink
-
-		if slot.bagId then
-		    itemLink = GetItemLink(slot.bagId, slot.slotIndex)
-		else
-			itemLink = GetStoreItemLink(slot.slotIndex)
-		end
+		local itemLink = util.GetItemLink(slot)
 
 		local itemType = GetItemLinkItemType(itemLink)
 
