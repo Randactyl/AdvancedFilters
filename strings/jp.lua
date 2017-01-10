@@ -97,7 +97,7 @@ local strings = {
     --DROPDOWN CONTEXT MENU
     ResetToAll = "全てリセット",
     InvertDropdownFilter = "ドロップダウンフィルタ反転",
-    
+
     --LibMotifCategories
     NormalStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_NORMAL),
     RareStyle = AdvancedFilters.util.LibMotifCategories:GetLocalizedCategoryName(LMC_MOTIF_CATEGORY_RARE),
@@ -111,10 +111,10 @@ local strings = {
     RawMaterial = util.Localize(SI_ITEMTYPE17),
     RefinedMaterial = util.Localize(SI_ITEMTYPE36),
     Temper = util.Localize(SI_ITEMTYPE41),
-    
+
     --CLOTHING
     Resin = util.Localize(SI_ITEMTYPE43),
-    
+
     --WOODWORKING
     Tannin = util.Localize(SI_ITEMTYPE42),
 }

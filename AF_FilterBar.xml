@@ -1,36 +1,36 @@
 <GuiXml>
-	<Controls>
-		<!-- Base Control -->
-		<Control name="AF_Base" virtual="true" hidden="true">
-			<Dimensions x="565" y="40" />
-			<Controls>
-				<Label name="$(parent)Label" font="ZoFontGameSmall" hidden="false" verticalAlignment="CENTER" horizontalAlignment="RIGHT">
-					<Dimensions x="136" y="40" />
-					<Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-75" />
-				</Label>
+    <Controls>
+        <!-- Base Control -->
+        <Control name="AF_Base" virtual="true" hidden="true">
+            <Dimensions x="565" y="40" />
+            <Controls>
+                <Label name="$(parent)Label" font="ZoFontGameSmall" hidden="false" verticalAlignment="CENTER" horizontalAlignment="RIGHT">
+                    <Dimensions x="136" y="40" />
+                    <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-75" />
+                </Label>
 
-				<Control name="$(parent)Divider" inherits="ZO_WideHorizontalDivider" hidden="false" alpha="0.3">
-					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
-					<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
-				</Control>
-			</Controls>
-		</Control>
+                <Control name="$(parent)Divider" inherits="ZO_WideHorizontalDivider" hidden="false" alpha="0.3">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+                </Control>
+            </Controls>
+        </Control>
 
-		<!-- Base Button -->
-		<Button name="AF_Button" font="ZoFontGameMedium" virtual="true" hidden="false">
-			<Dimensions x="32" y="32" />
+        <!-- Base Button -->
+        <Button name="AF_Button" font="ZoFontGameMedium" virtual="true" hidden="false">
+            <Dimensions x="32" y="32" />
 
-			<Controls>
-				<Texture name="$(parent)Texture" hidden="false">
-					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
-					<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
-				</Texture>
+            <Controls>
+                <Texture name="$(parent)Texture" hidden="false">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+                </Texture>
 
-				<Texture name="$(parent)Highlight" hidden="true" blendMode="ADD">
-					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
-					<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
-				</Texture>
-			</Controls>
-		</Button>
-	</Controls>
+                <Texture name="$(parent)Highlight" hidden="true" blendMode="ADD">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" />
+                </Texture>
+            </Controls>
+        </Button>
+    </Controls>
 </GuiXml>

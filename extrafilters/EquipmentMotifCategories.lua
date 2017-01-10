@@ -4,7 +4,7 @@ local lib = util.LibMotifCategories
 local function GetFilterCallbackForMotifCategory(motifCategory)
     return function(slot)
         local itemLink = util.GetItemLink(slot)
-        
+
         return lib:GetMotifCategory(itemLink) == motifCategory
     end
 end

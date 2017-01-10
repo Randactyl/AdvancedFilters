@@ -1,19 +1,19 @@
 local util = AdvancedFilters.util
 
 local function GetFilterCallbackForCraftableMotif()
-	return function(slot)
-		local itemLink = util.GetItemLink(slot)
-        
+    return function(slot)
+        local itemLink = util.GetItemLink(slot)
+
         return util.LibMotifCategories:IsMotifCraftable(itemLink)
-	end
+    end
 end
 
 local function GetFilterCallbackForKnownMotif()
-	return function(slot)
-		local itemLink = util.GetItemLink(slot)
-        
+    return function(slot)
+        local itemLink = util.GetItemLink(slot)
+
         return util.LibMotifCategories:IsMotifKnown(itemLink)
-	end
+    end
 end
 
 local dropdownCallbacks = {

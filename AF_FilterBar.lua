@@ -3,275 +3,275 @@ AF.AF_FilterBar = ZO_Object:Subclass()
 local AF_FilterBar = AF.AF_FilterBar
 
 function AF_FilterBar:New(inventoryName, groupName, subfilterNames)
-	local obj = ZO_Object.New(self)
-	obj:Initialize(inventoryName, groupName, subfilterNames)
-	return obj
+    local obj = ZO_Object.New(self)
+    obj:Initialize(inventoryName, groupName, subfilterNames)
+    return obj
 end
 
 function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
-	--get upper anchor position for subfilter bar
-	local _,_,_,_,_,offsetY = ZO_PlayerInventorySortBy:GetAnchor()
+    --get upper anchor position for subfilter bar
+    local _,_,_,_,_,offsetY = ZO_PlayerInventorySortBy:GetAnchor()
 
-	--parent for the subfilter bar control
-	local parents = {
-		["PlayerInventory"] = ZO_PlayerInventory,
-		["PlayerBank"] = ZO_PlayerBank,
-		["GuildBank"] = ZO_GuildBank,
-		["VendorSell"] = ZO_StoreWindow,
-		["CraftBag"] = ZO_CraftBag,
-	}
-	local parent = parents[inventoryName]
+    --parent for the subfilter bar control
+    local parents = {
+        ["PlayerInventory"] = ZO_PlayerInventory,
+        ["PlayerBank"] = ZO_PlayerBank,
+        ["GuildBank"] = ZO_GuildBank,
+        ["VendorSell"] = ZO_StoreWindow,
+        ["CraftBag"] = ZO_CraftBag,
+    }
+    local parent = parents[inventoryName]
 
-	--unique identifier
-	self.name = inventoryName .. groupName
+    --unique identifier
+    self.name = inventoryName .. groupName
 
-	self.control = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name, parent, "AF_Base")
-	self.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, offsetY)
+    self.control = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name, parent, "AF_Base")
+    self.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, offsetY)
 
-	self.label = self.control:GetNamedChild("Label")
-	self.label:SetModifyTextType(MODIFY_TEXT_TYPE_UPPERCASE)
-	self.label:SetText(AF.strings["All"])
+    self.label = self.control:GetNamedChild("Label")
+    self.label:SetModifyTextType(MODIFY_TEXT_TYPE_UPPERCASE)
+    self.label:SetText(AF.strings["All"])
 
-	self.divider = self.control:GetNamedChild("Divider")
+    self.divider = self.control:GetNamedChild("Divider")
 
-	self.subfilterButtons = {}
-	self.activeButton = nil
+    self.subfilterButtons = {}
+    self.activeButton = nil
 
-	self.dropdown = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name .. "DropdownFilter", self.control, "ZO_ComboBox")
-	self.dropdown:SetAnchor(RIGHT, self.control, RIGHT)
-	self.dropdown:SetHeight(24)
-	self.dropdown:SetWidth(136)
-	local function DropdownOnMouseUpHandler(dropdown, mouseButton, upInside)
-		local comboBox = dropdown.m_comboBox
+    self.dropdown = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name .. "DropdownFilter", self.control, "ZO_ComboBox")
+    self.dropdown:SetAnchor(RIGHT, self.control, RIGHT)
+    self.dropdown:SetHeight(24)
+    self.dropdown:SetWidth(136)
+    local function DropdownOnMouseUpHandler(dropdown, mouseButton, upInside)
+        local comboBox = dropdown.m_comboBox
 
-		if mouseButton == 1 and upInside then
-			if comboBox.m_isDropdownVisible then
-				comboBox:HideDropdownInternal()
-			else
-				comboBox:ShowDropdownInternal()
-			end
-		elseif mouseButton == 2 and upInside then
-			local entries = {
-				[1] = {
-					name = AF.strings.ResetToAll,
-					callback = function()
-						comboBox:SelectFirstItem()
+        if mouseButton == 1 and upInside then
+            if comboBox.m_isDropdownVisible then
+                comboBox:HideDropdownInternal()
+            else
+                comboBox:ShowDropdownInternal()
+            end
+        elseif mouseButton == 2 and upInside then
+            local entries = {
+                [1] = {
+                    name = AF.strings.ResetToAll,
+                    callback = function()
+                        comboBox:SelectFirstItem()
 
-						local button = self:GetCurrentButton()
-						button.previousDropdownSelection = comboBox.m_sortedItems[1]
+                        local button = self:GetCurrentButton()
+                        button.previousDropdownSelection = comboBox.m_sortedItems[1]
 
-						local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
-						AF.util.LibFilters:RequestUpdate(filterType)
+                        local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
+                        AF.util.LibFilters:RequestUpdate(filterType)
 
-						PlaySound(SOUNDS.MENU_BAR_CLICK)
-					end,
-				},
-				[2] = {
-					name = AF.strings.InvertDropdownFilter,
-					callback = function()
-						local button = self:GetCurrentButton()
+                        PlaySound(SOUNDS.MENU_BAR_CLICK)
+                    end,
+                },
+                [2] = {
+                    name = AF.strings.InvertDropdownFilter,
+                    callback = function()
+                        local button = self:GetCurrentButton()
 
-						local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
-						local originalCallback = AF.util.LibFilters:GetFilterCallback("AF_DropdownFilter", filterType)
-						local filterCallback = function(slot)
-							return not originalCallback(slot)
-						end
+                        local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
+                        local originalCallback = AF.util.LibFilters:GetFilterCallback("AF_DropdownFilter", filterType)
+                        local filterCallback = function(slot)
+                            return not originalCallback(slot)
+                        end
 
-						AF.util.LibFilters:UnregisterFilter("AF_DropdownFilter", filterType)
-						AF.util.LibFilters:RegisterFilter("AF_DropdownFilter", filterType, filterCallback)
-						AF.util.LibFilters:RequestUpdate(filterType)
+                        AF.util.LibFilters:UnregisterFilter("AF_DropdownFilter", filterType)
+                        AF.util.LibFilters:RegisterFilter("AF_DropdownFilter", filterType, filterCallback)
+                        AF.util.LibFilters:RequestUpdate(filterType)
 
-						PlaySound(SOUNDS.MENU_BAR_CLICK)
-					end,
-				},
-			}
+                        PlaySound(SOUNDS.MENU_BAR_CLICK)
+                    end,
+                },
+            }
 
-			ClearMenu()
-			for _, entry in ipairs(entries) do
-				AddCustomMenuItem(entry.name, entry.callback, MENU_ADD_OPTION_LABEL)
-			end
-			ShowMenu(dropdown)
-		end
-	end
-	self.dropdown:SetHandler("OnMouseUp", DropdownOnMouseUpHandler)
+            ClearMenu()
+            for _, entry in ipairs(entries) do
+                AddCustomMenuItem(entry.name, entry.callback, MENU_ADD_OPTION_LABEL)
+            end
+            ShowMenu(dropdown)
+        end
+    end
+    self.dropdown:SetHandler("OnMouseUp", DropdownOnMouseUpHandler)
 
-	local comboBox = self.dropdown.m_comboBox
-	comboBox:SetSortsItems(false)
-	comboBox.AddMenuItems = function(comboBox)
-		local button = self:GetCurrentButton()
-		local self = comboBox
+    local comboBox = self.dropdown.m_comboBox
+    comboBox:SetSortsItems(false)
+    comboBox.AddMenuItems = function(comboBox)
+        local button = self:GetCurrentButton()
+        local self = comboBox
 
-		for i = 1, #self.m_sortedItems do
-			-- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
-			local item = self.m_sortedItems[i]
+        for i = 1, #self.m_sortedItems do
+            -- The variable item must be defined locally here, otherwise it won't work as an upvalue to the selection helper
+            local item = self.m_sortedItems[i]
 
-			local function OnSelect()
-				ZO_ComboBox_Base_ItemSelectedClickHelper(self, item)
+            local function OnSelect()
+                ZO_ComboBox_Base_ItemSelectedClickHelper(self, item)
 
-				button.previousDropdownSelection = item
+                button.previousDropdownSelection = item
 
-				PlaySound(SOUNDS.MENU_BAR_CLICK)
-			end
+                PlaySound(SOUNDS.MENU_BAR_CLICK)
+            end
 
-			AddCustomMenuItem(item.name, OnSelect, nil, self.m_font,
-			  self.m_normalColor, self.m_highlightColor)
-		end
+            AddCustomMenuItem(item.name, OnSelect, nil, self.m_font,
+              self.m_normalColor, self.m_highlightColor)
+        end
 
-		local submenuCandidates = self.submenuCandidates
+        local submenuCandidates = self.submenuCandidates
 
-		for _, submenuCandidate in ipairs(submenuCandidates) do
-			local entries = {}
-			for _, callbackEntry in ipairs(submenuCandidate.callbackTable) do
-				local entry = {
-					label = AF.strings[callbackEntry.name],
-					callback = function()
-						AF.util.ApplyFilter(callbackEntry, "AF_DropdownFilter", true)
-						button.forceNextDropdownRefresh = true
-						self.m_selectedItemText:SetText(AF.strings[callbackEntry.name])
-						self.m_selectedItemData = self:CreateItemEntry(AF.strings[callbackEntry.name],
-							function(comboBox, itemName, item, selectionChanged)
-								AF.util.ApplyFilter(callbackEntry,
-								  "AF_DropdownFilter",
-								  selectionChanged or button.forceNextDropdownRefresh)
-							end)
-						button.previousDropdownSelection = self.m_selectedItemData
+        for _, submenuCandidate in ipairs(submenuCandidates) do
+            local entries = {}
+            for _, callbackEntry in ipairs(submenuCandidate.callbackTable) do
+                local entry = {
+                    label = AF.strings[callbackEntry.name],
+                    callback = function()
+                        AF.util.ApplyFilter(callbackEntry, "AF_DropdownFilter", true)
+                        button.forceNextDropdownRefresh = true
+                        self.m_selectedItemText:SetText(AF.strings[callbackEntry.name])
+                        self.m_selectedItemData = self:CreateItemEntry(AF.strings[callbackEntry.name],
+                            function(comboBox, itemName, item, selectionChanged)
+                                AF.util.ApplyFilter(callbackEntry,
+                                  "AF_DropdownFilter",
+                                  selectionChanged or button.forceNextDropdownRefresh)
+                            end)
+                        button.previousDropdownSelection = self.m_selectedItemData
 
-						PlaySound(SOUNDS.MENU_BAR_CLICK)
+                        PlaySound(SOUNDS.MENU_BAR_CLICK)
 
-						ClearMenu()
-					end,
-				}
-				table.insert(entries, entry)
-			end
+                        ClearMenu()
+                    end,
+                }
+                table.insert(entries, entry)
+            end
 
-			AddCustomSubMenuItem(AF.strings[submenuCandidate.submenuName], entries, "ZoFontGameSmall")
-		end
-	end
+            AddCustomSubMenuItem(AF.strings[submenuCandidate.submenuName], entries, "ZoFontGameSmall")
+        end
+    end
 
-	for _, subfilterName in ipairs(subfilterNames) do
-		self:AddSubfilter(groupName, subfilterName)
-	end
+    for _, subfilterName in ipairs(subfilterNames) do
+        self:AddSubfilter(groupName, subfilterName)
+    end
 end
 
 function AF_FilterBar:AddSubfilter(groupName, subfilterName)
-	local subfilterData = ZO_ShallowTableCopy(AF.subfilterCallbacks[groupName][subfilterName])
-	subfilterData.dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
-	local icon = AF.textures[subfilterName]
+    local subfilterData = ZO_ShallowTableCopy(AF.subfilterCallbacks[groupName][subfilterName])
+    subfilterData.dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
+    local icon = AF.textures[subfilterName]
 
-	local callback = subfilterData.filterCallback
-	local dropdownCallbacks = subfilterData.dropdownCallbacks
+    local callback = subfilterData.filterCallback
+    local dropdownCallbacks = subfilterData.dropdownCallbacks
 
-	local anchorX = -148 + #self.subfilterButtons * -32
+    local anchorX = -148 + #self.subfilterButtons * -32
 
-	local button = WINDOW_MANAGER:CreateControlFromVirtual(self.control:GetName() .. subfilterName .. "Button", self.control, "AF_Button")
-	local texture = button:GetNamedChild("Texture")
-	local highlight = button:GetNamedChild("Highlight")
+    local button = WINDOW_MANAGER:CreateControlFromVirtual(self.control:GetName() .. subfilterName .. "Button", self.control, "AF_Button")
+    local texture = button:GetNamedChild("Texture")
+    local highlight = button:GetNamedChild("Highlight")
 
-	texture:SetTexture(icon.normal)
-	highlight:SetTexture(icon.mouseOver)
+    texture:SetTexture(icon.normal)
+    highlight:SetTexture(icon.mouseOver)
 
-	button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
-	button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
+    button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
+    button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
 
-	local function OnClicked(thisButton)
-		if(not thisButton.clickable) then return end
+    local function OnClicked(thisButton)
+        if(not thisButton.clickable) then return end
 
-		self:ActivateButton(thisButton)
-	end
+        self:ActivateButton(thisButton)
+    end
 
-	local function OnMouseEnter(thisButton)
-		ZO_Tooltips_ShowTextTooltip(thisButton, TOP, AF.strings[subfilterName])
+    local function OnMouseEnter(thisButton)
+        ZO_Tooltips_ShowTextTooltip(thisButton, TOP, AF.strings[subfilterName])
 
-		if(thisButton.clickable) then
-			highlight:SetHidden(false)
-		end
-	end
+        if(thisButton.clickable) then
+            highlight:SetHidden(false)
+        end
+    end
 
-	local function OnMouseExit()
-		ZO_Tooltips_HideTextTooltip()
+    local function OnMouseExit()
+        ZO_Tooltips_HideTextTooltip()
 
-		highlight:SetHidden(true)
-	end
+        highlight:SetHidden(true)
+    end
 
-	button:SetHandler("OnClicked", OnClicked)
-	button:SetHandler("OnMouseEnter", OnMouseEnter)
-	button:SetHandler("OnMouseExit", OnMouseExit)
+    button:SetHandler("OnClicked", OnClicked)
+    button:SetHandler("OnMouseEnter", OnMouseEnter)
+    button:SetHandler("OnMouseExit", OnMouseExit)
 
-	button.name = subfilterName
-	button.texture = texture
-	button.clickable = true
+    button.name = subfilterName
+    button.texture = texture
+    button.clickable = true
     button.filterCallback = callback
-	button.normal = icon.normal
-	button.pressed = icon.pressed
-	button.dropdownCallbacks = dropdownCallbacks
+    button.normal = icon.normal
+    button.pressed = icon.pressed
+    button.dropdownCallbacks = dropdownCallbacks
 
-	self.activeButton = button
+    self.activeButton = button
 
-	table.insert(self.subfilterButtons, button)
+    table.insert(self.subfilterButtons, button)
 end
 
 function AF_FilterBar:ActivateButton(newButton)
-	local function PopulateDropdown()
-		local comboBox = self.dropdown.m_comboBox
+    local function PopulateDropdown()
+        local comboBox = self.dropdown.m_comboBox
 
-		comboBox.submenuCandidates = {}
-		for _, v in ipairs(newButton.dropdownCallbacks) do
-			if v.submenuName then
-				table.insert(comboBox.submenuCandidates, v)
-			else
-				local itemEntry = ZO_ComboBox:CreateItemEntry(AF.strings[v.name],
-					function(comboBox, itemName, item, selectionChanged)
-						AF.util.ApplyFilter(v, "AF_DropdownFilter",
-						  selectionChanged or newButton.forceNextDropdownRefresh)
-					end)
-				comboBox:AddItem(itemEntry)
-			end
-		end
+        comboBox.submenuCandidates = {}
+        for _, v in ipairs(newButton.dropdownCallbacks) do
+            if v.submenuName then
+                table.insert(comboBox.submenuCandidates, v)
+            else
+                local itemEntry = ZO_ComboBox:CreateItemEntry(AF.strings[v.name],
+                    function(comboBox, itemName, item, selectionChanged)
+                        AF.util.ApplyFilter(v, "AF_DropdownFilter",
+                          selectionChanged or newButton.forceNextDropdownRefresh)
+                    end)
+                comboBox:AddItem(itemEntry)
+            end
+        end
 
-		comboBox:SetSelectedItemFont("ZoFontGameSmall")
-		comboBox:SetDropdownFont("ZoFontGameSmall")
-	end
+        comboBox:SetSelectedItemFont("ZoFontGameSmall")
+        comboBox:SetDropdownFont("ZoFontGameSmall")
+    end
 
-	local name = newButton.name
-	self.label:SetText(AF.strings[name])
+    local name = newButton.name
+    self.label:SetText(AF.strings[name])
 
     local oldButton = self.activeButton
 
     --hide old pressed texture
-	oldButton:GetNamedChild("Texture"):SetTexture(oldButton.normal)
-	oldButton:SetEnabled(true)
+    oldButton:GetNamedChild("Texture"):SetTexture(oldButton.normal)
+    oldButton:SetEnabled(true)
 
-	--show new pressed texture
-	newButton:GetNamedChild("Texture"):SetTexture(newButton.pressed)
-	newButton:SetEnabled(false)
+    --show new pressed texture
+    newButton:GetNamedChild("Texture"):SetTexture(newButton.pressed)
+    newButton:SetEnabled(false)
 
-	--refresh filter
-	AF.util.ApplyFilter(newButton, "AF_ButtonFilter", true)
+    --refresh filter
+    AF.util.ApplyFilter(newButton, "AF_ButtonFilter", true)
 
-	--set new active button reference
-	self.activeButton = newButton
+    --set new active button reference
+    self.activeButton = newButton
 
-	--clear old dropdown data
-	self.dropdown.m_comboBox.m_sortedItems = {}
-	--add new dropdown data
-	PopulateDropdown()
-	--restore previous dropdown selection
-	self.dropdown.m_comboBox:SelectItem(newButton.previousDropdownSelection)
-	--select the first item if there is no previos selection
-	if not newButton.previousDropdownSelection then
-		self.dropdown.m_comboBox:SelectFirstItem()
-		newButton.previousDropdownSelection = self.dropdown.m_comboBox.m_sortedItems[1]
-	end
+    --clear old dropdown data
+    self.dropdown.m_comboBox.m_sortedItems = {}
+    --add new dropdown data
+    PopulateDropdown()
+    --restore previous dropdown selection
+    self.dropdown.m_comboBox:SelectItem(newButton.previousDropdownSelection)
+    --select the first item if there is no previos selection
+    if not newButton.previousDropdownSelection then
+        self.dropdown.m_comboBox:SelectFirstItem()
+        newButton.previousDropdownSelection = self.dropdown.m_comboBox.m_sortedItems[1]
+    end
 end
 
 function AF_FilterBar:GetCurrentButton()
-	return self.activeButton
+    return self.activeButton
 end
 
 function AF_FilterBar:SetHidden(shouldHide)
-	self.control:SetHidden(shouldHide)
+    self.control:SetHidden(shouldHide)
 end
 
 function AF_FilterBar:SetInventoryType(inventoryType)
-	self.inventoryType = inventoryType
+    self.inventoryType = inventoryType
 end

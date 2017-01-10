@@ -111,10 +111,10 @@ local strings = {
     RawMaterial = util.Localize(SI_ITEMTYPE17),
     RefinedMaterial = util.Localize(SI_ITEMTYPE36),
     Temper = util.Localize(SI_ITEMTYPE41),
-    
+
     --CLOTHING
     Resin = util.Localize(SI_ITEMTYPE43),
-    
+
     --WOODWORKING
     Tannin = util.Localize(SI_ITEMTYPE42),
 }

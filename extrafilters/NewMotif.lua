@@ -1,11 +1,11 @@
 local util = AdvancedFilters.util
 
 local function GetFilterCallbackForNewMotif()
-	return function(slot)
-		local itemLink = util.GetItemLink(slot)
-        
-		return util.LibMotifCategories:IsNewMotif(itemLink)
-	end
+    return function(slot)
+        local itemLink = util.GetItemLink(slot)
+
+        return util.LibMotifCategories:IsNewMotif(itemLink)
+    end
 end
 
 local dropdownCallback = {
