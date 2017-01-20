@@ -229,6 +229,20 @@ local function GetFilterCallbackForStyleMaterial(categoryConst)
     end
 end
 
+local function GetFilterCallbackForSpecializedItemtype(sItemTypes)
+    if(not sItemTypes) then return function(slot) return true end end
+
+    return function(slot)
+        local itemLink = util.GetItemLink(slot)
+
+        local _, sItemType = GetItemLinkItemType(itemLink)
+
+        for i = 1, #sItemTypes do
+            if sItemTypes[i] == sItemType then return true end
+        end
+    end
+end
+
 local function GetFilterCallback(filterTypes)
     if(not filterTypes) then return function(slot) return true end end
 
@@ -301,7 +315,7 @@ AF.subfilterCallbacks = {
         ["Medium"] = {
             filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_MEDIUM}),
         },
-        ["Light"] = {
+        ["LightArmor"] = {
             filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_LIGHT}),
         },
         ["Clothing"] = {
@@ -444,6 +458,38 @@ AF.subfilterCallbacks = {
         },
         ["ArmorTrait"] = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
+            dropdownCallbacks = {},
+        },
+    },
+    ["Furnishings"] = {
+        addonDropdownCallbacks = {},
+        ["All"] = {
+            filterCallback = GetFilterCallback(nil),
+            dropdownCallbacks = {},
+        },
+        ["CraftingStation"] = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype(
+                {SPECIALIZED_ITEMTYPE_FURNISHING_CRAFTING_STATION}),
+            dropdownCallbacks = {},
+        },
+        ["Light"] = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype(
+                {SPECIALIZED_ITEMTYPE_FURNISHING_LIGHT}),
+            dropdownCallbacks = {},
+        },
+        ["Ornamental"] = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype(
+                {SPECIALIZED_ITEMTYPE_FURNISHING_ORNAMENTAL}),
+            dropdownCallbacks = {},
+        },
+        ["Seating"] = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype(
+                {SPECIALIZED_ITEMTYPE_FURNISHING_SEATING}),
+            dropdownCallbacks = {},
+        },
+        ["TargetDummy"] = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype(
+                {SPECIALIZED_ITEMTYPE_FURNISHING_TARGET_DUMMY}),
             dropdownCallbacks = {},
         },
     },
@@ -777,6 +823,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         [ITEMFILTERTYPE_ARMOR] = "Armor",
         [ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
         [ITEMFILTERTYPE_CRAFTING] = "Crafting",
+        [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
         [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
         [ITEMFILTERTYPE_JUNK] = "Junk",
         [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",

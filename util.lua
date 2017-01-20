@@ -73,9 +73,15 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
     --check buttons for availability
     for _, itemData in pairs(inventorySlots) do
         for _, button in pairs(subfilterBar.subfilterButtons) do
-            if button.filterCallback(itemData) and (not button.clickable)
-              and (itemData.filterData[1] == inventory.currentFilter
-              or itemData.filterData[2] == inventory.currentFilter) then
+
+            local passesCallback = button.filterCallback(itemData)
+            local isClickable = button.clickable
+            local passesFilter = itemData.filterData[1] == inventory.currentFilter
+              or  itemData.filterData[2] == inventory.currentFilter
+
+            --if item passes filter, the button is disabled, and the item is in
+            --  the broad filterType
+            if passesCallback and (not isClickable) and passesFilter then
                 button.texture:SetColor(1, 1, 1, 1)
                 button:SetEnabled(true)
                 button.clickable = true
@@ -86,7 +92,7 @@ end
 
 function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
     if subfilterName == "Heavy" or subfilterName == "Medium"
-      or subfilterName == "Light" or subfilterName == "Clothing" then
+    or subfilterName == "LightArmor" or subfilterName == "Clothing" then
         subfilterName = "Body"
     end
 
@@ -105,6 +111,10 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         ["Crafting"] = {
             "All", "Blacksmithing", "Clothier", "Woodworking", "Alchemy",
             "Enchanting", "Provisioning", "Style", "WeaponTrait", "ArmorTrait",
+        },
+        ["Furnishings"] = {
+            "All", "CraftingStation", "Light", "Ornamental", "Seating",
+            "TargetDummy",
         },
         ["Miscellaneous"] = {
             "All", "Glyphs", "SoulGem", "Siege", "Bait", "Tool", "Trophy",

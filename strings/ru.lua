@@ -26,7 +26,7 @@ local strings = {
     --ARMOR
     Heavy = util.Localize(SI_ARMORTYPE3),
     Medium = util.Localize(SI_ARMORTYPE2),
-    Light = util.Localize(SI_ARMORTYPE1),
+    LightArmor = util.Localize(SI_ARMORTYPE1),
     --Clothing = ,
     Shield = "Щит",
     Jewelry = "Бижутерия",
@@ -70,6 +70,13 @@ local strings = {
     Aspect = util.Localize(SI_ENCHANTINGRUNECLASSIFICATION1),
     Essence = util.Localize(SI_ENCHANTINGRUNECLASSIFICATION2),
     Potency = util.Localize(SI_ENCHANTINGRUNECLASSIFICATION3),
+
+    --FURNISHINGS
+    CraftingStation = util.Localize(SI_SPECIALIZEDITEMTYPE213),
+    Light = util.Localize(SI_SPECIALIZEDITEMTYPE211),
+    Ornamental = util.Localize(SI_SPECIALIZEDITEMTYPE210),
+    Seating = util.Localize(SI_SPECIALIZEDITEMTYPE212),
+    TargetDummy = util.Localize(SI_SPECIALIZEDITEMTYPE214),
 
     --MISCELLANEOUS
     Glyphs = "Глифы",

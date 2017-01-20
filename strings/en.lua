@@ -25,7 +25,7 @@ local strings = {
     --ARMOR
     Heavy = util.Localize(SI_ARMORTYPE3),
     Medium = util.Localize(SI_ARMORTYPE2),
-    Light = util.Localize(SI_ARMORTYPE1),
+    LightArmor = util.Localize(SI_ARMORTYPE1),
     Clothing = "Clothing",
     Shield = "Shield",
     Jewelry = "Jewelry",
@@ -73,6 +73,13 @@ local strings = {
     FoodIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_FOOD)),
     DrinkIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_DRINK)),
     OldIngredient = zo_strformat("<<1>> - <<2>>", GetString("SI_ITEMTYPE", ITEMTYPE_INGREDIENT), GetString("SI_ITEMTYPE", ITEMTYPE_NONE)),
+
+    --FURNISHINGS
+    CraftingStation = util.Localize(SI_SPECIALIZEDITEMTYPE213),
+    Light = util.Localize(SI_SPECIALIZEDITEMTYPE211),
+    Ornamental = util.Localize(SI_SPECIALIZEDITEMTYPE210),
+    Seating = util.Localize(SI_SPECIALIZEDITEMTYPE212),
+    TargetDummy = util.Localize(SI_SPECIALIZEDITEMTYPE214),
 
     --MISCELLANEOUS
     Glyphs = "Glyphs",

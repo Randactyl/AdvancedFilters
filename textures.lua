@@ -48,7 +48,7 @@ local textures = {
         pressed = "/esoui/art/icons/progression_tabicon_armormedium_down.dds",
         mouseOver = "/esoui/art/icons/progression_tabicon_armormedium_over.dds",
     },
-    Light = {
+    LightArmor = {
         normal = "/esoui/art/icons/progression_tabicon_armorlight_up.dds",
         pressed = "/esoui/art/icons/progression_tabicon_armorlight_down.dds",
         mouseOver = "/esoui/art/icons/progression_tabicon_armorlight_over.dds",
@@ -124,6 +124,33 @@ local textures = {
         normal = "AdvancedFilters/assets/consumables/repair/repair_up.dds",
         pressed = "AdvancedFilters/assets/consumables/repair/repair_down.dds",
         mouseOver = "AdvancedFilters/assets/consumables/repair/repair_over.dds",
+    },
+
+    --FURNISHINGS
+    CraftingStation = {
+        normal = "/esoui/art/treeicons/housing_indexicon_workshop_up.dds",
+        pressed = "/esoui/art/treeicons/housing_indexicon_workshop_down.dds",
+        mouseOver = "/esoui/art/treeicons/housing_indexicon_workshop_over.dds",
+    },
+    Light = {
+        normal = "/esoui/art/treeicons/housing_indexicon_shrine_up.dds",
+        pressed = "/esoui/art/treeicons/housing_indexicon_shrine_down.dds",
+        mouseOver = "/esoui/art/treeicons/housing_indexicon_shrine_over.dds",
+    },
+    Ornamental = {
+        normal = "/esoui/art/treeicons/housing_indexicon_gallery_up.dds",
+        pressed = "/esoui/art/treeicons/housing_indexicon_gallery_down.dds",
+        mouseOver = "/esoui/art/treeicons/housing_indexicon_gallery_over.dds",
+    },
+    Seating = {
+        normal = "/esoui/art/treeicons/collection_indexicon_furnishings_up.dds",
+        pressed = "/esoui/art/treeicons/collection_indexicon_furnishings_down.dds",
+        mouseOver = "/esoui/art/treeicons/collection_indexicon_furnishings_over.dds",
+    },
+    TargetDummy = {
+        normal = "/esoui/art/treeicons/collection_indexicon_weapons+armor_up.dds",
+        pressed = "/esoui/art/treeicons/collection_indexicon_weapons+armor_down.dds",
+        mouseOver = "/esoui/art/treeicons/collection_indexicon_weapons+armor_over.dds",
     },
 
     --MATERIALS

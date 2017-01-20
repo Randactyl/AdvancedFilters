@@ -7,6 +7,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
         [ITEMFILTERTYPE_CRAFTING] = {},
+        [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
         [ITEMFILTERTYPE_JUNK] = {},
     },
@@ -15,6 +16,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
         [ITEMFILTERTYPE_CRAFTING] = {},
+        [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
         [ITEMFILTERTYPE_JUNK] = {},
     },
@@ -23,6 +25,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
         [ITEMFILTERTYPE_CRAFTING] = {},
+        [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
         [ITEMFILTERTYPE_JUNK] = {},
     },
@@ -247,6 +250,7 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_ARMOR] = "Armor",
         [ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
         [ITEMFILTERTYPE_CRAFTING] = "Crafting",
+        [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
         [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
         [ITEMFILTERTYPE_JUNK] = "Junk",
         [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
@@ -264,7 +268,7 @@ local function CreateSubfilterBars()
             "HealStaff", "DestructionStaff", "Bow", "TwoHand", "OneHand", "All",
         },
         [ITEMFILTERTYPE_ARMOR] = {
-            "Vanity", "Jewelry", "Shield", "Clothing", "Light", "Medium",
+            "Vanity", "Jewelry", "Shield", "Clothing", "LightArmor", "Medium",
             "Heavy", "All",
         },
         [ITEMFILTERTYPE_CONSUMABLE] = {
@@ -274,6 +278,10 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_CRAFTING] = {
             "WeaponTrait", "ArmorTrait", "Style", "Provisioning", "Enchanting",
             "Alchemy", "Woodworking", "Clothier", "Blacksmithing", "All",
+        },
+        [ITEMFILTERTYPE_FURNISHING] = {
+            "TargetDummy", "Seating", "Ornamental", "Light", "CraftingStation",
+            "All",
         },
         [ITEMFILTERTYPE_MISCELLANEOUS] = {
             "Trash", "Fence", "Trophy", "Tool", "Bait", "Siege", "SoulGem",
