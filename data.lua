@@ -368,6 +368,10 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_RACIAL_STYLE_MOTIF}),
             dropdownCallbacks = {},
         },
+        ["Writ"] = {
+            filterCallback = GetFilterCallback({ITEMTYPE_MASTER_WRIT}),
+            dropdownCallbacks = {},
+        },
         ["Container"] = {
             filterCallback = GetFilterCallback({ITEMTYPE_CONTAINER}),
             dropdownCallbacks = {},

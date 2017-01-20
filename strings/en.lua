@@ -49,6 +49,7 @@ local strings = {
     Potion = util.Localize(SI_ITEMTYPE7),
     Poison = util.Localize(SI_ITEMTYPE30),
     Motif = util.Localize(SI_ITEMTYPE8),
+    Writ = util.Localize(SI_ITEMTYPE60),
     Container = util.Localize(SI_ITEMTYPE18),
     Repair = "Repair",
 

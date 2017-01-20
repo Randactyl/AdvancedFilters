@@ -110,6 +110,11 @@ local textures = {
         pressed = "AdvancedFilters/assets/consumables/motifs/motif_down.dds",
         mouseOver = "AdvancedFilters/assets/consumables/motifs/motif_over.dds",
     },
+    Writ = {
+        normal = "/esoui/art/crafting/formulae_tabicon_up.dds",
+        pressed = "/esoui/art/crafting/formulae_tabicon_down.dds",
+        mouseOver = "/esoui/art/crafting/formulae_tabicon_over.dds",
+    },
     Container = {
         normal = "AdvancedFilters/assets/consumables/containers/container_up.dds",
         pressed = "AdvancedFilters/assets/consumables/containers/container_down.dds",

@@ -257,8 +257,8 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_PROVISIONING] = "Provisioning",
         [ITEMFILTERTYPE_STYLE_MATERIALS] = "Style",
         [ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits",
-
     }
+
     local subfilterButtonNames = {
         [ITEMFILTERTYPE_WEAPONS] = {
             "HealStaff", "DestructionStaff", "Bow", "TwoHand", "OneHand", "All",
@@ -268,8 +268,8 @@ local function CreateSubfilterBars()
             "Heavy", "All",
         },
         [ITEMFILTERTYPE_CONSUMABLE] = {
-            "Trophy", "Repair", "Container", "Motif", "Poison", "Potion",
-            "Recipe", "Drink", "Food", "Crown", "All",
+            "Trophy", "Repair", "Container", "Writ", "Motif", "Poison",
+            "Potion", "Recipe", "Drink", "Food", "Crown", "All",
         },
         [ITEMFILTERTYPE_CRAFTING] = {
             "WeaponTrait", "ArmorTrait", "Style", "Provisioning", "Enchanting",

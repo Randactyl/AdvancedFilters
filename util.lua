@@ -100,7 +100,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         },
         ["Consumables"] = {
             "All", "Crown", "Food", "Drink", "Recipe", "Potion", "Poison",
-            "Motif", "Container", "Repair", "Trophy",
+            "Motif", "Writ", "Container", "Repair", "Trophy",
         },
         ["Crafting"] = {
             "All", "Blacksmithing", "Clothier", "Woodworking", "Alchemy",
