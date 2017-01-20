@@ -40,7 +40,7 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
     self.dropdown = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name .. "DropdownFilter", self.control, "ZO_ComboBox")
     self.dropdown:SetAnchor(RIGHT, self.control, RIGHT)
     self.dropdown:SetHeight(24)
-    self.dropdown:SetWidth(136)
+    self.dropdown:SetWidth(104)
     local function DropdownOnMouseUpHandler(dropdown, mouseButton, upInside)
         local comboBox = dropdown.m_comboBox
 
@@ -161,7 +161,7 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     local callback = subfilterData.filterCallback
     local dropdownCallbacks = subfilterData.dropdownCallbacks
 
-    local anchorX = -148 + #self.subfilterButtons * -32
+    local anchorX = -116 + #self.subfilterButtons * -32
 
     local button = WINDOW_MANAGER:CreateControlFromVirtual(self.control:GetName() .. subfilterName .. "Button", self.control, "AF_Button")
     local texture = button:GetNamedChild("Texture")
