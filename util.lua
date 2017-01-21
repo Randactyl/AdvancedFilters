@@ -151,6 +151,21 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         },
     }
 
+    local function insertAddon(addonTable)
+        --check to see if addon is set up for a submenu
+        if addonTable.submenuName then
+            --insert whole package
+            table.insert(callbackTable, addonTable)
+        else
+            --insert all callbackTable entries
+            local currentAddonTable = addonTable.callbackTable
+
+            for _, callbackEntry in ipairs(currentAddonTable) do
+                table.insert(callbackTable, callbackEntry)
+            end
+        end
+    end
+
     -- insert global "All" filters
     for _, callbackEntry in ipairs(AF.subfilterCallbacks["All"].dropdownCallbacks) do
         table.insert(callbackTable, callbackEntry)
@@ -173,18 +188,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 
         --insert all filters provided by addons
         for _, addonTable in ipairs(AF.subfilterCallbacks[groupName].addonDropdownCallbacks) do
-            --check to see if addon is set up for a submenu
-            if addonTable.submenuName then
-                --insert whole package
-                table.insert(callbackTable, addonTable)
-            else
-                --insert all callbackTable entries
-                local currentAddonTable = addonTable.callbackTable
-
-                for _, callbackEntry in ipairs(currentAddonTable) do
-                    table.insert(callbackTable, callbackEntry)
-                end
-            end
+            insertAddon(addonTable)
         end
     else
         --insert filters for provided subfilter
@@ -199,18 +203,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
             for _, subfilter in ipairs(addonTable.subfilters) do
                 if subfilter == subfilterName or subfilter == "All" then
                     --add addon filters
-                    --check to see if addon is set up for a submenu
-                    if addonTable.submenuName then
-                        --insert whole package
-                        table.insert(callbackTable, addonTable)
-                    else
-                        --insert all callbackTable entries
-                        local currentAddonTable = addonTable.callbackTable
-
-                        for _, callbackEntry in ipairs(currentAddonTable) do
-                            table.insert(callbackTable, callbackEntry)
-                        end
-                    end
+                    insertAddon(addonTable)
                 end
             end
         end
