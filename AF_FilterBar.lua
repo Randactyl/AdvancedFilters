@@ -156,7 +156,12 @@ end
 function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     local subfilterData = ZO_ShallowTableCopy(AF.subfilterCallbacks[groupName][subfilterName])
     subfilterData.dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
-    local icon = AF.textures[subfilterName]
+    local iconPath = AF.textures[subfilterName]
+    local icon = {
+        up = string.format(iconPath, "up"),
+        down = string.format(iconPath, "down"),
+        over = string.format(iconPath, "over"),
+    }
 
     local callback = subfilterData.filterCallback
     local dropdownCallbacks = subfilterData.dropdownCallbacks
@@ -167,8 +172,8 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     local texture = button:GetNamedChild("Texture")
     local highlight = button:GetNamedChild("Highlight")
 
-    texture:SetTexture(icon.normal)
-    highlight:SetTexture(icon.mouseOver)
+    texture:SetTexture(icon.up)
+    highlight:SetTexture(icon.over)
 
     button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
     button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
@@ -201,8 +206,8 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     button.texture = texture
     button.clickable = true
     button.filterCallback = callback
-    button.normal = icon.normal
-    button.pressed = icon.pressed
+    button.up = icon.up
+    button.down = icon.down
     button.dropdownCallbacks = dropdownCallbacks
 
     self.activeButton = button
@@ -237,12 +242,12 @@ function AF_FilterBar:ActivateButton(newButton)
 
     local oldButton = self.activeButton
 
-    --hide old pressed texture
-    oldButton:GetNamedChild("Texture"):SetTexture(oldButton.normal)
+    --hide old down texture
+    oldButton:GetNamedChild("Texture"):SetTexture(oldButton.up)
     oldButton:SetEnabled(true)
 
-    --show new pressed texture
-    newButton:GetNamedChild("Texture"):SetTexture(newButton.pressed)
+    --show new down texture
+    newButton:GetNamedChild("Texture"):SetTexture(newButton.down)
     newButton:SetEnabled(false)
 
     --refresh filter
