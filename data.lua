@@ -258,558 +258,506 @@ local function GetFilterCallback(filterTypes)
 end
 
 AF.subfilterCallbacks = {
-    ["All"] = {
+    All = {
         dropdownCallbacks = {
-            [1] = {name = "All", filterCallback = GetFilterCallback(nil)},
+            {name = "All", filterCallback = GetFilterCallback(nil)},
         },
     },
-    ["Weapons"] = {
+    Weapons = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["OneHand"] = {
+        OneHand = {
             filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER}),
             dropdownCallbacks = {
-                [1] = {name = "Axe", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_AXE})},
-                [2] = {name = "Hammer", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_HAMMER})},
-                [3] = {name = "Sword", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_SWORD})},
-                [4] = {name = "Dagger", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_DAGGER})},
+                {name = "Axe", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_AXE})},
+                {name = "Hammer", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_HAMMER})},
+                {name = "Sword", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_SWORD})},
+                {name = "Dagger", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_DAGGER})},
             },
         },
-        ["TwoHand"] = {
+        TwoHand = {
             filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD}),
             dropdownCallbacks = {
-                [1] = {name = "2HAxe", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE})},
-                [2] = {name = "2HHammer", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_HAMMER})},
-                [3] = {name = "2HSword", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_SWORD})},
+                {name = "2HAxe", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE})},
+                {name = "2HHammer", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_HAMMER})},
+                {name = "2HSword", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_SWORD})},
             },
         },
-        ["Bow"] = {
+        Bow = {
             filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_BOW}),
             dropdownCallbacks = {},
         },
-        ["DestructionStaff"] = {
+        DestructionStaff = {
             filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF}),
             dropdownCallbacks = {
-                [1] = {name = "Fire", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF})},
-                [2] = {name = "Frost", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FROST_STAFF})},
-                [3] = {name = "Lightning", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_LIGHTNING_STAFF})},
+                {name = "Fire", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF})},
+                {name = "Frost", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FROST_STAFF})},
+                {name = "Lightning", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_LIGHTNING_STAFF})},
             },
         },
-        ["HealStaff"] = {
+        HealStaff = {
             filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF}),
             dropdownCallbacks = {},
         },
     },
-    ["Armor"] = {
+    Armor = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Heavy"] = {
+        Heavy = {
             filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_HEAVY}),
         },
-        ["Medium"] = {
+        Medium = {
             filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_MEDIUM}),
         },
-        ["LightArmor"] = {
+        LightArmor = {
             filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_LIGHT}),
         },
-        ["Clothing"] = {
+        Clothing = {
             filterCallback = GetFilterCallbackForClothing(),
         },
-        ["Body"] = {
+        Body = {
             dropdownCallbacks = {
-                [1] = {name = "Head", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_HEAD})},
-                [2] = {name = "Chest", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_CHEST})},
-                [3] = {name = "Shoulders", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_SHOULDERS})},
-                [4] = {name = "Hand", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_HAND})},
-                [5] = {name = "Waist", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_WAIST})},
-                [6] = {name = "Legs", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_LEGS})},
-                [7] = {name = "Feet", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_FEET})},
+                {name = "Head", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_HEAD})},
+                {name = "Chest", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_CHEST})},
+                {name = "Shoulders", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_SHOULDERS})},
+                {name = "Hand", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_HAND})},
+                {name = "Waist", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_WAIST})},
+                {name = "Legs", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_LEGS})},
+                {name = "Feet", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_FEET})},
             },
         },
-        ["Shield"] = {
+        Shield = {
             filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND}),
             dropdownCallbacks = {},
         },
-        ["Jewelry"] = {
+        Jewelry = {
             filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK}),
             dropdownCallbacks = {
-                [1] = {name = "Ring", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING})},
-                [2] = {name = "Neck", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_NECK})},
+                {name = "Ring", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING})},
+                {name = "Neck", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_NECK})},
             },
         },
-        ["Vanity"] = {
+        Vanity = {
             filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}),
             dropdownCallbacks = {},
         },
     },
-    ["Consumables"] = {
+    Consumables = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Crown"] = {
+        Crown = {
             filterCallback = GetFilterCallback({ITEMTYPE_CROWN_ITEM}),
             dropdownCallbacks = {},
         },
-        ["Food"] = {
+        Food = {
             filterCallback = GetFilterCallback({ITEMTYPE_FOOD}),
             dropdownCallbacks = {},
         },
-        ["Drink"] = {
+        Drink = {
             filterCallback = GetFilterCallback({ITEMTYPE_DRINK}),
             dropdownCallbacks = {},
         },
-        ["Recipe"] = {
+        Recipe = {
             filterCallback = GetFilterCallback({ITEMTYPE_RECIPE}),
             dropdownCallbacks = {},
         },
-        ["Potion"] = {
+        Potion = {
             filterCallback = GetFilterCallback({ITEMTYPE_POTION}),
             dropdownCallbacks = {},
         },
-        ["Poison"] = {
+        Poison = {
             filterCallback = GetFilterCallback({ITEMTYPE_POISON}),
             dropdownCallbacks = {},
         },
-        ["Motif"] = {
+        Motif = {
             filterCallback = GetFilterCallback({ITEMTYPE_RACIAL_STYLE_MOTIF}),
             dropdownCallbacks = {},
         },
-        ["Writ"] = {
+        Writ = {
             filterCallback = GetFilterCallback({ITEMTYPE_MASTER_WRIT}),
             dropdownCallbacks = {},
         },
-        ["Container"] = {
+        Container = {
             filterCallback = GetFilterCallback({ITEMTYPE_CONTAINER}),
             dropdownCallbacks = {},
         },
-        ["Repair"] = {
+        Repair = {
             filterCallback = GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR}),
             dropdownCallbacks = {},
         },
-        ["Trophy"] = {
+        Trophy = {
             filterCallback = GetFilterCallbackForTrophy(),
             dropdownCallbacks = {},
         },
     },
-    ["Crafting"] = {
+    Crafting = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Blacksmithing"] = {
+        Blacksmithing = {
             filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL, ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_BLACKSMITHING_BOOSTER}),
             dropdownCallbacks = {},
         },
-        ["Clothier"] = {
+        Clothier = {
             filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_MATERIAL, ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_CLOTHIER_BOOSTER}),
             dropdownCallbacks = {},
         },
-        ["Woodworking"] = {
+        Woodworking = {
             filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_MATERIAL, ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_WOODWORKING_BOOSTER}),
             dropdownCallbacks = {},
         },
-        ["Alchemy"] = {
+        Alchemy = {
             filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE}),
             dropdownCallbacks = {
-                [1] = {name = "Reagent", filterCallback = GetFilterCallback({ITEMTYPE_REAGENT})},
-                [2] = {name = "Water", filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE})},
-                [3] = {name = "Oil", filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE})},
+                {name = "Reagent", filterCallback = GetFilterCallback({ITEMTYPE_REAGENT})},
+                {name = "Water", filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE})},
+                {name = "Oil", filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE})},
             },
         },
-        ["Enchanting"] = {
+        Enchanting = {
             filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT, ITEMTYPE_ENCHANTING_RUNE_ESSENCE, ITEMTYPE_ENCHANTING_RUNE_POTENCY}),
             dropdownCallbacks = {
-                [1] = {name = "Aspect", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT})},
-                [2] = {name = "Essence", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ESSENCE})},
-                [3] = {name = "Potency", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_POTENCY})},
+                {name = "Aspect", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT})},
+                {name = "Essence", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ESSENCE})},
+                {name = "Potency", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_POTENCY})},
             },
         },
-        ["Provisioning"] = {
+        Provisioning = {
             filterCallback = GetFilterCallback({ITEMTYPE_INGREDIENT}),
             dropdownCallbacks = {
-                [1] = {name = "FoodIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Food")},
-                [2] = {name = "DrinkIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Drink")},
-                [3] = {name = "OldIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Old")},
+                {name = "FoodIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Food")},
+                {name = "DrinkIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Drink")},
+                {name = "OldIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Old")},
             },
         },
-        ["Style"] = {
+        Style = {
             filterCallback = GetFilterCallback({ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
             dropdownCallbacks = {
-                [1] = {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_RAW_MATERIAL})},
-                [2] = {name = "NormalStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_NORMAL)},
-                [3] = {name = "RareStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_RARE)},
-                [4] = {name = "AllianceStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_ALLIANCE)},
-                [5] = {name = "ExoticStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_EXOTIC)},
-                [6] = {name = "CrownStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_CROWN)},
+                {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_RAW_MATERIAL})},
+                {name = "NormalStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_NORMAL)},
+                {name = "RareStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_RARE)},
+                {name = "AllianceStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_ALLIANCE)},
+                {name = "ExoticStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_EXOTIC)},
+                {name = "CrownStyle", filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_CROWN)},
             },
         },
-        ["WeaponTrait"] = {
+        WeaponTrait = {
             filterCallback = GetFilterCallback({ITEMTYPE_WEAPON_TRAIT}),
             dropdownCallbacks = {},
         },
-        ["ArmorTrait"] = {
+        ArmorTrait = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
             dropdownCallbacks = {},
         },
     },
-    ["Furnishings"] = {
+    Furnishings = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["CraftingStation"] = {
-            filterCallback = GetFilterCallbackForSpecializedItemtype(
-                {SPECIALIZED_ITEMTYPE_FURNISHING_CRAFTING_STATION}),
+        CraftingStation = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_FURNISHING_CRAFTING_STATION}),
             dropdownCallbacks = {},
         },
-        ["Light"] = {
-            filterCallback = GetFilterCallbackForSpecializedItemtype(
-                {SPECIALIZED_ITEMTYPE_FURNISHING_LIGHT}),
+        Light = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_FURNISHING_LIGHT}),
             dropdownCallbacks = {},
         },
-        ["Ornamental"] = {
-            filterCallback = GetFilterCallbackForSpecializedItemtype(
-                {SPECIALIZED_ITEMTYPE_FURNISHING_ORNAMENTAL}),
+        Ornamental = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_FURNISHING_ORNAMENTAL}),
             dropdownCallbacks = {},
         },
-        ["Seating"] = {
-            filterCallback = GetFilterCallbackForSpecializedItemtype(
-                {SPECIALIZED_ITEMTYPE_FURNISHING_SEATING}),
+        Seating = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_FURNISHING_SEATING}),
             dropdownCallbacks = {},
         },
-        ["TargetDummy"] = {
-            filterCallback = GetFilterCallbackForSpecializedItemtype(
-                {SPECIALIZED_ITEMTYPE_FURNISHING_TARGET_DUMMY}),
+        TargetDummy = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_FURNISHING_TARGET_DUMMY}),
             dropdownCallbacks = {},
         },
     },
-    ["Miscellaneous"] = {
+    Miscellaneous = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Glyphs"] = {
+        Glyphs = {
             filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR, ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON}),
             dropdownCallbacks = {
-                [1] = {name = "ArmorGlyph", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR})},
-                [2] = {name = "JewelryGlyph", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_JEWELRY})},
-                [3] = {name = "WeaponGlyph", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_WEAPON})},
+                {name = "ArmorGlyph", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR})},
+                {name = "JewelryGlyph", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_JEWELRY})},
+                {name = "WeaponGlyph", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_WEAPON})},
             },
         },
-        ["SoulGem"] = {
+        SoulGem = {
             filterCallback = GetFilterCallback({ITEMTYPE_SOUL_GEM}),
             dropdownCallbacks = {},
         },
-        ["Siege"] = {
+        Siege = {
             filterCallback = GetFilterCallback({ITEMTYPE_SIEGE}),
             dropdownCallbacks = {},
         },
-        ["Bait"] = {
+        Bait = {
             filterCallback = GetFilterCallback({ITEMTYPE_LURE}),
             dropdownCallbacks = {},
         },
-        ["Tool"] = {
+        Tool = {
             filterCallback = GetFilterCallback({ITEMTYPE_TOOL}),
             dropdownCallbacks = {},
         },
-        ["Trophy"] = {
+        Trophy = {
             filterCallback = GetFilterCallbackForTrophy(),
             dropdownCallbacks = {},
         },
-        ["Fence"] = {
+        Fence = {
             filterCallback = GetFilterCallbackForFence(),
             dropdownCallbacks = {},
         },
-        ["Trash"] = {
+        Trash = {
             filterCallback = GetFilterCallback({ITEMTYPE_TRASH}),
             dropdownCallbacks = {},
         },
     },
-    ["Junk"] = {
+    Junk = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Weapon"] = {
+        Weapon = {
             filterCallback = GetFilterCallback({ITEMTYPE_WEAPON}),
             dropdownCallbacks = {
-                [1] = {name = "OneHand", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER})},
-                [2] = {name = "TwoHand", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD})},
-                [3] = {name = "Bow", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_BOW})},
-                [4] = {name = "DestructionStaff", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF})},
-                [5] = {name = "HealStaff", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF})},
+                {name = "OneHand", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_AXE, WEAPONTYPE_HAMMER, WEAPONTYPE_SWORD, WEAPONTYPE_DAGGER})},
+                {name = "TwoHand", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_TWO_HANDED_AXE, WEAPONTYPE_TWO_HANDED_HAMMER, WEAPONTYPE_TWO_HANDED_SWORD})},
+                {name = "Bow", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_BOW})},
+                {name = "DestructionStaff", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_FIRE_STAFF, WEAPONTYPE_FROST_STAFF, WEAPONTYPE_LIGHTNING_STAFF})},
+                {name = "HealStaff", filterCallback = GetFilterCallbackForWeaponType({WEAPONTYPE_HEALING_STAFF})},
             },
         },
-        ["Apparel"] = {
+        Apparel = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR}),
             dropdownCallbacks = {
-                [1] = {name = "Heavy", filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_HEAVY})},
-                [2] = {name = "Medium", filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_MEDIUM})},
-                [3] = {name = "Light", filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_LIGHT})},
-                [4] = {name = "Clothing", filterCallback = GetFilterCallbackForClothing()},
-                [5] = {name = "Shield", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND})},
-                [6] = {name = "Jewelry", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK})},
-                [7] = {name = "Vanity", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME})},
+                {name = "Heavy", filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_HEAVY})},
+                {name = "Medium", filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_MEDIUM})},
+                {name = "Light", filterCallback = GetFilterCallbackForArmorType({ARMORTYPE_LIGHT})},
+                {name = "Clothing", filterCallback = GetFilterCallbackForClothing()},
+                {name = "Shield", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND})},
+                {name = "Jewelry", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK})},
+                {name = "Vanity", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME})},
             },
         },
-        ["Consumable"] = {
-            filterCallback = GetFilterCallback({ITEMTYPE_CROWN_ITEM,
-              ITEMTYPE_FOOD, ITEMTYPE_DRINK, ITEMTYPE_RECIPE, ITEMTYPE_POTION,
-              ITEMTYPE_POISON, ITEMTYPE_RACIAL_STYLE_MOTIF, ITEMTYPE_CONTAINER,
-              ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR,
-              ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH,
-              ITEMTYPE_TREASURE}),
+        Consumable = {
+            filterCallback = GetFilterCallback({ITEMTYPE_CROWN_ITEM, ITEMTYPE_FOOD, ITEMTYPE_DRINK, ITEMTYPE_RECIPE, ITEMTYPE_POTION, ITEMTYPE_POISON, ITEMTYPE_RACIAL_STYLE_MOTIF, ITEMTYPE_CONTAINER, ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR, ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH, ITEMTYPE_TREASURE}),
             dropdownCallbacks = {
-                [1] = {name = "Crown", filterCallback = GetFilterCallback({ITEMTYPE_CROWN_ITEM})},
-                [2] = {name = "Food", filterCallback = GetFilterCallback({ITEMTYPE_FOOD})},
-                [3] = {name = "Drink", filterCallback = GetFilterCallback({ITEMTYPE_DRINK})},
-                [4] = {name = "Recipe", filterCallback = GetFilterCallback({ITEMTYPE_RECIPE})},
-                [5] = {name = "Potion", filterCallback = GetFilterCallback({ITEMTYPE_POTION})},
-                [6] = {name = "Poison", filterCallback = GetFilterCallback({ITEMTYPE_POISON})},
-                [7] = {name = "Motif", filterCallback = GetFilterCallback({ITEMTYPE_RACIAL_STYLE_MOTIF})},
-                [8] = {name = "Container", filterCallback = GetFilterCallback({ITEMTYPE_CONTAINER})},
-                [9] = {name = "Repair", filterCallback = GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR})},
-                [10] = {name = "Trophy", filterCallback = GetFilterCallbackForTrophy()},
+                {name = "Crown", filterCallback = GetFilterCallback({ITEMTYPE_CROWN_ITEM})},
+                {name = "Food", filterCallback = GetFilterCallback({ITEMTYPE_FOOD})},
+                {name = "Drink", filterCallback = GetFilterCallback({ITEMTYPE_DRINK})},
+                {name = "Recipe", filterCallback = GetFilterCallback({ITEMTYPE_RECIPE})},
+                {name = "Potion", filterCallback = GetFilterCallback({ITEMTYPE_POTION})},
+                {name = "Poison", filterCallback = GetFilterCallback({ITEMTYPE_POISON})},
+                {name = "Motif", filterCallback = GetFilterCallback({ITEMTYPE_RACIAL_STYLE_MOTIF})},
+                {name = "Container", filterCallback = GetFilterCallback({ITEMTYPE_CONTAINER})},
+                {name = "Repair", filterCallback = GetFilterCallback({ITEMTYPE_AVA_REPAIR, ITEMTYPE_TOOL, ITEMTYPE_CROWN_REPAIR})},
+                {name = "Trophy", filterCallback = GetFilterCallbackForTrophy()},
             },
         },
-        ["Materials"] = {
-            filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL,
-              ITEMTYPE_BLACKSMITHING_RAW_MATERIAL,
-              ITEMTYPE_BLACKSMITHING_BOOSTER, ITEMTYPE_CLOTHIER_MATERIAL,
-              ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_CLOTHIER_BOOSTER,
-              ITEMTYPE_WOODWORKING_MATERIAL, ITEMTYPE_WOODWORKING_RAW_MATERIAL,
-              ITEMTYPE_WOODWORKING_BOOSTER, ITEMTYPE_REAGENT,
-              ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE,
-              ITEMTYPE_ENCHANTING_RUNE_ASPECT, ITEMTYPE_ENCHANTING_RUNE_ESSENCE,
-              ITEMTYPE_ENCHANTING_RUNE_POTENCY, ITEMTYPE_INGREDIENT,
-              ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL,
-              ITEMTYPE_WEAPON_TRAIT, ITEMTYPE_ARMOR_TRAIT}),
+        Materials = {
+            filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL, ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_BLACKSMITHING_BOOSTER, ITEMTYPE_CLOTHIER_MATERIAL, ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_CLOTHIER_BOOSTER, ITEMTYPE_WOODWORKING_MATERIAL, ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_WOODWORKING_BOOSTER, ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE, ITEMTYPE_ENCHANTING_RUNE_ASPECT, ITEMTYPE_ENCHANTING_RUNE_ESSENCE, ITEMTYPE_ENCHANTING_RUNE_POTENCY, ITEMTYPE_INGREDIENT, ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL, ITEMTYPE_WEAPON_TRAIT, ITEMTYPE_ARMOR_TRAIT}),
             dropdownCallbacks = {
-                [1] = {name = "Blacksmithing",
-                  filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL,
-                    ITEMTYPE_BLACKSMITHING_RAW_MATERIAL,
-                    ITEMTYPE_BLACKSMITHING_BOOSTER})},
-                [2] = {name = "Clothier",
-                  filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_MATERIAL,
-                    ITEMTYPE_CLOTHIER_RAW_MATERIAL,
-                    ITEMTYPE_CLOTHIER_BOOSTER})},
-                [3] = {name = "Woodworking",
-                  filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_MATERIAL,
-                    ITEMTYPE_WOODWORKING_RAW_MATERIAL,
-                    ITEMTYPE_WOODWORKING_BOOSTER})},
-                [4] = {name = "Alchemy",
-                  filterCallback = GetFilterCallback({ITEMTYPE_REAGENT,
-                    ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE})},
-                [5] = {name = "Enchanting",
-                  filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT,
-                    ITEMTYPE_ENCHANTING_RUNE_ESSENCE,
-                    ITEMTYPE_ENCHANTING_RUNE_POTENCY})},
-                [6] = {name = "Provisioning",
-                  filterCallback = GetFilterCallback({ITEMTYPE_INGREDIENT})},
-                [7] = {name = "Style",
-                  filterCallback = GetFilterCallback({ITEMTYPE_STYLE_MATERIAL,
-                    ITEMTYPE_RAW_MATERIAL})},
-                [8] = {name = "ArmorTrait",
-                  filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT})},
-                [9] = {name = "WeaponTrait",
-                  filterCallback = GetFilterCallback({ITEMTYPE_WEAPON_TRAIT})},
+                {name = "Blacksmithing", filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL, ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_BLACKSMITHING_BOOSTER})},
+                {name = "Clothier", filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_MATERIAL, ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_CLOTHIER_BOOSTER})},
+                {name = "Woodworking", filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_MATERIAL, ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_WOODWORKING_BOOSTER})},
+                {name = "Alchemy", filterCallback = GetFilterCallback({ITEMTYPE_REAGENT, ITEMTYPE_POTION_BASE, ITEMTYPE_POISON_BASE})},
+                {name = "Enchanting", filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT, ITEMTYPE_ENCHANTING_RUNE_ESSENCE, ITEMTYPE_ENCHANTING_RUNE_POTENCY})},
+                {name = "Provisioning", filterCallback = GetFilterCallback({ITEMTYPE_INGREDIENT})},
+                {name = "Style", filterCallback = GetFilterCallback({ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL})},
+                {name = "ArmorTrait", filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT})},
+                {name = "WeaponTrait", filterCallback = GetFilterCallback({ITEMTYPE_WEAPON_TRAIT})},
             },
         },
-        ["Miscellaneous"] = {
-            filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR,
-              ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON, ITEMTYPE_SOUL_GEM,
-              ITEMTYPE_SIEGE, ITEMTYPE_LURE, ITEMTYPE_TOOL, ITEMTYPE_TROPHY,
-              ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH, ITEMTYPE_TREASURE,
-              ITEMTYPE_TRASH}),
+        Miscellaneous = {
+            filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR, ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON, ITEMTYPE_SOUL_GEM, ITEMTYPE_SIEGE, ITEMTYPE_LURE, ITEMTYPE_TOOL, ITEMTYPE_TROPHY, ITEMTYPE_COLLECTIBLE, ITEMTYPE_FISH, ITEMTYPE_TREASURE, ITEMTYPE_TRASH}),
             dropdownCallbacks = {
-                [1] = {name = "Glyphs",
-                  filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR,
-                    ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON})},
-                [2] = {name = "SoulGem",
-                  filterCallback = GetFilterCallback({ITEMTYPE_SOUL_GEM})},
-                [3] = {name = "Siege",
-                  filterCallback = GetFilterCallback({ITEMTYPE_SIEGE})},
-                [4] = {name = "Bait",
-                  filterCallback = GetFilterCallback({ITEMTYPE_LURE})},
-                [5] = {name = "Tool",
-                  filterCallback = GetFilterCallback({ITEMTYPE_TOOL})},
-                [6] = {name = "Trophy",
-                  filterCallback = GetFilterCallbackForTrophy()},
-                [7] = {name = "Fence",
-                  filterCallback = GetFilterCallbackForFence()},
-                [8] = {name = "Trash",
-                  filterCallback = GetFilterCallback({ITEMTYPE_TRASH})},
+                {name = "Glyphs", filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR, ITEMTYPE_GLYPH_JEWELRY, ITEMTYPE_GLYPH_WEAPON})},
+                {name = "SoulGem", filterCallback = GetFilterCallback({ITEMTYPE_SOUL_GEM})},
+                {name = "Siege", filterCallback = GetFilterCallback({ITEMTYPE_SIEGE})},
+                {name = "Bait", filterCallback = GetFilterCallback({ITEMTYPE_LURE})},
+                {name = "Tool", filterCallback = GetFilterCallback({ITEMTYPE_TOOL})},
+                {name = "Trophy", filterCallback = GetFilterCallbackForTrophy()},
+                {name = "Fence", filterCallback = GetFilterCallbackForFence()},
+                {name = "Trash", filterCallback = GetFilterCallback({ITEMTYPE_TRASH})},
             },
         },
     },
-    ["Blacksmithing"] = {
+    Blacksmithing = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["RawMaterial"] = {
+        RawMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_RAW_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
             dropdownCallbacks = {},
         },
-        ["RefinedMaterial"] = {
+        RefinedMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_MATERIAL}),
             dropdownCallbacks = {},
         },
-        ["Temper"] = {
+        Temper = {
             filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_BOOSTER}),
             dropdownCallbacks = {},
         },
     },
-    ["Clothing"] = {
+    Clothing = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["RawMaterial"] = {
+        RawMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_RAW_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
             dropdownCallbacks = {},
         },
-        ["RefinedMaterial"] = {
+        RefinedMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_MATERIAL}),
             dropdownCallbacks = {},
         },
-        ["Resin"] = {
+        Resin = {
             filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_BOOSTER}),
             dropdownCallbacks = {},
         },
     },
-    ["Woodworking"] = {
+    Woodworking = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["RawMaterial"] = {
+        RawMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_RAW_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
             dropdownCallbacks = {},
         },
-        ["RefinedMaterial"] = {
+        RefinedMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_MATERIAL}),
             dropdownCallbacks = {},
         },
-        ["Tannin"] = {
+        Tannin = {
             filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_BOOSTER}),
             dropdownCallbacks = {},
         },
     },
-    ["Alchemy"] = {
+    Alchemy = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Reagent"] = {
+        Reagent = {
             filterCallback = GetFilterCallback({ITEMTYPE_REAGENT}),
             dropdownCallbacks = {},
         },
-        ["Water"] = {
+        Water = {
             filterCallback = GetFilterCallback({ITEMTYPE_POTION_BASE}),
             dropdownCallbacks = {},
         },
-        ["Oil"] = {
+        Oil = {
             filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE}),
             dropdownCallbacks = {},
         },
     },
-    ["Enchanting"] = {
+    Enchanting = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["Aspect"] = {
+        Aspect = {
             filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ASPECT}),
             dropdownCallbacks = {},
         },
-        ["Essence"] = {
+        Essence = {
             filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_ESSENCE}),
             dropdownCallbacks = {},
         },
-        ["Potency"] = {
+        Potency = {
             filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_POTENCY}),
             dropdownCallbacks = {},
         },
     },
-    ["Provisioning"] = {
+    Provisioning = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["FoodIngredient"] = {
+        FoodIngredient = {
             filterCallback = GetFilterCallbackForProvisioningIngredient("Food"),
             dropdownCallbacks = {},
         },
-        ["DrinkIngredient"] = {
+        DrinkIngredient = {
             filterCallback = GetFilterCallbackForProvisioningIngredient("Drink"),
             dropdownCallbacks = {},
         },
-        ["OldIngredient"] = {
+        OldIngredient = {
             filterCallback = GetFilterCallbackForProvisioningIngredient("Old"),
             dropdownCallbacks = {},
         },
-        ["Bait"] = {
+        Bait = {
             filterCallback = GetFilterCallback({ITEMTYPE_LURE}),
             dropdownCallbacks = {},
         },
     },
-    ["Style"] = {
+    Style = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["NormalStyle"] = {
+        NormalStyle = {
             filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_NORMAL),
             dropdownCallbacks = {},
         },
-        ["RareStyle"] = {
+        RareStyle = {
             filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_RARE),
             dropdownCallbacks = {},
         },
-        ["AllianceStyle"] = {
+        AllianceStyle = {
             filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_ALLIANCE),
             dropdownCallbacks = {},
         },
-        ["ExoticStyle"] = {
+        ExoticStyle = {
             filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_EXOTIC),
             dropdownCallbacks = {},
         },
-        ["CrownStyle"] = {
+        CrownStyle = {
             filterCallback = GetFilterCallbackForStyleMaterial(LMC_MOTIF_CATEGORY_CROWN),
             dropdownCallbacks = {},
         },
     },
-    ["Traits"] = {
+    Traits = {
         addonDropdownCallbacks = {},
-        ["All"] = {
+        All = {
             filterCallback = GetFilterCallback(nil),
             dropdownCallbacks = {},
         },
-        ["WeaponTrait"] = {
+        WeaponTrait = {
             filterCallback = GetFilterCallback({ITEMTYPE_WEAPON_TRAIT}),
             dropdownCallbacks = {},
         },
-        ["ArmorTrait"] = {
+        ArmorTrait = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
             dropdownCallbacks = {},
         },
