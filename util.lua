@@ -99,55 +99,49 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
     local callbackTable = {}
     local keys = {
         ["Weapons"] = {
-            "All", "OneHand", "TwoHand", "Bow", "DestructionStaff", "HealStaff",
+            "OneHand", "TwoHand", "Bow", "DestructionStaff", "HealStaff",
         },
         ["Armor"] = {
-            "All", "Body", "Shield", "Jewelry", "Vanity",
+            "Body", "Shield", "Jewelry", "Vanity",
         },
         ["Consumables"] = {
-            "All", "Crown", "Food", "Drink", "Recipe", "Potion", "Poison",
-            "Motif", "Writ", "Container", "Repair", "Trophy",
+            "Crown", "Food", "Drink", "Recipe", "Potion", "Poison", "Motif", "Writ", "Container", "Repair", "Trophy",
         },
         ["Crafting"] = {
-            "All", "Blacksmithing", "Clothier", "Woodworking", "Alchemy",
-            "Enchanting", "Provisioning", "Style", "WeaponTrait", "ArmorTrait",
+            "Blacksmithing", "Clothier", "Woodworking", "Alchemy", "Enchanting", "Provisioning", "Style", "WeaponTrait", "ArmorTrait",
         },
         ["Furnishings"] = {
-            "All", "CraftingStation", "Light", "Ornamental", "Seating",
-            "TargetDummy",
+            "CraftingStation", "Light", "Ornamental", "Seating", "TargetDummy",
         },
         ["Miscellaneous"] = {
-            "All", "Glyphs", "SoulGem", "Siege", "Bait", "Tool", "Trophy",
-            "Fence", "Trash",
+            "Glyphs", "SoulGem", "Siege", "Bait", "Tool", "Trophy", "Fence", "Trash",
         },
         ["Junk"] = {
-            "All", "Weapon", "Apparel", "Consumable", "Materials",
-            "Miscellaneous"
+            "Weapon", "Apparel", "Consumable", "Materials", "Miscellaneous"
         },
         ["Blacksmithing"] = {
-            "All", "RawMaterial", "RefinedMaterial", "Temper",
+            "RawMaterial", "RefinedMaterial", "Temper",
         },
         ["Clothing"] = {
-            "All", "RawMaterial", "RefinedMaterial", "Resin",
+            "RawMaterial", "RefinedMaterial", "Resin",
         },
         ["Woodworking"] = {
-            "All", "RawMaterial", "RefinedMaterial", "Tannin",
+            "RawMaterial", "RefinedMaterial", "Tannin",
         },
         ["Alchemy"] = {
-            "All", "Reagent", "Water", "Oil",
+            "Reagent", "Water", "Oil",
         },
         ["Enchanting"] = {
-            "All", "Aspect", "Essence", "Potency",
+            "Aspect", "Essence", "Potency",
         },
         ["Provisioning"] = {
-            "All", "FoodIngredient", "DrinkIngredient", "OldIngredient", "Bait",
+            "FoodIngredient", "DrinkIngredient", "OldIngredient", "Bait",
         },
         ["Style"] = {
-            "All", "NormalStyle", "RareStyle", "AllianceStyle",
-            "ExoticStyle", "CrownStyle",
+            "NormalStyle", "RareStyle", "AllianceStyle", "ExoticStyle", "CrownStyle",
         },
         ["Traits"] = {
-            "All", "ArmorTrait", "WeaponTrait",
+            "ArmorTrait", "WeaponTrait",
         },
     }
 
@@ -167,13 +161,20 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
     end
 
     -- insert global "All" filters
-    for _, callbackEntry in ipairs(AF.subfilterCallbacks["All"].dropdownCallbacks) do
+    for _, callbackEntry in ipairs(AF.subfilterCallbacks.All.dropdownCallbacks) do
         table.insert(callbackTable, callbackEntry)
     end
 
     --insert global addon filters
     for _, addonTable in ipairs(AF.subfilterCallbacks.All.addonDropdownCallbacks) do
         insertAddon(addonTable)
+    end
+
+    --insert filters that apply to the whole group
+    if groupName ~= "All" then
+        for _, callbackEntry in ipairs(AF.subfilterCallbacks[groupName].All.dropdownCallbacks) do
+            table.insert(callbackTable, callbackEntry)
+        end
     end
 
     if subfilterName == "All" then
