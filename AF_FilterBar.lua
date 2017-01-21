@@ -154,8 +154,6 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 end
 
 function AF_FilterBar:AddSubfilter(groupName, subfilterName)
-    local subfilterData = ZO_ShallowTableCopy(AF.subfilterCallbacks[groupName][subfilterName])
-    subfilterData.dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
     local iconPath = AF.textures[subfilterName]
     local icon = {
         up = string.format(iconPath, "up"),
@@ -163,8 +161,8 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
         over = string.format(iconPath, "over"),
     }
 
-    local callback = subfilterData.filterCallback
-    local dropdownCallbacks = subfilterData.dropdownCallbacks
+    local callback = AF.subfilterCallbacks[groupName][subfilterName].filterCallback
+    local dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 
     local anchorX = -116 + #self.subfilterButtons * -32
 
