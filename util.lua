@@ -156,6 +156,11 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         table.insert(callbackTable, callbackEntry)
     end
 
+    --insert global addon filters
+    for _, addonTable in ipairs(AF.subfilterCallbacks.All.addonDropdownCallbacks) do
+        insertAddon(addonTable)
+    end
+
     if subfilterName == "All" then
         --insert all default filters for each subfilter
         for _, subfilterName in ipairs(keys[groupName]) do

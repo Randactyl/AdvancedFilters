@@ -259,6 +259,7 @@ end
 
 AF.subfilterCallbacks = {
     All = {
+        addonDropdownCallbacks = {},
         dropdownCallbacks = {
             {name = "All", filterCallback = GetFilterCallback(nil)},
         },
@@ -814,15 +815,8 @@ function AdvancedFilters_RegisterFilter(filterInformation)
     }
     local groupName = filterTypeToGroupName[filterInformation.filterType]
 
-    if(groupName == "All") then
-        table.insert(AF.subfilterCallbacks["Weapons"].addonDropdownCallbacks, addonInformation)
-        table.insert(AF.subfilterCallbacks["Armor"].addonDropdownCallbacks, addonInformation)
-        table.insert(AF.subfilterCallbacks["Consumables"].addonDropdownCallbacks, addonInformation)
-        table.insert(AF.subfilterCallbacks["Crafting"].addonDropdownCallbacks, addonInformation)
-        table.insert(AF.subfilterCallbacks["Miscellaneous"].addonDropdownCallbacks, addonInformation)
-    else
-        table.insert(AF.subfilterCallbacks[groupName].addonDropdownCallbacks, addonInformation)
-    end
+    table.insert(AF.subfilterCallbacks[groupName].addonDropdownCallbacks,
+      addonInformation)
 
     --get string information from the calling addon and insert it into our string table
     local function addStrings(lang, strings)
