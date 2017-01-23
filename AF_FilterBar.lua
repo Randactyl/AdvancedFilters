@@ -200,7 +200,7 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     button:SetHandler("OnMouseExit", OnMouseExit)
 
     button.name = subfilterName
-    butotn.groupName = groupName
+    button.groupName = groupName
     button.texture = texture
     button.clickable = true
     button.filterCallback = callback
