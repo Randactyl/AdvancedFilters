@@ -162,7 +162,6 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     }
 
     local callback = AF.subfilterCallbacks[groupName][subfilterName].filterCallback
-    local dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 
     local anchorX = -116 + #self.subfilterButtons * -32
 
@@ -201,12 +200,12 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     button:SetHandler("OnMouseExit", OnMouseExit)
 
     button.name = subfilterName
+    butotn.groupName = groupName
     button.texture = texture
     button.clickable = true
     button.filterCallback = callback
     button.up = icon.up
     button.down = icon.down
-    button.dropdownCallbacks = dropdownCallbacks
 
     self.activeButton = button
 
@@ -216,6 +215,7 @@ end
 function AF_FilterBar:ActivateButton(newButton)
     local function PopulateDropdown()
         local comboBox = self.dropdown.m_comboBox
+        newButton.dropdownCallbacks = AF.util.BuildDropdownCallbacks(newButton.groupName, newButton.name)
 
         comboBox.submenuCandidates = {}
         for _, v in ipairs(newButton.dropdownCallbacks) do
