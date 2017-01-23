@@ -146,6 +146,17 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
     }
 
     local function insertAddon(addonTable)
+        --generate information if necessary
+        if addonTable.generator then
+            local strings
+
+            addonTable.callbackTable, strings = addonTable.generator()
+
+            for key, string in pairs(strings) do
+                AF.strings[key] = string
+            end
+        end
+
         --check to see if addon is set up for a submenu
         if addonTable.submenuName then
             --insert whole package

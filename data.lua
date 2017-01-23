@@ -790,7 +790,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         d("No filter information provided. Filter not registered.")
         return
     end
-    if filterInformation.callbackTable == nil then
+    if filterInformation.callbackTable == nil and filterInformation.generator == nil then
         d("No callback information provided. Filter not registered.")
         return
     end
@@ -802,7 +802,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         d("No base filter type information provided. Filter not registered.")
         return
     end
-    if filterInformation.enStrings == nil then
+    if filterInformation.enStrings == nil and filterInformation.generator == nil then
         d("No English strings provided. Filter not registered.")
         return
     end
@@ -812,11 +812,15 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         submenuName = filterInformation.submenuName,
         callbackTable = filterInformation.callbackTable,
         subfilters = filterInformation.subfilters,
+        generator = filterInformation.generator,
     }
     local groupName = filterTypeToGroupName[filterInformation.filterType]
 
-    table.insert(AF.subfilterCallbacks[groupName].addonDropdownCallbacks,
-      addonInformation)
+    --insert addon information
+    table.insert(AF.subfilterCallbacks[groupName].addonDropdownCallbacks, addonInformation)
+
+    --if strings are going to be generated, end registration now
+    if filterInformation.generator then return end
 
     --get string information from the calling addon and insert it into our string table
     local function addStrings(lang, strings)
