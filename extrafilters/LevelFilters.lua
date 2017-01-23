@@ -7,7 +7,7 @@ local util = AdvancedFilters.util
     Use whatever parameters for "GetFilterCallback..." and whatever logic you
         need to in "function(slot)".
     "slot" is a table of item data. A typical slot can be found in
-        PLAYER_INVENTORY.inventories[bagId].slots[slotIndex]
+        PLAYER_INVENTORY.inventories[bagId].slots[slotIndex].
     A return value of true means the item in question will be shown while the
         filter is active. False means the item will be hidden while the filter
         is active.
@@ -48,13 +48,15 @@ local fullLevelDropdownCallbacks = {
 }
 
 --[[----------------------------------------------------------------------------
-    There are five potential tables for this section each covering either
-        English, German, French, Russian, or Spanish. Only English is required.
+    There are many potential tables for this section, each covering a different
+        language supported by Advanced Filters. Only English is required. See
+        AdvancedFilters/strings/ for a list of implemented languages.
     If other language tables are not included, the English table will
         automatically be used for those languages.
     All languages must share common keys.
 --]]----------------------------------------------------------------------------
 local strings = {
+    --Remember to provide a string for your submenu if using one (see below).
     ["LevelFilters"] = "Level Filters",
     ["1-10"] = "1-10",
     ["11-20"] = "11-20",
@@ -73,10 +75,10 @@ local strings = {
 
 --[[----------------------------------------------------------------------------
     This section packages the data for Advanced Filters to use.
-    All keys are required except for deStrings, frStrings, ruStrings, and
-        esStrings as they correspond to optional languages. All language keys
-        are assigned the same table here only to demonstrate the key names. You
-        do not need to do this.
+    All keys are required except for xxStrings, where xx is any implemented
+        language shortcode that is not "en". A few language keys are assigned
+        the same table here only for demonstrative purposes. You do not need to
+        do this.
     The filterType key expects an ITEMFILTERTYPE constant provided by the game.
     The values for key/value pairs in the "subfilters" table can be any of the
         string keys from the "masterSubfilterData" table in data.lua such as

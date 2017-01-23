@@ -1,8 +1,8 @@
-LevelFilters.lua and ProvisioningIngredientFilters.lua are examples of the new extensible dropdown filter system.
+Files in this directory are examples of Advanced Filters' extensible dropdown filter system.
 
-ProvisioningIngredientFilters.lua shows the basic usage. LevelFilters.lua shows how to use the submenu option added in Advanced Filters 0.9.0.0.
+See LevelFilters.lua for comments explaining the whole process.
 
-Comments are included in both files to generally explain each section.
+See [Advanced Filters - Item Saver Filters](http://www.esoui.com/downloads/info781-AdvancedFilters-ItemSaverFilters.html) for an example of the new information generator function supported in Advanced Filters 1.4.0.0.
 
 You may submit your filters as plugins for Advanced Filters on ESOUI.
 Do this by:
@@ -18,6 +18,7 @@ Do this by:
                 AF_MyPluginFilters.lua
 
 5. Submit
+
 Remember to include all readme and disclaimer information required by ZOS.
 
 Your addon manifest must look similar to the following:
