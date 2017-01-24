@@ -161,7 +161,7 @@ local styleItemIndices = {
 
 local function AddRangeToMotifIdToItemStyleLookup(min, max, itemStyle)
     for motifId = min, max do
-        motifIdToItemStyleLookup["\""..motifId.."\""] = itemStyle
+        motifIdToItemStyleLookup[""..motifId] = itemStyle
     end
 end
 
@@ -171,7 +171,7 @@ local function GetItemStyle(itemLink)
     if itemStyle == ITEMSTYLE_NONE
       and GetItemLinkItemType(itemLink) == ITEMTYPE_RACIAL_STYLE_MOTIF then
         local motifId = select(4, ZO_LinkHandler_ParseLink(itemLink))
-        d(motifId)
+
         itemStyle = motifIdToItemStyleLookup[motifId]
     elseif itemStyle == ITEMSTYLE_NONE
       and GetItemLinkItemType(itemLink) ~= ITEMTYPE_ARMOR then
