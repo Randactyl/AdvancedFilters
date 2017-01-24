@@ -19,7 +19,7 @@ local textures = {
     Vanity = "AdvancedFilters/assets/apparel/vanity_%s.dds",
 
     --CONSUMABLES
-    Crown = "esoui/art/mainmenu/menubar_market_%s.dds",
+    Crown = "esoui/art/housing/keyboard/furniture_tabicon_crownfurnishings_%s.dds",
     Food = "AdvancedFilters/assets/consumables/food/food_%s.dds",
     Drink = "AdvancedFilters/assets/consumables/drinks/drink_%s.dds",
     Recipe = "AdvancedFilters/assets/consumables/recipes/recipe_%s.dds",
