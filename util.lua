@@ -98,49 +98,49 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 
     local callbackTable = {}
     local keys = {
-        ["Weapons"] = {
+        Weapons = {
             "OneHand", "TwoHand", "Bow", "DestructionStaff", "HealStaff",
         },
-        ["Armor"] = {
+        Armor = {
             "Body", "Shield", "Jewelry", "Vanity",
         },
-        ["Consumables"] = {
+        Consumables = {
             "Crown", "Food", "Drink", "Recipe", "Potion", "Poison", "Motif", "Writ", "Container", "Repair", "Trophy",
         },
-        ["Crafting"] = {
+        Crafting = {
             "Blacksmithing", "Clothier", "Woodworking", "Alchemy", "Enchanting", "Provisioning", "Style", "WeaponTrait", "ArmorTrait",
         },
-        ["Furnishings"] = {
+        Furnishings = {
             "CraftingStation", "Light", "Ornamental", "Seating", "TargetDummy",
         },
-        ["Miscellaneous"] = {
+        Miscellaneous = {
             "Glyphs", "SoulGem", "Siege", "Bait", "Tool", "Trophy", "Fence", "Trash",
         },
-        ["Junk"] = {
+        Junk = {
             "Weapon", "Apparel", "Consumable", "Materials", "Miscellaneous"
         },
-        ["Blacksmithing"] = {
+        Blacksmithing = {
             "RawMaterial", "RefinedMaterial", "Temper",
         },
-        ["Clothing"] = {
+        Clothing = {
             "RawMaterial", "RefinedMaterial", "Resin",
         },
-        ["Woodworking"] = {
+        Woodworking = {
             "RawMaterial", "RefinedMaterial", "Tannin",
         },
-        ["Alchemy"] = {
+        Alchemy = {
             "Reagent", "Water", "Oil",
         },
-        ["Enchanting"] = {
+        Enchanting = {
             "Aspect", "Essence", "Potency",
         },
-        ["Provisioning"] = {
+        Provisioning = {
             "FoodIngredient", "DrinkIngredient", "OldIngredient", "Bait",
         },
-        ["Style"] = {
+        Style = {
             "NormalStyle", "RareStyle", "AllianceStyle", "ExoticStyle", "CrownStyle",
         },
-        ["Traits"] = {
+        Traits = {
             "ArmorTrait", "WeaponTrait",
         },
     }
