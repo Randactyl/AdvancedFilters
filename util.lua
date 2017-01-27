@@ -136,7 +136,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
             "Aspect", "Essence", "Potency",
         },
         Provisioning = {
-            "FoodIngredient", "DrinkIngredient", "OldIngredient", "Bait",
+            "FoodIngredient", "DrinkIngredient", "OldIngredient", "RareIngredient", "Bait",
         },
         Style = {
             "NormalStyle", "RareStyle", "AllianceStyle", "ExoticStyle", "CrownStyle",

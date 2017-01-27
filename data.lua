@@ -444,6 +444,7 @@ AF.subfilterCallbacks = {
                 {name = "FoodIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Food")},
                 {name = "DrinkIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Drink")},
                 {name = "OldIngredient", filterCallback = GetFilterCallbackForProvisioningIngredient("Old")},
+                {name = "RareIngredient", filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_INGREDIENT_RARE})},
             },
         },
         Style = {
@@ -718,6 +719,10 @@ AF.subfilterCallbacks = {
         },
         OldIngredient = {
             filterCallback = GetFilterCallbackForProvisioningIngredient("Old"),
+            dropdownCallbacks = {},
+        },
+        RareIngredient = {
+            filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_INGREDIENT_RARE}),
             dropdownCallbacks = {},
         },
         Bait = {

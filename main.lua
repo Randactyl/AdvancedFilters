@@ -316,7 +316,7 @@ local function CreateSubfilterBars()
             "Potency", "Essence", "Aspect", "All",
         },
         [ITEMFILTERTYPE_PROVISIONING] = {
-            "Bait", "OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
+            "Bait", "RareIngredient", "OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
         },
         [ITEMFILTERTYPE_STYLE_MATERIALS] = {
             "CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",

@@ -68,18 +68,19 @@ local textures = {
     --BLACKSMITHING
     RawMaterial = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_%s.dds",
     RefinedMaterial = "AdvancedFilters/assets/craftbag/smithing/material_%s.dds",
-    Temper = "esoui/art/WorldMap/map_ava_tabIcon_resourceProduction_%s.dds",
+    Temper = "esoui/art/worldmap/map_ava_tabIcon_resourceProduction_%s.dds",
 
     --ALCHEMY
     Reagent = "AdvancedFilters/assets/craftbag/alchemy/reagent_%s.dds",
 
     --ENCHANTING
-    Aspect = "esoui/art/Crafting/enchantment_tabIcon_aspect_%s.dds",
-    Essence = "esoui/art/Crafting/enchantment_tabIcon_essence_%s.dds",
-    Potency = "esoui/art/Crafting/enchantment_tabIcon_potency_%s.dds",
+    Aspect = "esoui/art/crafting/enchantment_tabIcon_aspect_%s.dds",
+    Essence = "esoui/art/crafting/enchantment_tabIcon_essence_%s.dds",
+    Potency = "esoui/art/crafting/enchantment_tabIcon_potency_%s.dds",
 
     --PROVISIONING
     OldIngredient = "esoui/art/worldmap/map_ava_tabicon_foodfarm_%s.dds",
+    RareIngredient = "esoui/art/crafting/blueprints_tabicon_%s.dds",
 
     --STYLE
     NormalStyle = "esoui/art/progression/progression_indexicon_race_%s.dds",
