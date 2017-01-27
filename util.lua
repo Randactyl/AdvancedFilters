@@ -98,6 +98,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
 
     local callbackTable = {}
     local keys = {
+        All = {},
         Weapons = {
             "OneHand", "TwoHand", "Bow", "DestructionStaff", "HealStaff",
         },
@@ -186,36 +187,36 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         for _, callbackEntry in ipairs(AF.subfilterCallbacks[groupName].All.dropdownCallbacks) do
             table.insert(callbackTable, callbackEntry)
         end
-    end
 
-    if subfilterName == "All" then
-        --insert all default filters for each subfilter
-        for _, subfilterName in ipairs(keys[groupName]) do
+        if subfilterName == "All" then
+            --insert all default filters for each subfilter
+            for _, subfilterName in ipairs(keys[groupName]) do
+                local currentSubfilterTable = AF.subfilterCallbacks[groupName][subfilterName]
+
+                for _, callbackEntry in ipairs(currentSubfilterTable.dropdownCallbacks) do
+                    table.insert(callbackTable, callbackEntry)
+                end
+            end
+
+            --insert all filters provided by addons
+            for _, addonTable in ipairs(AF.subfilterCallbacks[groupName].addonDropdownCallbacks) do
+                insertAddon(addonTable)
+            end
+        else
+            --insert filters for provided subfilter
             local currentSubfilterTable = AF.subfilterCallbacks[groupName][subfilterName]
-
             for _, callbackEntry in ipairs(currentSubfilterTable.dropdownCallbacks) do
                 table.insert(callbackTable, callbackEntry)
             end
-        end
 
-        --insert all filters provided by addons
-        for _, addonTable in ipairs(AF.subfilterCallbacks[groupName].addonDropdownCallbacks) do
-            insertAddon(addonTable)
-        end
-    else
-        --insert filters for provided subfilter
-        local currentSubfilterTable = AF.subfilterCallbacks[groupName][subfilterName]
-        for _, callbackEntry in ipairs(currentSubfilterTable.dropdownCallbacks) do
-            table.insert(callbackTable, callbackEntry)
-        end
-
-        --insert filters provided by addons for this subfilter
-        for _, addonTable in ipairs(AF.subfilterCallbacks[groupName].addonDropdownCallbacks) do
-            --scan addon to see if it applies to given subfilter
-            for _, subfilter in ipairs(addonTable.subfilters) do
-                if subfilter == subfilterName or subfilter == "All" then
-                    --add addon filters
-                    insertAddon(addonTable)
+            --insert filters provided by addons for this subfilter
+            for _, addonTable in ipairs(AF.subfilterCallbacks[groupName].addonDropdownCallbacks) do
+                --scan addon to see if it applies to given subfilter
+                for _, subfilter in ipairs(addonTable.subfilters) do
+                    if subfilter == subfilterName or subfilter == "All" then
+                        --add addon filters
+                        insertAddon(addonTable)
+                    end
                 end
             end
         end

@@ -263,6 +263,10 @@ AF.subfilterCallbacks = {
         dropdownCallbacks = {
             {name = "All", filterCallback = GetFilterCallback(nil)},
         },
+        All = {
+            filterCallback = GetFilterCallback(nil),
+            dropdownCallbacks = {},
+        },
     },
     Weapons = {
         addonDropdownCallbacks = {},

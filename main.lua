@@ -3,6 +3,7 @@ local AF = AdvancedFilters
 
 AF.subfilterGroups = {
     [INVENTORY_BACKPACK] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
@@ -12,6 +13,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_BANK] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
@@ -21,6 +23,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_GUILD_BANK] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
@@ -30,6 +33,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_CRAFT_BAG] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_BLACKSMITHING] = {},
         [ITEMFILTERTYPE_CLOTHING] = {},
         [ITEMFILTERTYPE_WOODWORKING] = {},
@@ -40,6 +44,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_TRAIT_ITEMS] = {},
     },
     [6] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
@@ -246,6 +251,7 @@ local function CreateSubfilterBars()
     }
 
     local filterTypeNames = {
+        [ITEMFILTERTYPE_ALL] = "All",
         [ITEMFILTERTYPE_WEAPONS] = "Weapons",
         [ITEMFILTERTYPE_ARMOR] = "Armor",
         [ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
@@ -264,6 +270,9 @@ local function CreateSubfilterBars()
     }
 
     local subfilterButtonNames = {
+        [ITEMFILTERTYPE_ALL] = {
+            "All",
+        },
         [ITEMFILTERTYPE_WEAPONS] = {
             "HealStaff", "DestructionStaff", "Bow", "TwoHand", "OneHand", "All",
         },
