@@ -184,7 +184,10 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     local function OnMouseEnter(thisButton)
         ZO_Tooltips_ShowTextTooltip(thisButton, TOP, AF.strings[subfilterName])
 
-        if(thisButton.clickable) then
+        local clickable = thisButton.clickable
+        local active = self:GetCurrentButton() == thisButton
+
+        if clickable and not active then
             highlight:SetHidden(false)
         end
     end
