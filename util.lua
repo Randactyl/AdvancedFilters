@@ -50,17 +50,8 @@ function AF.util.RemoveAllFilters()
 end
 
 function AF.util.RefreshSubfilterBar(subfilterBar)
-    if not subfilterBar then return end
-
     local inventoryType = subfilterBar.inventoryType
     local inventory, inventorySlots
-
-    --disable buttons
-    for _, button in pairs(subfilterBar.subfilterButtons) do
-        button.texture:SetColor(.3, .3, .3, .9)
-        button:SetEnabled(false)
-        button.clickable = false
-    end
 
     if inventoryType == 6 then
         inventory = STORE_WINDOW
@@ -70,21 +61,27 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
         inventorySlots = inventory.slots
     end
 
-    --check buttons for availability
-    for _, itemData in pairs(inventorySlots) do
-        for _, button in pairs(subfilterBar.subfilterButtons) do
+    for _, button in pairs(subfilterBar.subfilterButtons) do
+        if button.name ~= "All" then
+            --disable button
+            if button.clickable then
+                button.texture:SetColor(.3, .3, .3, .9)
+                button:SetEnabled(false)
+                button.clickable = false
+            end
 
-            local passesCallback = button.filterCallback(itemData)
-            local isClickable = button.clickable
-            local passesFilter = itemData.filterData[1] == inventory.currentFilter
-              or  itemData.filterData[2] == inventory.currentFilter
+            --check button for availability
+            for _, itemData in pairs(inventorySlots) do
+                local passesCallback = button.filterCallback(itemData)
+                local passesFilter = itemData.filterData[1] == inventory.currentFilter
+                or  itemData.filterData[2] == inventory.currentFilter
 
-            --if item passes filter, the button is disabled, and the item is in
-            --  the broad filterType
-            if passesCallback and (not isClickable) and passesFilter then
-                button.texture:SetColor(1, 1, 1, 1)
-                button:SetEnabled(true)
-                button.clickable = true
+                if passesCallback and passesFilter then
+                    button.texture:SetColor(1, 1, 1, 1)
+                    button:SetEnabled(true)
+                    button.clickable = true
+                    break
+                end
             end
         end
     end
