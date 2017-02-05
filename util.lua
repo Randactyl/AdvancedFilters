@@ -54,6 +54,7 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
     local inventory, inventorySlots
 
     if inventoryType == 6 then
+        return
         inventory = STORE_WINDOW
         inventorySlots = inventory.items
     else
