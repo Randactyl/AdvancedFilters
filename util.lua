@@ -55,8 +55,8 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
 
     if inventoryType == 6 then
         return
-        inventory = STORE_WINDOW
-        inventorySlots = inventory.items
+        --[[inventory = STORE_WINDOW
+        inventorySlots = inventory.items]]
     else
         inventory = PLAYER_INVENTORY.inventories[inventoryType]
         inventorySlots = inventory.slots
