@@ -3,30 +3,37 @@ local AF = AdvancedFilters
 
 AF.subfilterGroups = {
     [INVENTORY_BACKPACK] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
         [ITEMFILTERTYPE_CRAFTING] = {},
+        [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
         [ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_BANK] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
         [ITEMFILTERTYPE_CRAFTING] = {},
+        [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
         [ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_GUILD_BANK] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
         [ITEMFILTERTYPE_CRAFTING] = {},
+        [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
         [ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_CRAFT_BAG] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_BLACKSMITHING] = {},
         [ITEMFILTERTYPE_CLOTHING] = {},
         [ITEMFILTERTYPE_WOODWORKING] = {},
@@ -37,6 +44,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_TRAIT_ITEMS] = {},
     },
     [6] = {
+        [ITEMFILTERTYPE_ALL] = {},
         [ITEMFILTERTYPE_WEAPONS] = {},
         [ITEMFILTERTYPE_ARMOR] = {},
         [ITEMFILTERTYPE_CONSUMABLE] = {},
@@ -209,7 +217,7 @@ local function InitializeHooks()
     local function ChangeFilterInventory(self, filterTab)
         local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
 
-        if AF.currentInventoryType ~= 6 and filterTab.inventoryType == AF.currentInventoryType then
+        if AF.currentInventoryType ~= 6 then
             AF.util.ThrottledUpdate(
               "ShowSubfilterBar" .. AF.currentInventoryType, 10,
               ShowSubfilterBar, currentFilter)
@@ -243,10 +251,12 @@ local function CreateSubfilterBars()
     }
 
     local filterTypeNames = {
+        [ITEMFILTERTYPE_ALL] = "All",
         [ITEMFILTERTYPE_WEAPONS] = "Weapons",
         [ITEMFILTERTYPE_ARMOR] = "Armor",
         [ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
         [ITEMFILTERTYPE_CRAFTING] = "Crafting",
+        [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
         [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
         [ITEMFILTERTYPE_JUNK] = "Junk",
         [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
@@ -257,23 +267,30 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_PROVISIONING] = "Provisioning",
         [ITEMFILTERTYPE_STYLE_MATERIALS] = "Style",
         [ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits",
-
     }
+
     local subfilterButtonNames = {
+        [ITEMFILTERTYPE_ALL] = {
+            "All",
+        },
         [ITEMFILTERTYPE_WEAPONS] = {
             "HealStaff", "DestructionStaff", "Bow", "TwoHand", "OneHand", "All",
         },
         [ITEMFILTERTYPE_ARMOR] = {
-            "Vanity", "Jewelry", "Shield", "Clothing", "Light", "Medium",
+            "Vanity", "Jewelry", "Shield", "Clothing", "LightArmor", "Medium",
             "Heavy", "All",
         },
         [ITEMFILTERTYPE_CONSUMABLE] = {
-            "Trophy", "Repair", "Container", "Motif", "Poison", "Potion",
-            "Recipe", "Drink", "Food", "Crown", "All",
+            "Trophy", "Repair", "Container", "Writ", "Motif", "Poison",
+            "Potion", "Recipe", "Drink", "Food", "Crown", "All",
         },
         [ITEMFILTERTYPE_CRAFTING] = {
             "WeaponTrait", "ArmorTrait", "Style", "Provisioning", "Enchanting",
             "Alchemy", "Woodworking", "Clothier", "Blacksmithing", "All",
+        },
+        [ITEMFILTERTYPE_FURNISHING] = {
+            "TargetDummy", "Seating", "Ornamental", "Light", "CraftingStation",
+            "All",
         },
         [ITEMFILTERTYPE_MISCELLANEOUS] = {
             "Trash", "Fence", "Trophy", "Tool", "Bait", "Siege", "SoulGem",
@@ -299,7 +316,7 @@ local function CreateSubfilterBars()
             "Potency", "Essence", "Aspect", "All",
         },
         [ITEMFILTERTYPE_PROVISIONING] = {
-            "Bait", "OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
+            "Bait", "RareIngredient", "OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
         },
         [ITEMFILTERTYPE_STYLE_MATERIALS] = {
             "CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",

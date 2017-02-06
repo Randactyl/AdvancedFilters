@@ -40,7 +40,7 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
     self.dropdown = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name .. "DropdownFilter", self.control, "ZO_ComboBox")
     self.dropdown:SetAnchor(RIGHT, self.control, RIGHT)
     self.dropdown:SetHeight(24)
-    self.dropdown:SetWidth(136)
+    self.dropdown:SetWidth(104)
     local function DropdownOnMouseUpHandler(dropdown, mouseButton, upInside)
         local comboBox = dropdown.m_comboBox
 
@@ -154,21 +154,23 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
 end
 
 function AF_FilterBar:AddSubfilter(groupName, subfilterName)
-    local subfilterData = ZO_ShallowTableCopy(AF.subfilterCallbacks[groupName][subfilterName])
-    subfilterData.dropdownCallbacks = AF.util.BuildDropdownCallbacks(groupName, subfilterName)
-    local icon = AF.textures[subfilterName]
+    local iconPath = AF.textures[subfilterName]
+    local icon = {
+        up = string.format(iconPath, "up"),
+        down = string.format(iconPath, "down"),
+        over = string.format(iconPath, "over"),
+    }
 
-    local callback = subfilterData.filterCallback
-    local dropdownCallbacks = subfilterData.dropdownCallbacks
+    local callback = AF.subfilterCallbacks[groupName][subfilterName].filterCallback
 
-    local anchorX = -148 + #self.subfilterButtons * -32
+    local anchorX = -116 + #self.subfilterButtons * -32
 
     local button = WINDOW_MANAGER:CreateControlFromVirtual(self.control:GetName() .. subfilterName .. "Button", self.control, "AF_Button")
     local texture = button:GetNamedChild("Texture")
     local highlight = button:GetNamedChild("Highlight")
 
-    texture:SetTexture(icon.normal)
-    highlight:SetTexture(icon.mouseOver)
+    texture:SetTexture(icon.up)
+    highlight:SetTexture(icon.over)
 
     button:SetAnchor(RIGHT, self.control, RIGHT, anchorX, 0)
     button:SetClickSound(SOUNDS.MENU_BAR_CLICK)
@@ -182,7 +184,10 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     local function OnMouseEnter(thisButton)
         ZO_Tooltips_ShowTextTooltip(thisButton, TOP, AF.strings[subfilterName])
 
-        if(thisButton.clickable) then
+        local clickable = thisButton.clickable
+        local active = self:GetCurrentButton() == thisButton
+
+        if clickable and not active then
             highlight:SetHidden(false)
         end
     end
@@ -198,12 +203,12 @@ function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     button:SetHandler("OnMouseExit", OnMouseExit)
 
     button.name = subfilterName
+    button.groupName = groupName
     button.texture = texture
     button.clickable = true
     button.filterCallback = callback
-    button.normal = icon.normal
-    button.pressed = icon.pressed
-    button.dropdownCallbacks = dropdownCallbacks
+    button.up = icon.up
+    button.down = icon.down
 
     self.activeButton = button
 
@@ -213,6 +218,7 @@ end
 function AF_FilterBar:ActivateButton(newButton)
     local function PopulateDropdown()
         local comboBox = self.dropdown.m_comboBox
+        newButton.dropdownCallbacks = AF.util.BuildDropdownCallbacks(newButton.groupName, newButton.name)
 
         comboBox.submenuCandidates = {}
         for _, v in ipairs(newButton.dropdownCallbacks) do
@@ -237,12 +243,12 @@ function AF_FilterBar:ActivateButton(newButton)
 
     local oldButton = self.activeButton
 
-    --hide old pressed texture
-    oldButton:GetNamedChild("Texture"):SetTexture(oldButton.normal)
+    --hide old down texture
+    oldButton:GetNamedChild("Texture"):SetTexture(oldButton.up)
     oldButton:SetEnabled(true)
 
-    --show new pressed texture
-    newButton:GetNamedChild("Texture"):SetTexture(newButton.pressed)
+    --show new down texture
+    newButton:GetNamedChild("Texture"):SetTexture(newButton.down)
     newButton:SetEnabled(false)
 
     --refresh filter

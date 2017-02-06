@@ -23,7 +23,7 @@ AF_FilterBar.lua
 data.lua
 
 extrafilters\LevelFilters.lua
-##extrafilters\NewMotif.lua
-##extrafilters\MotifKnowledge.lua
-##extrafilters\EquipmentMotifCategories.lua
+extrafilters\NewMotif.lua
+extrafilters\MotifKnowledge.lua
+extrafilters\EquipmentMotifCategories.lua
 extrafilters\BoPTradeableFilters.lua
