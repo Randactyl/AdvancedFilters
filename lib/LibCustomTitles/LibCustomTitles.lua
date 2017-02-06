@@ -1,7 +1,7 @@
 --[[
 Author: Ayantir
 Filename: LibCustomTitles.lua
-Version: 11
+Version: 18
 ]]--
 
 --[[
@@ -30,7 +30,7 @@ http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 ]]--
 
 local libLoaded
-local LIB_NAME, VERSION = "LibCustomTitles", 11
+local LIB_NAME, VERSION = "LibCustomTitles", 18
 local LibCustomTitles, oldminor = LibStub:NewLibrary(LIB_NAME, VERSION)
 if not LibCustomTitles then return end
 
@@ -128,12 +128,30 @@ function LibCustomTitles:Init()
 			en = "Fancy Man of Cornwood",
 		},
 		
-		["@manavortex"] = { -- EU v10
+		["@manavortex"] = { -- EU v10 (v12 changes)
 			["Vivicah Telvanni"] = {
 				ov = {en = "Master Wizard", fr = "Maître mage", de = "Meisterin der Zauberei"},
 				en = "Archmagister",
 				fr = "Archimage",
 				de = "Erzmagister",
+			},
+			["Sugar-Paws Underfoot"] = {
+				ov = true,
+				en = "Favorite Apprentice",
+				fr = "Apprenti préféré",
+				de = "Lieblingslehrling",
+			},
+			["Ravani Indoril"] = {
+				ov = true,
+				en = "Warden",
+				fr = "Sentinelle",
+				de = "Aufseher",
+			},
+			["Telvanni Ravani Varo"] = {
+				ov = true,
+				en = "Warden",
+				fr = "Sentinelle",
+				de = "Aufseher",
 			},
 		},
 		
@@ -144,14 +162,26 @@ function LibCustomTitles:Init()
 				fr = "Lame Ethérée",
 				de = "Ätherklinge",
 			},
+			["Nathyn Varo"] = {
+				ov = true,
+				en = "Warden",
+				fr = "Sentinelle",
+				de = "Aufseher",
+			},
 		},
 		
-		["@manorin"] = { -- EU v10
+		["@Manorin"] = { -- EU v10 (v12 fix)
 			["Foryn Telvanni"] = {
 				ov = {en = "Pact Hero", fr = "Héros du Pacte", de = "Held des Paktes"},
 				en = "Hero",
 				fr = "Héros",
 				de = "Helt",
+			},
+			["Serjo Vivicah Telvanni"] = {
+				ov = {en = "Master Wizard", fr = "Maître mage", de = "Meisterin der Zauberei"},
+				en = "Archmagister",
+				fr = "Archimage",
+				de = "Erzmagister",
 			},
 		},
 		
@@ -212,7 +242,226 @@ function LibCustomTitles:Init()
 				fr = "L'égaré",
 				de = "Der Verschollene",
 			},
-		},	
+		},
+		
+		["@Haunted1994"] = { -- v12
+			["Jah'rakal"] = {
+				ov = {en = "Veteran", fr = "Vétéran", de = "Veteran"},
+				en = "Troll Warlord",
+				fr = "Troll Warlord",
+				de = "Troll Warlord",
+			},
+		},
+		
+		["@Vortexman11"] = { -- v12
+			["Ålaunus"] = {
+				ov = true,
+				en = "The Silent",
+				fr = "Le Discret",
+				de = "Die Stille",
+			},
+		},
+
+		["@Domardal"] = { -- v12
+			ov = true,
+			en = "Coco",
+			fr = "Coco",
+			de = "Coco",
+		},
+
+		["@RaddyBK"] = { -- v12
+			["Radolfus"] = {
+				ov = {en = "Major", fr = "Major", de = "Major"},
+				en = "The Elder Dragon",
+				fr = "Le Vieux Dragon",
+				de = "The Elder Dragon",
+			},
+			["RADOLFUS II"] = {
+				ov = {en = "Executioner", fr = "Exécuteur", de = "Henker"},
+				en = "The Elder Dragon",
+				fr = "Le Vieux Dragon",
+				de = "The Elder Dragon",
+			},
+		},
+		
+		["@Dolgubon"] = { -- v12
+			["Relthion"] = {
+				ov = true,
+				en = "Undying",
+				fr = "L'immortel",
+				de = "Undying",
+			},
+		},
+		
+		["@Sethize"] = { -- EU v12
+			["Nelvan Telvanni"] = {
+				ov = {en = "Master Wizard", fr = "Maître mage", de = "Meister der Zauberei"},
+				en = "Master",
+				fr = "Maître",
+				de = "Meister",
+			},
+		},
+		
+		["@ScattyThePirate"] = { -- EU v13
+			["Teldryn Dreth"] = {
+				ov = true,
+				en = "Warden",
+				fr = "Sentinelle",
+				de = "Aufseher",
+			},
+			["Ralyn Telvanni"] = {
+				ov = true,
+				en = "Spellwright",
+				fr = "Tisseur de Sorts",
+				--de = "Meister",
+			},
+			["Shabar-Jo"] = {
+				ov = true,
+				en = "Tisseur de Sorts",
+				fr = "Spellwright",
+				--de = "Meister",
+			},
+			["Shurkul gro-Kharzog"] = {
+				ov = {en = "Fighters Guild Victor", fr = "Champion de la guilde des guerriers", de = "Sieger der Kriegergilde"},
+				en = "The Monster",
+				fr = "La Bête",
+				de = "Das Monster",
+			},
+			["Azuk gro-Shakh"] = {
+				ov = {en = "Fighters Guild Victor", fr = "Champion de la guilde des guerriers", de = "Sieger der Kriegergilde"},
+				en = "Windsinger",
+				fr = "Ténor des tempêtes",
+				--de = "Das Monster",
+			},
+			["Xal-Shei"] = {
+				ov = {en = "Fighters Guild Victor", fr = "Champion de la guilde des guerriers", de = "Sieger der Kriegergilde"},
+				en = "Swamp Knight",
+				fr = "Chevalier des Marais",
+				--de = "Das Monster",
+			},
+		},
+		
+		["@ScattyTheWizard"] = { -- v13
+			["Marukh-do"] = {
+				ov = true,
+				en = "Privateer",
+				fr = "Corsaire",
+				--de = "Meister",
+			},
+		},
+
+		["@Karstyll"] = { -- v13
+			ov = true,
+			en = "Forsaken",
+			fr = "L'oublié",
+			de = "Die Verlassene",
+		},
+
+		["@Methuselah86"] = { -- v13
+			ov = true,
+			en = "Wabbajack Warrior",
+			fr = "Guerrier de Wabbajack",
+			--de = "Die Verlassene",
+		},
+
+		["@DaedricAdept"] = { -- v14
+			ov = {en = "Pact Hero", fr = "Héros du Pacte", de = "Held des Paktes"},
+			en = "Hand of Almalexia",
+			fr = "Main d'Almalexia",
+			--de = "Die Verlassene",
+		},
+
+		["@Cloudless"] = { -- v14
+			ov = true,
+			en = "Order of Doctrine",
+			fr = "Ordre de la Doctrine",
+			--de = "Die Verlassene",
+		},
+
+		["@Atomkern"] = { -- v13
+			ov = true,
+			en = "The Refrigerator",
+			fr = "Le glacé",
+			--de = "Die Verlassene",
+		},
+
+		["@Orizonta"] = { -- v13
+			ov = true,
+			en = "Manslayer",
+			fr = "Assassin",
+			--de = "Die Verlassene",
+		},
+
+		["@laksikus"] = { -- v13
+			ov = {en = "Veteran", fr = "Vétéran", de = "Veteran"},
+			en = "Sexy Zogger",
+			fr = "Zog-Zog",
+			--de = "Die Verlassene",
+		},
+
+		["@flyty"] = { -- v13
+			ov = true,
+			en = "Always Drunk",
+			fr = "Toujours bourré",
+			--de = "Die Verlassene",
+		},
+		
+		["@Deltia"] = { -- v13
+			ov = {en = "Tyro", fr = "Première classe", de = "Tyro"},
+			en = "The Destroyer",
+			fr = "Le Destructeur",
+			--de = "Die Verlassene",
+		},
+
+		["@tannips"] = { -- v13
+			ov = true,
+			en = "Potentate",
+			fr = "Potentat",
+			--de = "Die Verlassene",
+		},
+
+		["@sioniann"] = { -- v13
+			["Uloth The Furious Blade"] = {
+				ov = true,
+				en = "Sinister Turkey",
+				fr = "Dindon Sinistre",
+				--de = "Meister",
+			},
+			["Enid an Gleana"] = {
+				ov = true,
+				en = "Fountain of Auridon",
+				fr = "Fontaine d'Auridia",
+				--de = "Meister",
+			},
+		},
+		
+		["@HMS-Dragonfly"] = { -- v16
+			ov = true,
+			en = "Knight of Stendarr",
+			fr = "Chevalier de Stendarr",
+			--de = "Die Verlassene",
+		},
+
+		["@Faso"] = { -- v16
+			["Fasò"] = {
+				ov = true,
+				en = "Knights Radiant",
+			},
+		},
+
+		["@nifty2g"] = { -- v16
+			["Nifty Jong-Un"] = {
+				ov = true,
+				en = "Dawn of Anu",
+			},
+		},
+
+		["@Twirlz"] = { -- v17
+			["Yirel Virith"] = {
+				ov = true,
+				en = "Nightcaller",
+			},
+		},
 		
 	}
 	
