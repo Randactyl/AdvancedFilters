@@ -216,6 +216,11 @@ local function InitializeHooks()
     --PREHOOKS
     local function ChangeFilterInventory(self, filterTab)
         local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
+        local AGS = AwesomeGuildStoreSalesItemCategoryContainer
+
+        if AGS and not ZO_TradingHouse:IsHidden() then
+            currentFilter = -1
+        end
 
         if AF.currentInventoryType ~= 6 then
             AF.util.ThrottledUpdate(
