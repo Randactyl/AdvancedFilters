@@ -133,6 +133,9 @@ local function InitializeHooks()
             subfilterGroup.currentSubfilterBar:SetHidden(true)
         end
 
+        --do nothing if we're in a guild store and regular filters are disabled.
+        if not ZO_TradingHouse:IsHidden() and AF.util.libCIF._guildStoreSellFiltersDisabled then return end
+
         --if new bar exists
         if subfilterBar then
             --set current bar reference
@@ -216,11 +219,6 @@ local function InitializeHooks()
     --PREHOOKS
     local function ChangeFilterInventory(self, filterTab)
         local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
-        local AGS = AwesomeGuildStoreSalesItemCategoryContainer
-
-        if AGS and not ZO_TradingHouse:IsHidden() then
-            currentFilter = -1
-        end
 
         if AF.currentInventoryType ~= 6 then
             AF.util.ThrottledUpdate(

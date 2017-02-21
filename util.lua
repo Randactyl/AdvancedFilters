@@ -1,5 +1,6 @@
 local AF = AdvancedFilters
 AF.util = {}
+AF.util.libCIF = LibStub:GetLibrary("libCommonInventoryFilters", LibStub.SILENT)
 AF.util.LibFilters = LibStub("LibFilters-2.0")
 AF.util.LibMotifCategories = LibStub("LibMotifCategories-1.0")
 
