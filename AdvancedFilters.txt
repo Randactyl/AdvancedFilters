@@ -1,6 +1,6 @@
 ## Title: Advanced Filters
 ## Author: Randactyl
-## Version: 1.4.0.0
+## Version: 1.4.1.0
 ## APIVersion: 100018
 ## OptionalDependsOn: LibFilters-2.0
 
