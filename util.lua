@@ -56,8 +56,6 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
 
     if inventoryType == 6 then
         return
-        --[[inventory = STORE_WINDOW
-        inventorySlots = inventory.items]]
     else
         inventory = PLAYER_INVENTORY.inventories[inventoryType]
         inventorySlots = inventory.slots
@@ -73,16 +71,18 @@ function AF.util.RefreshSubfilterBar(subfilterBar)
             end
 
             --check button for availability
-            for _, itemData in pairs(inventorySlots) do
-                local passesCallback = button.filterCallback(itemData)
-                local passesFilter = itemData.filterData[1] == inventory.currentFilter
-                or  itemData.filterData[2] == inventory.currentFilter
+            for _, bags in pairs(inventorySlots) do
+                for _, itemData in pairs(bags) do
+                    local passesCallback = button.filterCallback(itemData)
+                    local passesFilter = itemData.filterData[1] == inventory.currentFilter
+                    or  itemData.filterData[2] == inventory.currentFilter
 
-                if passesCallback and passesFilter then
-                    button.texture:SetColor(1, 1, 1, 1)
-                    button:SetEnabled(true)
-                    button.clickable = true
-                    break
+                    if passesCallback and passesFilter then
+                        button.texture:SetColor(1, 1, 1, 1)
+                        button:SetEnabled(true)
+                        button.clickable = true
+                        break
+                    end
                 end
             end
         end
