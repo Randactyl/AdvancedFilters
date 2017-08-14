@@ -190,14 +190,11 @@ local function InitializeHooks()
                   PLAYER_INVENTORY.inventories[inventoryType].currentFilter)
             end
 
-            --PLAYER_INVENTORY.isListDirty doesn't "exist" in the first place.
-            --The table in the backing class was being used, so we'll track that table,
-            --    but set the proxy to the lookup point.
-            PLAYER_INVENTORY.isListDirty = track(ZO_InventoryManager.isListDirty)
+            PLAYER_INVENTORY.isListDirty = track(PLAYER_INVENTORY.isListDirty)
         end
 
         local function onFragmentHiding()
-            PLAYER_INVENTORY.isListDirty = untrack(ZO_InventoryManager.isListDirty)
+            PLAYER_INVENTORY.isListDirty = untrack(PLAYER_INVENTORY.isListDirty)
         end
 
         local function onFragmentStateChange(oldState, newState)
