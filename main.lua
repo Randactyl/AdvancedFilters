@@ -285,8 +285,9 @@ local function CreateSubfilterBars()
             "Potion", "Recipe", "Drink", "Food", "Crown", "All",
         },
         [ITEMFILTERTYPE_CRAFTING] = {
-            "WeaponTrait", "ArmorTrait", "Style", "Provisioning", "Enchanting",
-            "Alchemy", "Woodworking", "Clothier", "Blacksmithing", "All",
+            "FurnishingMat", "WeaponTrait", "ArmorTrait", "Style",
+            "Provisioning", "Enchanting", "Alchemy", "Woodworking", "Clothier",
+            "Blacksmithing", "All",
         },
         [ITEMFILTERTYPE_FURNISHING] = {
             "TargetDummy", "Seating", "Ornamental", "Light", "CraftingStation",
@@ -301,22 +302,23 @@ local function CreateSubfilterBars()
             "All"
         },
         [ITEMFILTERTYPE_BLACKSMITHING] = {
-            "Temper", "RefinedMaterial", "RawMaterial", "All",
+            "FurnishingMat", "Temper", "RefinedMaterial", "RawMaterial", "All",
         },
         [ITEMFILTERTYPE_CLOTHING] = {
-            "Resin", "RefinedMaterial", "RawMaterial", "All",
+            "FurnishingMat", "Resin", "RefinedMaterial", "RawMaterial", "All",
         },
         [ITEMFILTERTYPE_WOODWORKING] = {
-            "Tannin", "RefinedMaterial", "RawMaterial", "All",
+            "FurnishingMat", "Tannin", "RefinedMaterial", "RawMaterial", "All",
         },
         [ITEMFILTERTYPE_ALCHEMY] = {
-            "Oil", "Water", "Reagent", "All",
+            "FurnishingMat", "Oil", "Water", "Reagent", "All",
         },
         [ITEMFILTERTYPE_ENCHANTING] = {
-            "Potency", "Essence", "Aspect", "All",
+            "FurnishingMat", "Potency", "Essence", "Aspect", "All",
         },
         [ITEMFILTERTYPE_PROVISIONING] = {
-            "Bait", "RareIngredient", "OldIngredient", "DrinkIngredient", "FoodIngredient", "All",
+            "FurnishingMat", "Bait", "RareIngredient", "OldIngredient",
+            "DrinkIngredient", "FoodIngredient", "All",
         },
         [ITEMFILTERTYPE_STYLE_MATERIALS] = {
             "CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",

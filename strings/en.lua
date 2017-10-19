@@ -63,6 +63,7 @@ local strings = {
     Style = util.Localize(SI_ITEMTYPE44),
     WeaponTrait = util.Localize(SI_ITEMTYPE46),
     ArmorTrait = util.Localize(SI_ITEMTYPE45),
+    FurnishingMat = util.Localize(SI_ITEMTYPE62),
 
     Reagent = util.Localize(SI_ITEMTYPE31),
     Water = util.Localize(SI_ITEMTYPE33),

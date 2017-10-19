@@ -466,6 +466,10 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
             dropdownCallbacks = {},
         },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
+            dropdownCallbacks = {},
+        },
     },
     Furnishings = {
         addonDropdownCallbacks = {},
@@ -626,6 +630,10 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_BLACKSMITHING_BOOSTER}),
             dropdownCallbacks = {},
         },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
+            dropdownCallbacks = {},
+        },
     },
     Clothing = {
         addonDropdownCallbacks = {},
@@ -643,6 +651,10 @@ AF.subfilterCallbacks = {
         },
         Resin = {
             filterCallback = GetFilterCallback({ITEMTYPE_CLOTHIER_BOOSTER}),
+            dropdownCallbacks = {},
+        },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
             dropdownCallbacks = {},
         },
     },
@@ -664,6 +676,10 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_WOODWORKING_BOOSTER}),
             dropdownCallbacks = {},
         },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
+            dropdownCallbacks = {},
+        },
     },
     Alchemy = {
         addonDropdownCallbacks = {},
@@ -683,6 +699,10 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_POISON_BASE}),
             dropdownCallbacks = {},
         },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
+            dropdownCallbacks = {},
+        },
     },
     Enchanting = {
         addonDropdownCallbacks = {},
@@ -700,6 +720,10 @@ AF.subfilterCallbacks = {
         },
         Potency = {
             filterCallback = GetFilterCallback({ITEMTYPE_ENCHANTING_RUNE_POTENCY}),
+            dropdownCallbacks = {},
+        },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
             dropdownCallbacks = {},
         },
     },
@@ -723,6 +747,10 @@ AF.subfilterCallbacks = {
         },
         RareIngredient = {
             filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_INGREDIENT_RARE}),
+            dropdownCallbacks = {},
+        },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
             dropdownCallbacks = {},
         },
         Bait = {

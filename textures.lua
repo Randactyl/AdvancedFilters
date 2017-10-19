@@ -106,4 +106,7 @@ textures.DrinkIngredient = textures.Drink
 --STYLE
 textures.CrownStyle = textures.Crown
 
+--FURNISHING MATERIAL
+textures.FurnishingMat = textures.Seating
+
 AdvancedFilters.textures = textures
