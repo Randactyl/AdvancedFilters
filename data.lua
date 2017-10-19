@@ -811,7 +811,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         [ITEMFILTERTYPE_CRAFTING] = "Crafting",
         [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
         [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
-        [ITEMFILTERTYPE_JUNK] = "Junk",
+        --[ITEMFILTERTYPE_JUNK] = "Junk",
         [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
         [ITEMFILTERTYPE_CLOTHING] = "Clothing",
         [ITEMFILTERTYPE_WOODWORKING] = "Woodworking",

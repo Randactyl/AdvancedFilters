@@ -10,7 +10,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_CRAFTING] = {},
         [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-        [ITEMFILTERTYPE_JUNK] = {},
+        --[ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_BANK] = {
         [ITEMFILTERTYPE_ALL] = {},
@@ -20,7 +20,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_CRAFTING] = {},
         [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-        [ITEMFILTERTYPE_JUNK] = {},
+        --[ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_GUILD_BANK] = {
         [ITEMFILTERTYPE_ALL] = {},
@@ -30,7 +30,7 @@ AF.subfilterGroups = {
         [ITEMFILTERTYPE_CRAFTING] = {},
         [ITEMFILTERTYPE_FURNISHING] = {},
         [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-        [ITEMFILTERTYPE_JUNK] = {},
+        --[ITEMFILTERTYPE_JUNK] = {},
     },
     [INVENTORY_CRAFT_BAG] = {
         [ITEMFILTERTYPE_ALL] = {},
@@ -258,7 +258,7 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_CRAFTING] = "Crafting",
         [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
         [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
-        [ITEMFILTERTYPE_JUNK] = "Junk",
+        --[ITEMFILTERTYPE_JUNK] = "Junk",
         [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
         [ITEMFILTERTYPE_CLOTHING] = "Clothing",
         [ITEMFILTERTYPE_WOODWORKING] = "Woodworking",
@@ -297,10 +297,10 @@ local function CreateSubfilterBars()
             "Trash", "Fence", "Trophy", "Tool", "Bait", "Siege", "SoulGem",
             "Glyphs", "All",
         },
-        [ITEMFILTERTYPE_JUNK] = {
+        --[[[ITEMFILTERTYPE_JUNK] = {
             "Miscellaneous", "Materials", "Consumable", "Apparel", "Weapon",
             "All"
-        },
+        },]]
         [ITEMFILTERTYPE_BLACKSMITHING] = {
             "FurnishingMat", "Temper", "RefinedMaterial", "RawMaterial", "All",
         },
