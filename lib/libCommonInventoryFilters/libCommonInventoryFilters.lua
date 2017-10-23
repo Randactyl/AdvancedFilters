@@ -1,4 +1,4 @@
-local myNAME, myVERSION = "libCommonInventoryFilters", 1.3
+local myNAME, myVERSION = "libCommonInventoryFilters", 1.6
 local libCIF = LibStub:NewLibrary(myNAME, myVERSION)
 if not libCIF then return end
 
@@ -32,6 +32,14 @@ local function enableGuildStoreSellFilters()
     end
 end
 
+--if the mouse is enabled, cycle its state to refresh the integrity of the control beneath it
+local function SafeUpdateList(object, ...)
+    local isMouseVisible = SCENE_MANAGER:IsInUIMode()
+    if isMouseVisible then HideMouse() end
+    object:UpdateList(...)
+    if isMouseVisible then ShowMouse() end
+end
+
 local function fixSearchBoxBugs()
     -- http://www.esoui.com/forums/showthread.php?t=4551
     -- search box bug #1: stale searchData after swapping equipment
@@ -47,7 +55,7 @@ local function fixSearchBoxBugs()
     ZO_GuildBankSearchBox:SetHandler("OnTextChanged",
         function(editBox)
             ZO_EditDefaultText_OnTextChanged(editBox)
-            PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
+            SafeUpdateList(PLAYER_INVENTORY, INVENTORY_GUILD_BANK)
         end)
 
     -- guild bank search box bug #3: wrong search box cleared
@@ -123,30 +131,45 @@ local function onPlayerActivated(eventCode)
     --  2) shows the search box and hides the filters tab, or vice versa
     --      - we want to show or hide them according to add-on requirements
     --        specified during start-up
-    local savedSearchBoxAnchor = {false}
+    local savedPlayerInventorySearchBoxAnchor = {false}
+    local savedCraftBagSearchBoxAnchor = {false}
 
     function PLAYER_INVENTORY:SetTradingHouseModeEnabled(enabled)
         libCIF._tradingHouseModeEnabled = enabled
 
         if enabled then
             ZO_PlayerInventorySearchBox:SetHidden(false)
+            ZO_CraftBagSearchBox:SetHidden(false)
             ZO_PlayerInventoryTabs:SetHidden(libCIF._guildStoreSellFiltersDisabled)
 
             -- move search box if custom sell filters are enabled (AwesomeGuildStore)
-            if not savedSearchBoxAnchor[1] and libCIF._guildStoreSellFiltersDisabled then
-                savedSearchBoxAnchor = {ZO_PlayerInventorySearchBox:GetAnchor(0)}
-                ZO_PlayerInventorySearchBox:ClearAnchors()
-                ZO_PlayerInventorySearchBox:SetAnchor(BOTTOMLEFT, nil, TOPLEFT, 36, -8)
+            if libCIF._guildStoreSellFiltersDisabled then
+                if(not savedPlayerInventorySearchBoxAnchor[1]) then
+                    savedPlayerInventorySearchBoxAnchor = {ZO_PlayerInventorySearchBox:GetAnchor(0)}
+                    ZO_PlayerInventorySearchBox:ClearAnchors()
+                    ZO_PlayerInventorySearchBox:SetAnchor(BOTTOMLEFT, nil, TOPLEFT, 36, -8)
+                end
+                if(not savedCraftBagSearchBoxAnchor[1]) then
+                    savedCraftBagSearchBoxAnchor = {ZO_CraftBagSearchBox:GetAnchor(0)}
+                    ZO_CraftBagSearchBox:ClearAnchors()
+                    ZO_CraftBagSearchBox:SetAnchor(BOTTOMLEFT, nil, TOPLEFT, 36, -8)
+                end
             end
         else
             ZO_PlayerInventorySearchBox:SetHidden(libCIF._searchBoxesDisabled)
+            ZO_CraftBagSearchBox:SetHidden(libCIF._searchBoxesDisabled)
             ZO_PlayerInventoryTabs:SetHidden(false)
 
             -- restore original search box position (FilterIt)
-            if savedSearchBoxAnchor[1] then
+            if savedPlayerInventorySearchBoxAnchor[1] then
                 ZO_PlayerInventorySearchBox:ClearAnchors()
-                ZO_PlayerInventorySearchBox:SetAnchor(unpack(savedSearchBoxAnchor, 2))
-                savedSearchBoxAnchor[1] = false
+                ZO_PlayerInventorySearchBox:SetAnchor(unpack(savedPlayerInventorySearchBoxAnchor, 2))
+                savedPlayerInventorySearchBoxAnchor[1] = false
+            end
+            if savedCraftBagSearchBoxAnchor[1] then
+                ZO_CraftBagSearchBox:ClearAnchors()
+                ZO_CraftBagSearchBox:SetAnchor(unpack(savedCraftBagSearchBoxAnchor, 2))
+                savedCraftBagSearchBoxAnchor[1] = false
             end
         end
     end
