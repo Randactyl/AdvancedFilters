@@ -9,7 +9,7 @@ local strings = {
     OneHand = "Une Main",
     TwoHand = "Deux Mains",
     Bow = util.Localize(SI_WEAPONTYPE8),
-    DestructionStaff = "Destruction Staff",
+    DestructionStaff = "Bâton de Destruction",
     HealStaff = util.Localize(SI_WEAPONTYPE9),
 
     Axe = util.Localize(SI_WEAPONTYPE1),
@@ -32,7 +32,7 @@ local strings = {
     Jewelry = "Bijoux",
     Vanity = "Divers",
 
-    Head = "T\195\170te",
+    Head = "Tête",
     Chest = "Buste",
     Shoulders = "Epaules",
     Hand = "Mains",
@@ -52,7 +52,7 @@ local strings = {
     Motif = util.Localize(SI_ITEMTYPE8),
     Writ = util.Localize(SI_ITEMTYPE60),
     Container = util.Localize(SI_ITEMTYPE18),
-    Repair = "R\195\169paration",
+    Repair = "Réparation",
 
     --MATERIALS
     Blacksmithing = "Forge",
@@ -85,10 +85,10 @@ local strings = {
     TargetDummy = util.Localize(SI_SPECIALIZEDITEMTYPE214),
 
     --MISCELLANEOUS
-    Glyphs = "Glyphs",
+    Glyphs = "Glyphes",
     SoulGem = util.Localize(SI_ITEMTYPE19),
     Siege = util.Localize(SI_ITEMTYPE6),
-    Bait = "App\195\162ts",
+    Bait = "Appâts",
     Tool = util.Localize(SI_ITEMTYPE9),
     Fence = util.Localize(SI_INVENTORY_STOLEN_ITEM_TOOLTIP),
     Trash = util.Localize(SI_ITEMTYPE48),
@@ -105,7 +105,7 @@ local strings = {
     Miscellaneous = util.Localize(SI_ITEMFILTERTYPE5),
 
     --DROPDOWN CONTEXT MENU
-    ResetToAll = "Réinitialiser à Tout",
+    ResetToAll = "Tout réinitialiser",
     InvertDropdownFilter = "Inverser la sélection",
 
     --LibMotifCategories
