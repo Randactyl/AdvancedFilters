@@ -1,4 +1,4 @@
-local myNAME, myVERSION = "libCommonInventoryFilters", 1.6
+local myNAME, myVERSION = "libCommonInventoryFilters", 1.9
 local libCIF = LibStub:NewLibrary(myNAME, myVERSION)
 if not libCIF then return end
 
@@ -69,8 +69,16 @@ local function fixSearchBoxBugs()
 end
 
 local function showSearchBoxes()
-    -- re-anchoring is necessary because they overlap with sort headers
+    -- new in 3.2: player inventory fragments set the search bar visible when the layout is applied
+    BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
+    BACKPACK_MENU_BAR_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
+    BACKPACK_MAIL_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
+    BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
+    BACKPACK_STORE_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
+    BACKPACK_FENCE_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
+    BACKPACK_LAUNDER_LAYOUT_FRAGMENT.layoutData.useSearchBar = true
 
+    -- re-anchoring is necessary because they overlap with sort headers
     ZO_PlayerInventorySearchBox:ClearAnchors()
     ZO_PlayerInventorySearchBox:SetAnchor(BOTTOMRIGHT, nil, TOPRIGHT, -15, -55)
     ZO_PlayerInventorySearchBox:SetHidden(false)
@@ -123,8 +131,8 @@ local function onPlayerActivated(eventCode)
         doShift(BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT.layoutData)
     end
 
-    -- replace ZO_InventoryManager:SetTradingHouseModeEnabled
-    -- no need to call the original, as it only does two things we don't need:
+    -- ZO_InventoryManager:SetTradingHouseModeEnabled has been removed in 3.2
+    -- from now on we have to listen to the scene state change and do the following:
     --  1) saves/restores the current filter
     --      - or would, if the filter wasn't reset in ApplyBackpackLayout
     --      - this simply doesn't work
@@ -134,20 +142,21 @@ local function onPlayerActivated(eventCode)
     local savedPlayerInventorySearchBoxAnchor = {false}
     local savedCraftBagSearchBoxAnchor = {false}
 
-    function PLAYER_INVENTORY:SetTradingHouseModeEnabled(enabled)
+    local layoutData = BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT.layoutData
+    local function SetTradingHouseModeEnabled(enabled)
         libCIF._tradingHouseModeEnabled = enabled
 
         if enabled then
-            ZO_PlayerInventorySearchBox:SetHidden(false)
+            layoutData.useSearchBar = true
+            layoutData.hideTabBar = false
             ZO_CraftBagSearchBox:SetHidden(false)
-            ZO_PlayerInventoryTabs:SetHidden(libCIF._guildStoreSellFiltersDisabled)
 
             -- move search box if custom sell filters are enabled (AwesomeGuildStore)
             if libCIF._guildStoreSellFiltersDisabled then
                 if(not savedPlayerInventorySearchBoxAnchor[1]) then
                     savedPlayerInventorySearchBoxAnchor = {ZO_PlayerInventorySearchBox:GetAnchor(0)}
                     ZO_PlayerInventorySearchBox:ClearAnchors()
-                    ZO_PlayerInventorySearchBox:SetAnchor(BOTTOMLEFT, nil, TOPLEFT, 36, -8)
+                    ZO_PlayerInventorySearchBox:SetAnchor(TOPLEFT, ZO_SharedRightPanelBackground, TOPLEFT, 16, 11)
                 end
                 if(not savedCraftBagSearchBoxAnchor[1]) then
                     savedCraftBagSearchBoxAnchor = {ZO_CraftBagSearchBox:GetAnchor(0)}
@@ -156,9 +165,9 @@ local function onPlayerActivated(eventCode)
                 end
             end
         else
-            ZO_PlayerInventorySearchBox:SetHidden(libCIF._searchBoxesDisabled)
+            layoutData.useSearchBar = libCIF._searchBoxesDisabled
+            layoutData.hideTabBar = libCIF._guildStoreSellFiltersDisabled
             ZO_CraftBagSearchBox:SetHidden(libCIF._searchBoxesDisabled)
-            ZO_PlayerInventoryTabs:SetHidden(false)
 
             -- restore original search box position (FilterIt)
             if savedPlayerInventorySearchBoxAnchor[1] then
@@ -173,6 +182,16 @@ local function onPlayerActivated(eventCode)
             end
         end
     end
+
+    local function SceneStateChange(oldState, newState)
+        if newState == SCENE_SHOWING then
+            SetTradingHouseModeEnabled(true)
+        elseif newState == SCENE_HIDING then
+            SetTradingHouseModeEnabled(false)
+        end
+    end
+
+    TRADING_HOUSE_SCENE:RegisterCallback("StateChange",  SceneStateChange)
 end
 
 -- shift backpack sort headers and item list down (shiftY > 0) or up (shiftY < 0)
