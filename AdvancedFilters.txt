@@ -1,7 +1,7 @@
 ## Title: Advanced Filters
 ## Author: Randactyl
 ## Version: 1.5.0.1
-## APIVersion: 100020
+## APIVersion: 100021
 ## OptionalDependsOn: LibFilters-2.0
 
 lib\LibStub\LibStub.lua
