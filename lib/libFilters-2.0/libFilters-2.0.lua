@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 3.0
+local MAJOR, MINOR = "LibFilters-2.0", 3.3
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
@@ -30,6 +30,7 @@ LF_FENCE_SELL            = 24
 LF_FENCE_LAUNDER         = 25
 LF_CRAFTBAG              = 26
 LF_QUICKSLOT             = 27
+LF_RETRAIT               = 28
 
 LibFilters.isInitialized = false
 LibFilters.filters = {
@@ -60,6 +61,7 @@ LibFilters.filters = {
     [LF_FENCE_LAUNDER] = {},
     [LF_CRAFTBAG] = {},
     [LF_QUICKSLOT] = {},
+    [LF_RETRAIT] = {},
 }
 local filters = LibFilters.filters
 
@@ -91,6 +93,7 @@ local filterTypeToUpdaterName = {
     [LF_FENCE_LAUNDER] = "INVENTORY",
     [LF_CRAFTBAG] = "CRAFTBAG",
     [LF_QUICKSLOT] = "QUICKSLOT",
+    [LF_RETRAIT] = "RETRAIT",
 }
 
 --if the mouse is enabled, cycle its state to refresh the integrity of the control beneath it
@@ -157,6 +160,9 @@ local inventoryUpdaters = {
     end,
     QUICKSLOT = function()
         SafeUpdateList(QUICKSLOT_WINDOW)
+    end,
+    RETRAIT = function()
+        ZO_RETRAIT_STATION_KEYBOARD:HandleDirtyEvent()
     end,
 }
 
@@ -233,6 +239,8 @@ local function HookAdditionalFilters()
     LibFilters:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
 
     LibFilters:HookAdditionalFilter(LF_QUICKSLOT, QUICKSLOT_WINDOW)
+
+    LibFilters:HookAdditionalFilter(LF_RETRAIT, ZO_RETRAIT_STATION_KEYBOARD)
 end
 LibFilters.helpers = {}
 local helpers = LibFilters.helpers
