@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 3.5
+local MAJOR, MINOR = "LibFilters-2.0", 3.6
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
@@ -33,6 +33,12 @@ LF_QUICKSLOT             = 27
 LF_RETRAIT               = 28
 LF_HOUSE_BANK_WITHDRAW   = 29
 LF_HOUSE_BANK_DEPOSIT    = 30
+LF_JEWELRY_REFINE        = 31
+LF_JEWELRY_CREATION      = 32
+LF_JEWELRY_DECONSTRUCT   = 33
+LF_JEWELRY_IMPROVEMENT   = 34
+LF_JEWELRY_RESEARCH      = 35
+LF_FILTER_MAX            = LF_JEWELRY_RESEARCH
 
 LibFilters.isInitialized = false
 LibFilters.filters = {
@@ -66,6 +72,11 @@ LibFilters.filters = {
     [LF_RETRAIT] = {},
     [LF_HOUSE_BANK_WITHDRAW] = {},
     [LF_HOUSE_BANK_DEPOSIT] = {},
+    [LF_JEWELRY_REFINE]      = {},
+    [LF_JEWELRY_CREATION]    = {},
+    [LF_JEWELRY_DECONSTRUCT] = {},
+    [LF_JEWELRY_IMPROVEMENT] = {},
+    [LF_JEWELRY_RESEARCH]    = {},
 }
 local filters = LibFilters.filters
 
@@ -100,6 +111,11 @@ local filterTypeToUpdaterName = {
     [LF_RETRAIT] = "RETRAIT",
     [LF_HOUSE_BANK_WITHDRAW] = "HOUSE_BANK_WITHDRAW",
     [LF_HOUSE_BANK_DEPOSIT] = "INVENTORY",
+    [LF_JEWELRY_REFINE]      = "SMITHING_REFINE",
+    [LF_JEWELRY_CREATION]    = "SMITHING_CREATION",
+    [LF_JEWELRY_DECONSTRUCT] = "SMITHING_DECONSTRUCT",
+    [LF_JEWELRY_IMPROVEMENT] = "SMITHING_IMPROVEMENT",
+    [LF_JEWELRY_RESEARCH]    = "SMITHING_RESEARCH",
 }
 
 --if the mouse is enabled, cycle its state to refresh the integrity of the control beneath it
@@ -233,6 +249,10 @@ local function HookAdditionalFilters()
     LibFilters:HookAdditionalFilter(LF_SMITHING_DECONSTRUCT, SMITHING.deconstructionPanel.inventory)
     LibFilters:HookAdditionalFilter(LF_SMITHING_IMPROVEMENT, SMITHING.improvementPanel.inventory)
     LibFilters:HookAdditionalFilter(LF_SMITHING_RESEARCH, SMITHING.researchPanel)
+    --LibFilters:HookAdditionalFilter(LF_JEWELRY_CREATION, )
+    LibFilters:HookAdditionalFilter(LF_JEWELRY_DECONSTRUCT, SMITHING.deconstructionPanel.inventory)
+    LibFilters:HookAdditionalFilter(LF_JEWELRY_IMPROVEMENT, SMITHING.improvementPanel.inventory)
+    LibFilters:HookAdditionalFilter(LF_JEWELRY_RESEARCH, SMITHING.researchPanel)
 
     LibFilters:HookAdditionalFilter(LF_ALCHEMY_CREATION, ALCHEMY.inventory)
 
@@ -359,4 +379,8 @@ function LibFilters:UnregisterFilter(filterTag, filterType)
             callbacks[filterTag] = nil
         end
     end
+end
+
+function LibFilters:GetMaxFilter()
+    return LF_FILTER_MAX
 end

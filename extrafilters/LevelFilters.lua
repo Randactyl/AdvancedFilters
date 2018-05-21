@@ -13,7 +13,10 @@ local util = AdvancedFilters.util
         is active.
 --]]----------------------------------------------------------------------------
 local function GetFilterCallbackForLevel(minLevel, maxLevel)
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
         local level = GetItemLinkRequiredLevel(itemLink)
         local cp = GetItemLinkRequiredChampionPoints(itemLink)
@@ -72,6 +75,11 @@ local strings = {
     ["cp130-140"] = cpIcon .. "130-140",
     ["cp150-160"] = cpIcon .. "150-160",
 }
+local stringsDE = {
+    --Remember to provide a string for your submenu if using one (see below).
+    ["LevelFilters"] = "Level Filter",
+}
+stringsDE = setmetatable(stringsDE, {__index = strings})
 
 --[[----------------------------------------------------------------------------
     This section packages the data for Advanced Filters to use.
@@ -96,7 +104,7 @@ local filterInformation = {
     filterType = ITEMFILTERTYPE_WEAPONS,
     subfilters = {"All",},
     enStrings = strings,
-    deStrings = strings,
+    deStrings = stringsDE,
     frStrings = strings,
     ruStrings = strings,
     esStrings = strings,
@@ -117,6 +125,7 @@ filterInformation = {
     callbackTable = fullLevelDropdownCallbacks,
     filterType = ITEMFILTERTYPE_ARMOR,
     subfilters = {"All",},
+    deStrings = stringsDE,
     enStrings = strings,
 }
 

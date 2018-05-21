@@ -2,29 +2,37 @@ local AF = AdvancedFilters
 AF.AF_FilterBar = ZO_Object:Subclass()
 local AF_FilterBar = AF.AF_FilterBar
 
-function AF_FilterBar:New(inventoryName, groupName, subfilterNames)
+function AF_FilterBar:New(inventoryName, tradeSkillname, groupName, subfilterNames)
     local obj = ZO_Object.New(self)
-    obj:Initialize(inventoryName, groupName, subfilterNames)
+    obj:Initialize(inventoryName, tradeSkillname, groupName, subfilterNames)
     return obj
 end
 
-function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
+function AF_FilterBar:Initialize(inventoryName, tradeSkillname, groupName, subfilterNames)
+--d("[AF]AF_FilterBarInitialize - inventoryName: " .. tostring(inventoryName) .. ", tradeSkillname: " .. tostring(tradeSkillname) .. ", groupName: " ..tostring(groupName) .. ", subfilterNames: " .. tostring(subfilterNames))
     --get upper anchor position for subfilter bar
     local _,_,_,_,_,offsetY = ZO_PlayerInventorySortBy:GetAnchor()
 
     --parent for the subfilter bar control
     local parents = {
-        ["PlayerInventory"] = ZO_PlayerInventory,
-        ["PlayerBank"] = ZO_PlayerBank,
-        ["GuildBank"] = ZO_GuildBank,
-        ["VendorSell"] = ZO_StoreWindow,
-        ["CraftBag"] = ZO_CraftBag,
+        ["PlayerInventory"]         = ZO_PlayerInventory,
+        ["PlayerBank"]              = ZO_PlayerBank,
+        ["GuildBank"]               = ZO_GuildBank,
+        ["VendorBuy"]               = ZO_StoreWindow,
+        ["CraftBag"]                = ZO_CraftBag,
+        ["SmithingDeconstruction"]  = ZO_SmithingTopLevelDeconstructionPanel,
+        ["SmithingImprovement"]     = ZO_SmithingTopLevelImprovementPanel,
+        ["EnchantingCreation"]      = ZO_EnchantingTopLevelInventory,
+        ["EnchantingExtraction"]    = ZO_EnchantingTopLevelInventory,
+        ["HouseBankWithdraw"]       = ZO_HouseBank,
     }
     local parent = parents[inventoryName]
+    if parent == nil then
+        d("[AdvancedFilters] ERROR: Parent for subfilterbar missing! InventoryName: " .. tostring(inventoryName) .. ", tradeSkillname: " .. tostring(tradeSkillname) .. ", groupName: " ..tostring(groupName) .. ", subfilterNames: " .. tostring(subfilterNames))
+    end
 
     --unique identifier
-    self.name = inventoryName .. groupName
-
+    self.name = inventoryName .. tradeSkillname .. groupName
     self.control = WINDOW_MANAGER:CreateControlFromVirtual("AF_FilterBar" .. self.name, parent, "AF_Base")
     self.control:SetAnchor(TOPLEFT, parent, TOPLEFT, 0, offsetY)
 
@@ -44,13 +52,13 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
     local function DropdownOnMouseUpHandler(dropdown, mouseButton, upInside)
         local comboBox = dropdown.m_comboBox
 
-        if mouseButton == 1 and upInside then
+        if mouseButton == MOUSE_BUTTON_INDEX_LEFT and upInside then
             if comboBox.m_isDropdownVisible then
                 comboBox:HideDropdownInternal()
             else
                 comboBox:ShowDropdownInternal()
             end
-        elseif mouseButton == 2 and upInside then
+        elseif mouseButton == MOUSE_BUTTON_INDEX_RIGHT and upInside then
             local entries = {
                 [1] = {
                     name = AF.strings.ResetToAll,
@@ -60,7 +68,7 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
                         local button = self:GetCurrentButton()
                         button.previousDropdownSelection = comboBox.m_sortedItems[1]
 
-                        local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
+                        local filterType = AF.util.GetCurrentFilterTypeForInventory(self.inventoryType)
                         AF.util.LibFilters:RequestUpdate(filterType)
 
                         PlaySound(SOUNDS.MENU_BAR_CLICK)
@@ -71,10 +79,10 @@ function AF_FilterBar:Initialize(inventoryName, groupName, subfilterNames)
                     callback = function()
                         local button = self:GetCurrentButton()
 
-                        local filterType = AF.util.LibFilters:GetCurrentFilterTypeForInventory(self.inventoryType) or LF_VENDOR_BUY
+                        local filterType = AF.util.GetCurrentFilterTypeForInventory(self.inventoryType)
                         local originalCallback = AF.util.LibFilters:GetFilterCallback("AF_DropdownFilter", filterType)
-                        local filterCallback = function(slot)
-                            return not originalCallback(slot)
+                        local filterCallback = function(slot, slotIndex)
+                            return not originalCallback(slot, slotIndex)
                         end
 
                         AF.util.LibFilters:UnregisterFilter("AF_DropdownFilter", filterType)

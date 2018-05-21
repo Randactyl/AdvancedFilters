@@ -2,19 +2,28 @@ local AF = AdvancedFilters
 local util = AF.util
 
 local function GetFilterCallbackForWeaponType(filterTypes)
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
+        if itemLink == nil then return false end
 
         local weaponType = GetItemLinkWeaponType(itemLink)
 
         for i=1, #filterTypes do
-            if(filterTypes[i] == weaponType) then return true end
+            if(filterTypes[i] == weaponType) then
+                return true
+            end
         end
     end
 end
 
 local function GetFilterCallbackForArmorType(filterTypes)
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local armorType = GetItemLinkArmorType(itemLink)
@@ -26,7 +35,10 @@ local function GetFilterCallbackForArmorType(filterTypes)
 end
 
 local function GetFilterCallbackForGear(filterTypes)
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local _, _, _, equipType = GetItemLinkInfo(itemLink)
@@ -37,8 +49,29 @@ local function GetFilterCallbackForGear(filterTypes)
     end
 end
 
+local function GetFilterCallbackForJewelry(filterTypes, itemTraitType)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
+        local itemLink = util.GetItemLink(slot)
+
+        local _, _, _, equipType = GetItemLinkInfo(itemLink)
+
+        for i=1, #filterTypes do
+            if filterTypes[i] == equipType then
+                local checkItemTraitType = GetItemLinkTraitInfo(itemLink)
+                if itemTraitType == checkItemTraitType then d("<same!")return true end
+            end
+        end
+    end
+end
+
 local function GetFilterCallbackForClothing()
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local armorType = GetItemLinkArmorType(itemLink)
@@ -55,7 +88,10 @@ local function GetFilterCallbackForClothing()
 end
 
 local function GetFilterCallbackForTrophy()
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local itemType = GetItemLinkItemType(itemLink)
@@ -69,7 +105,10 @@ local function GetFilterCallbackForTrophy()
 end
 
 local function GetFilterCallbackForFence()
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local itemType = GetItemLinkItemType(itemLink)
@@ -85,7 +124,10 @@ local function GetFilterCallbackForFence()
 end
 
 local function GetFilterCallbackForProvisioningIngredient(ingredientType)
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local lookup = {
             --meats (health)
             ["28609"] = "Food", --Game
@@ -220,7 +262,10 @@ local function GetFilterCallbackForProvisioningIngredient(ingredientType)
 end
 
 local function GetFilterCallbackForStyleMaterial(categoryConst)
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         if categoryConst == AF.util.LibMotifCategories:GetMotifCategory(itemLink) then
@@ -232,7 +277,10 @@ end
 local function GetFilterCallbackForSpecializedItemtype(sItemTypes)
     if(not sItemTypes) then return function(slot) return true end end
 
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local _, sItemType = GetItemLinkItemType(itemLink)
@@ -246,7 +294,10 @@ end
 local function GetFilterCallback(filterTypes)
     if(not filterTypes) then return function(slot) return true end end
 
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         local itemType = GetItemLinkItemType(itemLink)
@@ -341,16 +392,48 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_OFF_HAND}),
             dropdownCallbacks = {},
         },
-        Jewelry = {
-            filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING, EQUIP_TYPE_NECK}),
-            dropdownCallbacks = {
-                {name = "Ring", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING})},
-                {name = "Neck", filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_NECK})},
-            },
-        },
         Vanity = {
             filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_DISGUISE, EQUIP_TYPE_COSTUME}),
             dropdownCallbacks = {},
+        },
+    },
+    Jewelry = {
+        addonDropdownCallbacks = {},
+        All = {
+            filterCallback = GetFilterCallback(nil),
+            dropdownCallbacks = {},
+        },
+        Neck = {
+            filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_NECK}),
+            dropdownCallbacks = {
+                {name = "Arcane", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_ARCANE)},
+                {name = "Bloodthirsty", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_BLOODTHIRSTY)},
+                {name = "Harmony", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_HARMONY)},
+                {name = "Healthy", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_HEALTHY)},
+                {name = "Infused", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_INFUSED)},
+                {name = "Intricate", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_INTRICATE)},
+                {name = "Ornate", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_ORNATE)},
+                {name = "Protective", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_PROTECTIVE)},
+                {name = "Robust", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_ROBUST)},
+                {name = "Swift", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_SWIFT)},
+                {name = "Triune", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_NECK}, ITEM_TRAIT_TYPE_JEWELRY_TRIUNE)},
+            },
+        },
+        Ring = {
+            filterCallback = GetFilterCallbackForGear({EQUIP_TYPE_RING}),
+            dropdownCallbacks = {
+                {name = "Arcane", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_ARCANE)},
+                {name = "Bloodthirsty", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_BLOODTHIRSTY)},
+                {name = "Harmony", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_HARMONY)},
+                {name = "Healthy", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_HEALTHY)},
+                {name = "Infused", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_INFUSED)},
+                {name = "Intricate", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_INTRICATE)},
+                {name = "Ornate", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_ORNATE)},
+                {name = "Protective", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_PROTECTIVE)},
+                {name = "Robust", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_ROBUST)},
+                {name = "Swift", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_SWIFT)},
+                {name = "Triune", filterCallback = GetFilterCallbackForJewelry({EQUIP_TYPE_RING}, ITEM_TRAIT_TYPE_JEWELRY_TRIUNE)},
+            },
         },
     },
     Consumables = {
@@ -727,6 +810,32 @@ AF.subfilterCallbacks = {
             dropdownCallbacks = {},
         },
     },
+    Runes = {
+        addonDropdownCallbacks = {},
+        All = {
+            filterCallback = GetFilterCallback(nil),
+            dropdownCallbacks = {},
+        },
+    },
+    Glyphs = {
+        addonDropdownCallbacks = {},
+        All = {
+            filterCallback = GetFilterCallback(nil),
+            dropdownCallbacks = {},
+        },
+        WeaponGlyph = {
+            filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_WEAPON}),
+            dropdownCallbacks = {},
+        },
+        ArmorGlyph = {
+            filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_ARMOR}),
+            dropdownCallbacks = {},
+        },
+        JewelryGlyph = {
+            filterCallback = GetFilterCallback({ITEMTYPE_GLYPH_JEWELRY}),
+            dropdownCallbacks = {},
+        },
+    },
     Provisioning = {
         addonDropdownCallbacks = {},
         All = {
@@ -804,22 +913,24 @@ AF.subfilterCallbacks = {
 
 function AdvancedFilters_RegisterFilter(filterInformation)
     local filterTypeToGroupName = {
-        [ITEMFILTERTYPE_ALL] = "All",
-        [ITEMFILTERTYPE_WEAPONS] = "Weapons",
-        [ITEMFILTERTYPE_ARMOR] = "Armor",
-        [ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
-        [ITEMFILTERTYPE_CRAFTING] = "Crafting",
-        [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
-        [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
+        [ITEMFILTERTYPE_ALL]                = "All",
+        [ITEMFILTERTYPE_WEAPONS]            = "Weapons",
+        [ITEMFILTERTYPE_ARMOR]              = "Armor",
+        [ITEMFILTERTYPE_JEWELRY]            = "Jewelry",
+        [ITEMFILTERTYPE_JEWELRYCRAFTING]    = "Jewelry",
+        [ITEMFILTERTYPE_CONSUMABLE]         = "Consumables",
+        [ITEMFILTERTYPE_CRAFTING]           = "Crafting",
+        [ITEMFILTERTYPE_FURNISHING]         = "Furnishings",
+        [ITEMFILTERTYPE_MISCELLANEOUS]      = "Miscellaneous",
         --[ITEMFILTERTYPE_JUNK] = "Junk",
-        [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
-        [ITEMFILTERTYPE_CLOTHING] = "Clothing",
-        [ITEMFILTERTYPE_WOODWORKING] = "Woodworking",
-        [ITEMFILTERTYPE_ALCHEMY] = "Alchemy",
-        [ITEMFILTERTYPE_ENCHANTING] = "Enchanting",
-        [ITEMFILTERTYPE_PROVISIONING] = "Provisioning",
-        [ITEMFILTERTYPE_STYLE_MATERIALS] = "Style",
-        [ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits",
+        [ITEMFILTERTYPE_BLACKSMITHING]      = "Blacksmithing",
+        [ITEMFILTERTYPE_CLOTHING]           = "Clothing",
+        [ITEMFILTERTYPE_WOODWORKING]        = "Woodworking",
+        [ITEMFILTERTYPE_ALCHEMY]            = "Alchemy",
+        [ITEMFILTERTYPE_ENCHANTING]         = "Enchanting",
+        [ITEMFILTERTYPE_PROVISIONING]       = "Provisioning",
+        [ITEMFILTERTYPE_STYLE_MATERIALS]    = "Style",
+        [ITEMFILTERTYPE_TRAIT_ITEMS]        = "Traits",
     }
 
     --make sure all necessary information is present
@@ -849,7 +960,10 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         submenuName = filterInformation.submenuName,
         callbackTable = filterInformation.callbackTable,
         subfilters = filterInformation.subfilters,
+        excludeSubfilters = filterInformation.excludeSubfilters,
         generator = filterInformation.generator,
+        excludeFilterPanels = filterInformation.excludeFilterPanels,
+        onlyGroups = filterInformation.onlyGroups,
     }
     local groupName = filterTypeToGroupName[filterInformation.filterType]
 
@@ -860,15 +974,12 @@ function AdvancedFilters_RegisterFilter(filterInformation)
     if filterInformation.generator then return end
 
     --get string information from the calling addon and insert it into our string table
-    local function addStrings(lang, strings)
+    --and support setmetatable!
+    local function addStrings(lang, strings, langStrings)
         for key, string in pairs(strings) do
-            AF.strings[key] = string
+            AF.strings[key] = langStrings and langStrings[key] or string
         end
     end
     local lang = AF.util.GetLanguage()
-    if filterInformation[lang .. "Strings"] ~= nil then
-        addStrings(lang, filterInformation[lang .. "Strings"])
-    else
-        addStrings("en", filterInformation.enStrings)
-    end
+    addStrings(lang, filterInformation.enStrings, filterInformation[lang .. "Strings"])
 end

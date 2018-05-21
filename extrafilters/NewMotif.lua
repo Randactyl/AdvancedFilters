@@ -1,7 +1,10 @@
 local util = AdvancedFilters.util
 
 local function GetFilterCallbackForNewMotif()
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         return util.LibMotifCategories:IsNewMotif(itemLink)
@@ -15,11 +18,15 @@ local dropdownCallback = {
 local strings = {
     ["NewMotif"] = "New Motif",
 }
+local stringsDE = {
+    ["NewMotif"] = "Neue Motive",
+}
 
 local filterInformation = {
     callbackTable = dropdownCallback,
     filterType = ITEMFILTERTYPE_WEAPONS,
     subfilters = {"All",},
+    deStrings = stringsDE,
     enStrings = strings,
 }
 

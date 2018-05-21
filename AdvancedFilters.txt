@@ -1,6 +1,6 @@
 ## Title: Advanced Filters
 ## Author: Randactyl
-## Version: 1.5.0.1
+## Version: 1.5.0.2
 ## APIVersion: 100021
 ## OptionalDependsOn: LibFilters-2.0
 
@@ -13,8 +13,8 @@ lib\LibCustomMenu\LibCustomMenu.lua
 lib\LibMotifCategories-1.0\LibMotifCategories-1.0.lua
 lib\LibCustomTitles\LibCustomTitles.lua
 
-main.lua
 util.lua
+main.lua
 strings\en.lua
 strings\$(language).lua
 textures.lua

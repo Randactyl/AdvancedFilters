@@ -41,6 +41,18 @@ local strings = {
     Ring = "Ring",
     Neck = "Neck",
 
+    --Jewelry
+    Arcane  = util.Localize(SI_ITEMTRAITTYPE22),
+    Bloodthirsty  = util.Localize(SI_ITEMTRAITTYPE31),
+    Harmony  = util.Localize(SI_ITEMTRAITTYPE29),
+    Healthy  = util.Localize(SI_ITEMTRAITTYPE21),
+    Infused  = util.Localize(SI_ITEMTRAITTYPE33),
+    Intricate  = util.Localize(SI_ITEMTRAITTYPE27),
+    Ornate  = util.Localize(SI_ITEMTRAITTYPE24),
+    Robust  = util.Localize(SI_ITEMTRAITTYPE23),
+    Swift  = util.Localize(SI_ITEMTRAITTYPE28),
+    Triune = util.Localize(SI_ITEMTRAITTYPE30),
+
     --CONSUMABLES
     Crown = util.Localize(SI_ITEMTYPE57),
     Food = util.Localize(SI_ITEMTYPE4),
@@ -95,6 +107,8 @@ local strings = {
     ArmorGlyph = util.Localize(SI_ITEMTYPE21),
     JewelryGlyph = util.Localize(SI_ITEMTYPE26),
     WeaponGlyph = util.Localize(SI_ITEMTYPE20),
+
+    Runes = util.Localize(SI_WEAPONMODELTYPE11),
 
     --JUNK
     Weapon = util.Localize(SI_ITEMFILTERTYPE1),

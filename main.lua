@@ -1,56 +1,158 @@
-AdvancedFilters = {}
+if AdvancedFilters == nil then AdvancedFilters = {} end
 local AF = AdvancedFilters
 
+--Get the current maximum itemfiltertye
+AF.maxItemFilterType = ITEMFILTERTYPE_MAX_VALUE or 26 -- 26 is the maximum at API 100021
+--Build new "virtual" itemfiltertype for weapons + armor at blacksmith station.
+--Needs the normal itemfiltertype_armor/weapon value "on-top" in order to get the change of
+--a tab at the crafting station (ChangeFilter function) working.
+--To distinguish the different crafting stations we need to add the TradeskillType number too
+ITEMFILTERTYPE_AF_WEAPONS_SMITHING      = AF.maxItemFilterType + ITEMFILTERTYPE_WEAPONS + CRAFTING_TYPE_BLACKSMITHING
+ITEMFILTERTYPE_AF_ARMOR_SMITHING        = AF.maxItemFilterType + ITEMFILTERTYPE_ARMOR + CRAFTING_TYPE_BLACKSMITHING
+ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING   = AF.maxItemFilterType + ITEMFILTERTYPE_WEAPONS + CRAFTING_TYPE_WOODWORKING
+ITEMFILTERTYPE_AF_ARMOR_WOODWORKING     = AF.maxItemFilterType + ITEMFILTERTYPE_ARMOR + CRAFTING_TYPE_WOODWORKING
+ITEMFILTERTYPE_AF_ARMOR_CLOTHIER        = AF.maxItemFilterType + ITEMFILTERTYPE_ARMOR + CRAFTING_TYPE_CLOTHIER
+ITEMFILTERTYPE_AF_RUNES_ENCHANTING      = AF.maxItemFilterType + ITEMFILTERTYPE_ENCHANTING + ENCHANTING_MODE_CREATION + CRAFTING_TYPE_ENCHANTING
+ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING     = AF.maxItemFilterType + ITEMFILTERTYPE_ENCHANTING + ENCHANTING_MODE_EXTRACTION + CRAFTING_TYPE_ENCHANTING
+--Get the current maximum inventory types and add 1 for the vendor buy inv type
+INVENTORY_TYPE_VENDOR_BUY = 100
+
 AF.subfilterGroups = {
+    --Player inventory
     [INVENTORY_BACKPACK] = {
-        [ITEMFILTERTYPE_ALL] = {},
-        [ITEMFILTERTYPE_WEAPONS] = {},
-        [ITEMFILTERTYPE_ARMOR] = {},
-        [ITEMFILTERTYPE_CONSUMABLE] = {},
-        [ITEMFILTERTYPE_CRAFTING] = {},
-        [ITEMFILTERTYPE_FURNISHING] = {},
-        [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-        --[ITEMFILTERTYPE_JUNK] = {},
+        [CRAFTING_TYPE_INVALID] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_WEAPONS] = {},
+            [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_JEWELRY] = {}, -- new with Summersend
+            [ITEMFILTERTYPE_CONSUMABLE] = {},
+            [ITEMFILTERTYPE_CRAFTING] = {},
+            [ITEMFILTERTYPE_FURNISHING] = {},
+            [ITEMFILTERTYPE_MISCELLANEOUS] = {},
+            --[ITEMFILTERTYPE_JUNK] = {},
+        },
     },
+    --Bank
     [INVENTORY_BANK] = {
-        [ITEMFILTERTYPE_ALL] = {},
-        [ITEMFILTERTYPE_WEAPONS] = {},
-        [ITEMFILTERTYPE_ARMOR] = {},
-        [ITEMFILTERTYPE_CONSUMABLE] = {},
-        [ITEMFILTERTYPE_CRAFTING] = {},
-        [ITEMFILTERTYPE_FURNISHING] = {},
-        [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-        --[ITEMFILTERTYPE_JUNK] = {},
+        [CRAFTING_TYPE_INVALID] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_WEAPONS] = {},
+            [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_CONSUMABLE] = {},
+            [ITEMFILTERTYPE_CRAFTING] = {},
+            [ITEMFILTERTYPE_FURNISHING] = {},
+            [ITEMFILTERTYPE_MISCELLANEOUS] = {},
+            --[ITEMFILTERTYPE_JUNK] = {},
+        },
     },
+    --Guild bank
     [INVENTORY_GUILD_BANK] = {
-        [ITEMFILTERTYPE_ALL] = {},
-        [ITEMFILTERTYPE_WEAPONS] = {},
-        [ITEMFILTERTYPE_ARMOR] = {},
-        [ITEMFILTERTYPE_CONSUMABLE] = {},
-        [ITEMFILTERTYPE_CRAFTING] = {},
-        [ITEMFILTERTYPE_FURNISHING] = {},
-        [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-        --[ITEMFILTERTYPE_JUNK] = {},
+        [CRAFTING_TYPE_INVALID] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_WEAPONS] = {},
+            [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_CONSUMABLE] = {},
+            [ITEMFILTERTYPE_CRAFTING] = {},
+            [ITEMFILTERTYPE_FURNISHING] = {},
+            [ITEMFILTERTYPE_MISCELLANEOUS] = {},
+            --[ITEMFILTERTYPE_JUNK] = {},
+        },
     },
+    --Craft bag
     [INVENTORY_CRAFT_BAG] = {
-        [ITEMFILTERTYPE_ALL] = {},
-        [ITEMFILTERTYPE_BLACKSMITHING] = {},
-        [ITEMFILTERTYPE_CLOTHING] = {},
-        [ITEMFILTERTYPE_WOODWORKING] = {},
-        [ITEMFILTERTYPE_ALCHEMY] = {},
-        [ITEMFILTERTYPE_ENCHANTING] = {},
-        [ITEMFILTERTYPE_PROVISIONING] = {},
-        [ITEMFILTERTYPE_STYLE_MATERIALS] = {},
-        [ITEMFILTERTYPE_TRAIT_ITEMS] = {},
+        [CRAFTING_TYPE_INVALID] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_BLACKSMITHING] = {},
+            [ITEMFILTERTYPE_CLOTHING] = {},
+            [ITEMFILTERTYPE_WOODWORKING] = {},
+            [ITEMFILTERTYPE_ALCHEMY] = {},
+            [ITEMFILTERTYPE_ENCHANTING] = {},
+            [ITEMFILTERTYPE_PROVISIONING] = {},
+            [ITEMFILTERTYPE_STYLE_MATERIALS] = {},
+            [ITEMFILTERTYPE_TRAIT_ITEMS] = {},
+        },
     },
-    [6] = {
-        [ITEMFILTERTYPE_ALL] = {},
-        [ITEMFILTERTYPE_WEAPONS] = {},
-        [ITEMFILTERTYPE_ARMOR] = {},
-        [ITEMFILTERTYPE_CONSUMABLE] = {},
-        [ITEMFILTERTYPE_CRAFTING] = {},
-        [ITEMFILTERTYPE_MISCELLANEOUS] = {},
-    }, --VENDOR_SELL
+    --Vendor buy
+    [INVENTORY_TYPE_VENDOR_BUY] = {
+        [CRAFTING_TYPE_INVALID] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_WEAPONS] = {},
+            [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_CONSUMABLE] = {},
+            [ITEMFILTERTYPE_CRAFTING] = {},
+            [ITEMFILTERTYPE_MISCELLANEOUS] = {},
+        },
+    },
+    --Crafting SMITHING: Deconstruction
+    [LF_SMITHING_DECONSTRUCT] = {
+        [CRAFTING_TYPE_BLACKSMITHING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_AF_WEAPONS_SMITHING] = {},
+            [ITEMFILTERTYPE_AF_ARMOR_SMITHING] = {},
+        },
+        [CRAFTING_TYPE_WOODWORKING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING] = {},
+            [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING] = {},
+        },
+        [CRAFTING_TYPE_CLOTHIER] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER] = {},
+        },
+        [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+        },
+    },
+    --Crafting SMITHING: Improvement
+    [LF_SMITHING_IMPROVEMENT] = {
+        [CRAFTING_TYPE_BLACKSMITHING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_AF_WEAPONS_SMITHING] = {},
+            [ITEMFILTERTYPE_AF_ARMOR_SMITHING] = {},
+        },
+        [CRAFTING_TYPE_WOODWORKING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING] = {},
+            [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING] = {},
+        },
+        [CRAFTING_TYPE_CLOTHIER] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            --[ITEMFILTERTYPE_AF_WEAPONS_CLOTHIER] = {},
+            [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER] = {},
+        },
+        [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+        },
+    },
+    --Crafting ENCHANTING: Creation
+    [LF_ENCHANTING_CREATION] = {
+        [CRAFTING_TYPE_ENCHANTING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            --[ITEMFILTERTYPE_AF_RUNES_ENCHANTING] = {}, TODO: Currently disabled as no extra filters are needed/possible
+        },
+    },
+    --Crafting ENCHANTING: Extraction
+    [LF_ENCHANTING_EXTRACTION] = {
+        [CRAFTING_TYPE_ENCHANTING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING] = {},
+        },
+    },
+    --Houes bank withdraw
+    [INVENTORY_HOUSE_BANK] = {
+        [CRAFTING_TYPE_INVALID] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_WEAPONS] = {},
+            [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_CONSUMABLE] = {},
+            [ITEMFILTERTYPE_CRAFTING] = {},
+            [ITEMFILTERTYPE_FURNISHING] = {},
+            [ITEMFILTERTYPE_MISCELLANEOUS] = {},
+            --[ITEMFILTERTYPE_JUNK] = {},
+        },
+    },
 }
 
 AF.currentInventoryType = INVENTORY_BACKPACK
@@ -85,7 +187,7 @@ local function InitializeHooks()
             --refresh subfilters for inventory type
             local subfilterGroup = AF.subfilterGroups[k]
             if not subfilterGroup then return end
-            local currentSubfilterBar = subfilterGroup.currentSubfilterBar
+            local currentSubfilterBar = subfilterGroup[AF.util.GetCraftingType()].currentSubfilterBar
             if not currentSubfilterBar then return end
 
             AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10, AF.util.RefreshSubfilterBar, currentSubfilterBar)
@@ -105,11 +207,36 @@ local function InitializeHooks()
         return t
     end
 
-    local function ShowSubfilterBar(currentFilter)
+    local function hideSubfilterBarSameParent(inventoryType)
+--d("[AF]hideSubfilterBarSameParent - inventoryType: " .. inventoryType)
+        --As some inventories/opanels use the same parents to anchor the subfilter bars to
+        --the change of the panel won't chnage the parent and thus doesn't hide the subfilter
+        --bars properly.
+        --Example: ENCHANTING creation & extraction
+        --This function checks the inventory type and hides the old subfilterbar if needed.
+        if not inventoryType then return end
+        local mapInvTypeToInvTypeBefore = {
+            --Enchanting
+            [LF_ENCHANTING_CREATION]   = LF_ENCHANTING_EXTRACTION,
+            [LF_ENCHANTING_EXTRACTION] = LF_ENCHANTING_CREATION,
+        }
+        if mapInvTypeToInvTypeBefore[inventoryType] == nil then return false end
+        local invTypeBefore = mapInvTypeToInvTypeBefore[inventoryType]
+        if not invTypeBefore then return end
+        local subfilterGroupBefore = AF.subfilterGroups[invTypeBefore]
+        if subfilterGroupBefore ~= nil and subfilterGroupBefore.currentSubfilterBar then
+            subfilterGroupBefore.currentSubfilterBar:SetHidden(true)
+        end
+    end
+
+    local function ShowSubfilterBar(currentFilter, craftingType)
+        if craftingType == nil then craftingType = AF.util.GetCraftingType() end
+--d("[AF]]ShowSubfilterBar - currentFilter: " .. tostring(currentFilter) .. ", craftingType: " .. tostring(craftingType) .. ", invType: " .. tostring(AF.currentInventoryType))
         local function UpdateListAnchors(self, shiftY)
+--d(">UpdateListAnchors - shiftY: " .. tostring(shiftY))
+            if self == nil then return end
             local layoutData = self.appliedLayout or BACKPACK_DEFAULT_LAYOUT_FRAGMENT.layoutData
             if not layoutData then return end
-
             local list = self.list or self.inventories[AF.currentInventoryType].listView
             list:SetWidth(layoutData.width)
             list:ClearAnchors()
@@ -126,25 +253,45 @@ local function InitializeHooks()
 
         --get new bar
         local subfilterGroup = AF.subfilterGroups[AF.currentInventoryType]
-        local subfilterBar = subfilterGroup[currentFilter]
+        local subfilterBar = subfilterGroup[craftingType][currentFilter]
 
         --hide old bar, if it exists
         if subfilterGroup.currentSubfilterBar ~= nil then
+--d(">hiding current/old subfilterbar")
             subfilterGroup.currentSubfilterBar:SetHidden(true)
         end
+        --hide old bar at same parent
+        hideSubfilterBarSameParent(AF.currentInventoryType)
 
         --do nothing if we're in a guild store and regular filters are disabled.
         if not ZO_TradingHouse:IsHidden() and AF.util.libCIF._guildStoreSellFiltersDisabled then return end
+
+        --Crafting
+        local craftingInv
+        local isCraftingInventoryType = false
+        if AF.util.IsCraftingPanelShown() then
+--d(">crafting subfilterbar shown")
+            isCraftingInventoryType = AF.util.IsCraftingStationInventoryType(subfilterBar.inventoryType)
+            if isCraftingInventoryType then
+                craftingInv = AF.util.GetInventoryFromCraftingPanel(subfilterBar.inventoryType)
+            end
+        end
 
         --if new bar exists
         if subfilterBar then
             --set current bar reference
             subfilterGroup.currentSubfilterBar = subfilterBar
 
+--d(">subfilterBar exists, name: " .. tostring(subfilterBar.control:GetName()) .. ",  inventoryType: " ..tostring(subfilterBar.inventoryType))
+
             --set currentFilter since we need it before the original ChangeFilter updates it
-            if subfilterBar.inventoryType == 6 then
+            if subfilterBar.inventoryType == INVENTORY_TYPE_VENDOR_BUY then
                 STORE_WINDOW.currentFilter = currentFilter
+            elseif isCraftingInventoryType then
+--d("> Set currentfilter to: " .. currentFilter)
+                craftingInv.currentFilter = currentFilter
             else
+--d(">player inv. subfilterbar")
                 PLAYER_INVENTORY.inventories[subfilterBar.inventoryType].currentFilter = currentFilter
             end
 
@@ -155,8 +302,11 @@ local function InitializeHooks()
             subfilterBar:SetHidden(false)
 
             --set proper inventory anchor displacement
-            if subfilterBar.inventoryType == 6 then
+            if subfilterBar.inventoryType == INVENTORY_TYPE_VENDOR_BUY then
                 UpdateListAnchors(STORE_WINDOW, subfilterBar.control:GetHeight())
+            elseif isCraftingInventoryType then
+--d("> UpdateListAnchors - Crafting")
+                UpdateListAnchors(craftingInv, subfilterBar.control:GetHeight())
             else
                 UpdateListAnchors(PLAYER_INVENTORY, subfilterBar.control:GetHeight())
             end
@@ -165,8 +315,10 @@ local function InitializeHooks()
             AF.util.RemoveAllFilters()
 
             --set original inventory anchor displacement
-            if AF.currentInventoryType == 6 then
+            if AF.currentInventoryType == INVENTORY_TYPE_VENDOR_BUY then
                 UpdateListAnchors(STORE_WINDOW, 0)
+            elseif isCraftingInventoryType then
+                UpdateListAnchors(craftingInv, 0)
             else
                 UpdateListAnchors(PLAYER_INVENTORY, 0)
             end
@@ -181,7 +333,7 @@ local function InitializeHooks()
         local function onFragmentShowing()
             AF.currentInventoryType = inventoryType
 
-            if inventoryType == 6 then
+            if inventoryType == INVENTORY_TYPE_VENDOR_BUY then
                 AF.util.ThrottledUpdate("ShowSubfilterBar" .. inventoryType, 10,
                   ShowSubfilterBar, STORE_WINDOW.currentFilter)
             else
@@ -209,64 +361,192 @@ local function InitializeHooks()
     end
     hookFragment(INVENTORY_FRAGMENT, INVENTORY_BACKPACK)
     hookFragment(BANK_FRAGMENT, INVENTORY_BANK)
-    hookFragment(GUILD_BANK_FRAGMENT, INVENTORY_GUILD_BANK)
-    hookFragment(CRAFT_BAG_FRAGMENT, INVENTORY_CRAFT_BAG)
-    hookFragment(STORE_FRAGMENT, 6)
+    hookFragment(HOUSE_BANK_FRAGMENT, INVENTORY_HOUSE_BANK)
+    hookFragment(GUILD_BANK_FRAGMENT, INVENTORY_GUILD_BANK) -- new value is: 5
+    hookFragment(CRAFT_BAG_FRAGMENT, INVENTORY_CRAFT_BAG) -- new value is: 6
+    hookFragment(STORE_FRAGMENT, INVENTORY_TYPE_VENDOR_BUY)
+
+    --Hook the crafting station
+    --SMITHING
+    local function HookSmithingSetMode(self, mode)
+        if not AF.util.IsCraftingPanelShown() then return false end
+        --[[
+            --Smithing modes
+            SMITHING_MODE_ROOT = 0
+            SMITHING_MODE_REFINMENT = 1
+            SMITHING_MODE_CREATION = 2
+            SMITHING_MODE_DECONSTRUCTION = 3
+            SMITHING_MODE_IMPROVEMENT = 4
+            SMITHING_MODE_RESEARCH = 5
+            SMITHING_MODE_RECIPES = 6
+        ]]
+        if     mode == SMITHING_MODE_DECONSTRUCTION then
+            AF.currentInventoryType = LF_SMITHING_DECONSTRUCT
+        elseif mode == SMITHING_MODE_IMPROVEMENT then
+            AF.currentInventoryType = LF_SMITHING_IMPROVEMENT
+        end
+        return false
+    end
+    --ZO_PreHook(ZO_Smithing, "SetMode", HookSmithingSetMode)
+    local origSmithingSetMode = ZO_Smithing.SetMode
+    ZO_Smithing.SetMode = function(...)
+        origSmithingSetMode(...)
+        HookSmithingSetMode(...)
+    end
+
+    --ENCHANTING
+    local function HookEnchantingSetEnchantingMode(self, mode)
+--d("[AF]HookEnchantingSetEnchantingMode, mode: " .. tostring(mode))
+        if not AF.util.IsCraftingPanelShown() then return false end
+        --[[
+            --Enchanting modes
+            ENCHANTING_MODE_CREATION = 1
+            ENCHANTING_MODE_EXTRACTION = 2
+            ENCHANTING_MODE_NONE = 0
+        ]]
+        if     mode == ENCHANTING_MODE_CREATION then
+            AF.currentInventoryType = LF_ENCHANTING_CREATION
+        elseif mode == ENCHANTING_MODE_EXTRACTION then
+            AF.currentInventoryType = LF_ENCHANTING_EXTRACTION
+        end
+        return false
+    end
+    --ZO_PreHook(ZO_Enchanting, "SetEnchantingMode", HookEnchantingSetEnchantingMode)
+    local origEnchantingSetEnchantMode = ZO_Enchanting.SetEnchantingMode
+    ZO_Enchanting.SetEnchantingMode = function(...)
+        origEnchantingSetEnchantMode(...)
+        HookEnchantingSetEnchantingMode(...)
+    end
 
     --PREHOOKS
     local function ChangeFilterInventory(self, filterTab)
         local currentFilter = self:GetTabFilterInfo(filterTab.inventoryType, filterTab)
-
-        if AF.currentInventoryType ~= 6 then
+        if AF.currentInventoryType ~= INVENTORY_TYPE_VENDOR_BUY then
             AF.util.ThrottledUpdate(
               "ShowSubfilterBar" .. AF.currentInventoryType, 10,
               ShowSubfilterBar, currentFilter)
         end
     end
     ZO_PreHook(PLAYER_INVENTORY, "ChangeFilter", ChangeFilterInventory)
+
     local function ChangeFilterVendor(self, filterTab)
         local currentFilter = filterTab.filterType
 
-        AF.util.ThrottledUpdate("ShowSubfilterBar6", 10, ShowSubfilterBar,
+        AF.util.ThrottledUpdate("ShowSubfilterBar" .. tostring(INVENTORY_TYPE_VENDOR_BUY), 10, ShowSubfilterBar,
           currentFilter)
 
-        local subfilterGroup = AF.subfilterGroups[6]
+        local subfilterGroup = AF.subfilterGroups[INVENTORY_TYPE_VENDOR_BUY]
         if not subfilterGroup then return end
-        local currentSubfilterBar = subfilterGroup.currentSubfilterBar
+        local currentSubfilterBar = subfilterGroup[AF.util.GetCraftingType()].currentSubfilterBar
         if not currentSubfilterBar then return end
 
         AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10,
           AF.util.RefreshSubfilterBar, currentSubfilterBar)
     end
     ZO_PreHook(STORE_WINDOW, "ChangeFilter", ChangeFilterVendor)
+
+    local function ChangeFilterCrafting(self, filterTab)
+        zo_callLater(function()
+            local invType = AF.currentInventoryType
+            local craftingType = AF.util.GetCraftingType()
+            local currentFilter = AF.util.MapCraftingStationFilterType2ItemFilterType(self.filterType, invType, craftingType)
+
+            AF.util.ThrottledUpdate("ShowSubfilterBar" .. invType .. "_" .. craftingType, 10,
+                ShowSubfilterBar, currentFilter, craftingType)
+
+            local subfilterGroup = AF.subfilterGroups[invType]
+            if not subfilterGroup then return end
+            local currentSubfilterBar = subfilterGroup[craftingType].currentSubfilterBar
+            if not currentSubfilterBar then return end
+
+            AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10,
+                AF.util.RefreshSubfilterBar, currentSubfilterBar)
+
+        end, 10) -- called with small delay, otherwise self.filterType is nil
+    end
+    ZO_PreHook(SMITHING.deconstructionPanel.inventory, "ChangeFilter", ChangeFilterCrafting)
+    ZO_PreHook(SMITHING.improvementPanel.inventory, "ChangeFilter", ChangeFilterCrafting)
+
+    local function ChangeFilterEnchanting(self, filterTab)
+        zo_callLater(function()
+            local invType = AF.currentInventoryType
+            local craftingType = AF.util.GetCraftingType()
+            local currentFilter = AF.util.MapCraftingStationFilterType2ItemFilterType(self.owner.enchantingMode, invType, craftingType)
+--d("[AF]ChangeFilterEnchanting - currentFilter: " ..tostring(currentFilter) .. ", currentInventoryType: " .. tostring(invType) .. ", craftingType: " ..tostring(craftingType))
+            --Only show subfilters at the enchanting extraction panel
+            AF.util.ThrottledUpdate("ShowSubfilterBar" .. invType .. "_" .. craftingType, 10,
+                ShowSubfilterBar, currentFilter, craftingType)
+            local subfilterGroup = AF.subfilterGroups[invType]
+            if not subfilterGroup then return end
+            local currentSubfilterBar = subfilterGroup[craftingType].currentSubfilterBar
+            if not currentSubfilterBar then return end
+
+            AF.util.ThrottledUpdate("RefreshSubfilterBar" .. currentSubfilterBar.name, 10,
+                AF.util.RefreshSubfilterBar, currentSubfilterBar)
+
+        end, 10) -- called with small delay, otherwise self.filterType is nil
+    end
+    ZO_PreHook(ENCHANTING.inventory, "ChangeFilter", ChangeFilterEnchanting)
+end
+
+local function PresetCraftingStationHookVariables()
+    --Preset the deconstruction/improvement crafting station currentFilter variables with "Weapons"
+    SMITHING.deconstructionPanel.inventory.currentFilter= AF.util.MapItemFilterType2CraftingStationFilterType(ITEMFILTERTYPE_AF_WEAPONS_SMITHING, LF_SMITHING_DECONSTRUCT, CRAFTING_TYPE_BLACKSMITHING)
+    SMITHING.improvementPanel.inventory.currentFilter   = AF.util.MapItemFilterType2CraftingStationFilterType(ITEMFILTERTYPE_AF_WEAPONS_SMITHING, LF_SMITHING_IMPROVEMENT, CRAFTING_TYPE_BLACKSMITHING)
+    ENCHANTING.inventory.currentFilter                  = AF.util.MapItemFilterType2CraftingStationFilterType(ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING, LF_ENCHANTING_EXTRACTION, CRAFTING_TYPE_ENCHANTING)
 end
 
 local function CreateSubfilterBars()
     local inventoryNames = {
-        [INVENTORY_BACKPACK] = "PlayerInventory",
-        [INVENTORY_BANK] = "PlayerBank",
-        [INVENTORY_GUILD_BANK] = "GuildBank",
-        [INVENTORY_CRAFT_BAG] = "CraftBag",
-        [6] = "VendorSell",
+        [INVENTORY_BACKPACK]        = "PlayerInventory",
+        [INVENTORY_BANK]            = "PlayerBank",
+        [INVENTORY_GUILD_BANK]      = "GuildBank",
+        [INVENTORY_CRAFT_BAG]       = "CraftBag",
+        [INVENTORY_TYPE_VENDOR_BUY] = "VendorBuy",
+        [LF_SMITHING_DECONSTRUCT]   = "SmithingDeconstruction",
+        [LF_SMITHING_IMPROVEMENT]   = "SmithingImprovement",
+        [LF_ENCHANTING_CREATION]    = "EnchantingCreation",
+        [LF_ENCHANTING_EXTRACTION]  = "EnchantingExtraction",
+        [INVENTORY_HOUSE_BANK]      = "HouseBankWithdraw",
+    }
+
+    local tradeSkillNames = {
+        [CRAFTING_TYPE_INVALID]         = "_",
+        [CRAFTING_TYPE_ALCHEMY]         = "_ALCHEMY_",
+        [CRAFTING_TYPE_BLACKSMITHING]   = "_BLACKSMITH_",
+        [CRAFTING_TYPE_CLOTHIER]        = "_CLOTHIER_",
+        [CRAFTING_TYPE_ENCHANTING]      = "_ENCHANTING_",
+        [CRAFTING_TYPE_PROVISIONING]    = "_PROVISIONING_",
+        [CRAFTING_TYPE_WOODWORKING]     = "_WOODWORKING_",
+        [CRAFTING_TYPE_JEWELRYCRAFTING] = "_JEWELRY_",
     }
 
     local filterTypeNames = {
-        [ITEMFILTERTYPE_ALL] = "All",
-        [ITEMFILTERTYPE_WEAPONS] = "Weapons",
-        [ITEMFILTERTYPE_ARMOR] = "Armor",
-        [ITEMFILTERTYPE_CONSUMABLE] = "Consumables",
-        [ITEMFILTERTYPE_CRAFTING] = "Crafting",
-        [ITEMFILTERTYPE_FURNISHING] = "Furnishings",
-        [ITEMFILTERTYPE_MISCELLANEOUS] = "Miscellaneous",
+        [ITEMFILTERTYPE_ALL]                    = "All",
+        [ITEMFILTERTYPE_WEAPONS]                = "Weapons",
+        [ITEMFILTERTYPE_AF_WEAPONS_SMITHING]    = "Weapons",
+        [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING] = "Weapons",
+        [ITEMFILTERTYPE_ARMOR]                  = "Armor",
+        [ITEMFILTERTYPE_AF_ARMOR_SMITHING]      = "Armor",
+        [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING]   = "Armor",
+        [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER]      = "Armor",
+        [ITEMFILTERTYPE_AF_RUNES_ENCHANTING]    = "Runes",
+        [ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING]   = "Glyphs",
+        [ITEMFILTERTYPE_JEWELRY]                = "Jewelry",
+        [ITEMFILTERTYPE_JEWELRYCRAFTING]        = "Jewelry",
+        [ITEMFILTERTYPE_CONSUMABLE]             = "Consumables",
+        [ITEMFILTERTYPE_CRAFTING]               = "Crafting",
+        [ITEMFILTERTYPE_FURNISHING]             = "Furnishings",
+        [ITEMFILTERTYPE_MISCELLANEOUS]          = "Miscellaneous",
         --[ITEMFILTERTYPE_JUNK] = "Junk",
-        [ITEMFILTERTYPE_BLACKSMITHING] = "Blacksmithing",
-        [ITEMFILTERTYPE_CLOTHING] = "Clothing",
-        [ITEMFILTERTYPE_WOODWORKING] = "Woodworking",
-        [ITEMFILTERTYPE_ALCHEMY] = "Alchemy",
-        [ITEMFILTERTYPE_ENCHANTING] = "Enchanting",
-        [ITEMFILTERTYPE_PROVISIONING] = "Provisioning",
-        [ITEMFILTERTYPE_STYLE_MATERIALS] = "Style",
-        [ITEMFILTERTYPE_TRAIT_ITEMS] = "Traits",
+        [ITEMFILTERTYPE_BLACKSMITHING]          = "Blacksmithing",
+        [ITEMFILTERTYPE_CLOTHING]               = "Clothing",
+        [ITEMFILTERTYPE_WOODWORKING]            = "Woodworking",
+        [ITEMFILTERTYPE_ALCHEMY]                = "Alchemy",
+        [ITEMFILTERTYPE_ENCHANTING]             = "Enchanting",
+        [ITEMFILTERTYPE_PROVISIONING]           = "Provisioning",
+        [ITEMFILTERTYPE_STYLE_MATERIALS]        = "Style",
+        [ITEMFILTERTYPE_TRAIT_ITEMS]            = "Traits",
     }
 
     local subfilterButtonNames = {
@@ -276,9 +556,36 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_WEAPONS] = {
             "HealStaff", "DestructionStaff", "Bow", "TwoHand", "OneHand", "All",
         },
+        [ITEMFILTERTYPE_AF_WEAPONS_SMITHING] = {
+            "TwoHand", "OneHand", "All",
+        },
+        [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING] = {
+            "HealStaff", "DestructionStaff", "Bow", "All",
+        },
         [ITEMFILTERTYPE_ARMOR] = {
-            "Vanity", "Jewelry", "Shield", "Clothing", "LightArmor", "Medium",
+            "Vanity", "Shield", "Clothing", "LightArmor", "Medium",
             "Heavy", "All",
+        },
+        [ITEMFILTERTYPE_JEWELRY] = {
+            "Neck", "Ring", "All",
+        },
+        [ITEMFILTERTYPE_JEWELRYCRAFTING] = {
+            "Neck", "Ring", "All",
+        },
+        [ITEMFILTERTYPE_AF_ARMOR_SMITHING] = {
+            "Heavy", "All",
+        },
+        [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER] = {
+            "LightArmor", "Medium", "All",
+        },
+        [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING] = {
+            "Shield", "All",
+        },
+        [ITEMFILTERTYPE_AF_RUNES_ENCHANTING] = {
+            "All",
+        },
+        [ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING] = {
+            "WeaponGlyph", "ArmorGlyph", "JewelryGlyph", "All",
         },
         [ITEMFILTERTYPE_CONSUMABLE] = {
             "Trophy", "Repair", "Container", "Writ", "Motif", "Poison",
@@ -329,17 +636,20 @@ local function CreateSubfilterBars()
         },
     }
 
-    for inventoryType, subfilterGroup in pairs(AF.subfilterGroups) do
-        for itemFilterType, _ in pairs(subfilterGroup) do
-            local subfilterBar = AF.AF_FilterBar:New(
-              inventoryNames[inventoryType],
-              filterTypeNames[itemFilterType],
-              subfilterButtonNames[itemFilterType]
-            )
+    for inventoryType, tradeSkillTypeSubFilterGroup in pairs(AF.subfilterGroups) do
+        for tradeSkillType, subfilterGroup in pairs(tradeSkillTypeSubFilterGroup) do
+            for itemFilterType, _ in pairs(subfilterGroup) do
+                local subfilterBar = AF.AF_FilterBar:New(
+                  inventoryNames[inventoryType],
+                  tradeSkillNames[tradeSkillType],
+                  filterTypeNames[itemFilterType],
+                  subfilterButtonNames[itemFilterType]
+                )
 
-            subfilterBar:SetInventoryType(inventoryType)
+                subfilterBar:SetInventoryType(inventoryType)
 
-            AF.subfilterGroups[inventoryType][itemFilterType] = subfilterBar
+                AF.subfilterGroups[inventoryType][tradeSkillType][itemFilterType] = subfilterBar
+            end
         end
     end
 end
@@ -352,5 +662,6 @@ function AdvancedFilters_Loaded(eventCode, addonName)
 
     CreateSubfilterBars()
     InitializeHooks()
+    PresetCraftingStationHookVariables()
 end
 EVENT_MANAGER:RegisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED, AdvancedFilters_Loaded)

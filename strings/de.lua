@@ -97,6 +97,8 @@ local strings = {
     JewelryGlyph = util.Localize(SI_ITEMTYPE26),
     WeaponGlyph = util.Localize(SI_ITEMTYPE20),
 
+    Runes = util.Localize(SI_WEAPONMODELTYPE11),
+
     --JUNK
     Weapon = util.Localize(SI_ITEMFILTERTYPE1),
     Apparel = util.Localize(SI_ITEMFILTERTYPE2),

@@ -15,8 +15,12 @@ local textures = {
     LightArmor = "esoui/art/icons/progression_tabicon_armorlight_%s.dds",
     Clothing = "AdvancedFilters/assets/apparel/clothing_%s.dds",
     Shield = "AdvancedFilters/assets/apparel/shield_%s.dds",
-    Jewelry = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
     Vanity = "AdvancedFilters/assets/apparel/vanity_%s.dds",
+
+    --Jewelry
+    Jewelry = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
+    Neck = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
+    Ring = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
 
     --CONSUMABLES
     Crown = "esoui/art/housing/keyboard/furniture_tabicon_crownfurnishings_%s.dds",
@@ -108,5 +112,13 @@ textures.CrownStyle = textures.Crown
 
 --FURNISHING MATERIAL
 textures.FurnishingMat = textures.Seating
+
+--GLYPHS
+textures.WeaponGlyph = textures.OneHand
+textures.ArmorGlyph = textures.Heavy
+textures.JewelryGlyph = textures.Jewelry
+
+--RUNES
+--TODO
 
 AdvancedFilters.textures = textures

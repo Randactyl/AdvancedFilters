@@ -217,9 +217,9 @@ helpers["GetIndividualInventorySlotsAndAddToScrollData"] = {
     },
 }
 
---enable LF_SMITHING_RESEARCH
-helpers["SMITHING.researchPanel"] = {
-    version = 3,
+--enable LF_SMITHING_RESEARCH -- since API 100023 Summerset
+ helpers["SMITHING.researchPanel"] = {
+    version = 4,
     locations = {
         [1] = SMITHING.researchPanel,
     },
@@ -229,15 +229,6 @@ helpers["SMITHING.researchPanel"] = {
             -- Include functions local to smithingresearch_shared.lua
             local function IsNotLockedOrRetraitedItem(bagId, slotIndex)
                 return not IsItemPlayerLocked(bagId, slotIndex) and GetItemTraitInformation(bagId, slotIndex) ~= ITEM_TRAIT_INFORMATION_RETRAITED
-            end
-
-            local function DetermineResearchLineFilterType(craftingType, researchLineIndex)
-                local traitType = GetSmithingResearchLineTraitInfo(craftingType, researchLineIndex, 1)
-                if ZO_CraftingUtils_IsTraitAppliedToWeapons(traitType) then
-                    return ZO_SMITHING_RESEARCH_FILTER_TYPE_WEAPONS
-                elseif ZO_CraftingUtils_IsTraitAppliedToArmor(traitType) then
-                    return ZO_SMITHING_RESEARCH_FILTER_TYPE_ARMOR
-                end
             end
 
             -- Our filter function to insert LibFilter rules
@@ -259,8 +250,8 @@ helpers["SMITHING.researchPanel"] = {
 
             local numCurrentlyResearching = 0
 
-            local virtualInventoryList = PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BACKPACK, predicate--[[IsNotLockedOrRetraitedItem]])
-            PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BANK, predicate--[[IsNotLockedOrRetraitedItem]], virtualInventoryList)
+            local virtualInventoryList = PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BACKPACK, predicate) --IsNotLockedOrRetraitedItem
+            PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BANK, predicate, virtualInventoryList) -- IsNotLockedOrRetraitedItem, virtualInventoryList
 
             for researchLineIndex = 1, GetNumSmithingResearchLines(craftingType) do
                 local name, icon, numTraits, timeRequiredForNextResearchSecs = GetSmithingResearchLineInfo(craftingType, researchLineIndex)
@@ -270,7 +261,8 @@ helpers["SMITHING.researchPanel"] = {
                         numCurrentlyResearching = numCurrentlyResearching + 1
                     end
 
-                    if DetermineResearchLineFilterType(craftingType, researchLineIndex) == self.typeFilter then
+                    local expectedTypeFilter = ZO_CraftingUtils_GetSmithingFilterFromTrait(GetSmithingResearchLineTraitInfo(craftingType, researchLineIndex, 1))
+                    if expectedTypeFilter == self.typeFilter then
                         local itemTraitCounts = self:GenerateResearchTraitCounts(virtualInventoryList, craftingType, researchLineIndex, numTraits)
                         local data = { craftingType = craftingType, researchLineIndex = researchLineIndex, name = name, icon = icon, numTraits = numTraits, timeRequiredForNextResearchSecs = timeRequiredForNextResearchSecs, researchingTraitIndex = researchingTraitIndex, areAllTraitsKnown = areAllTraitsKnown, itemTraitCounts = itemTraitCounts }
                         self.researchLineList:AddEntry(data)
@@ -292,9 +284,11 @@ helpers["SMITHING.researchPanel"] = {
             if self.activeRow then
                 self:OnResearchRowActivate(self.activeRow)
             end
+
         end,
     },
-}
+ }
+
 
 --enable LF_QUICKSLOT
 helpers["QUICKSLOT_WINDOW"] = {

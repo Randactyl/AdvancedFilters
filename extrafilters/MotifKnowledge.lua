@@ -1,7 +1,10 @@
 local util = AdvancedFilters.util
 
 local function GetFilterCallbackForCraftableMotif()
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         return util.LibMotifCategories:IsMotifCraftable(itemLink)
@@ -9,7 +12,10 @@ local function GetFilterCallbackForCraftableMotif()
 end
 
 local function GetFilterCallbackForKnownMotif()
-    return function(slot)
+    return function(slot, slotIndex)
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
         local itemLink = util.GetItemLink(slot)
 
         return util.LibMotifCategories:IsMotifKnown(itemLink)
@@ -30,12 +36,18 @@ local strings = {
     ["CraftableMotif"] = "Craftable Motif",
     ["KnownMotif"] = "Known Motif",
 }
+local stringsDE = {
+    ["MotifKnowledge"] = "Motiv Wissen",
+    ["CraftableMotif"] = "Herstellbare Motive",
+    ["KnownMotif"] = "Bekannte Motive",
+}
 
 local filterInformation = {
     submenuName = "MotifKnowledge",
     callbackTable = dropdownCallbacks,
     filterType = ITEMFILTERTYPE_WEAPONS,
     subfilters = {"All",},
+    deStrings = stringsDE,
     enStrings = strings,
 }
 
