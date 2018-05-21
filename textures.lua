@@ -19,8 +19,10 @@ local textures = {
 
     --Jewelry
     Jewelry = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
-    Neck = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
-    Ring = "AdvancedFilters/assets/apparel/jewelry_%s.dds",
+    Neck = "AdvancedFilters/assets/apparel/neck_%s.dds",
+    Ring = "AdvancedFilters/assets/apparel/ring_%s.dds",
+    --Jewelry Crafting
+    JewelryCrafting = "EsoUI/Art/Inventory/inventory_tabIcon_Craftbag_jewelrycrafting_%s.dds",
 
     --CONSUMABLES
     Crown = "esoui/art/housing/keyboard/furniture_tabicon_crownfurnishings_%s.dds",
@@ -91,6 +93,12 @@ local textures = {
     RareStyle = "esoui/art/progression/progression_indexicon_world_%s.dds",
     AllianceStyle = "esoui/art/charactercreate/charactercreate_raceicon_%s.dds",
     ExoticStyle = "esoui/art/icons/progression_tabicon_magma_%s.dds",
+
+    --JEWELRY CRAFTING
+    RawPlating = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_%s.dds",
+    RefinedMaterial = "AdvancedFilters/assets/craftbag/smithing/material_%s.dds",
+    Plating = "esoui/art/worldmap/map_ava_tabIcon_resourceProduction_%s.dds",
+
 }
 
 --CLOTHING
@@ -117,6 +125,12 @@ textures.FurnishingMat = textures.Seating
 textures.WeaponGlyph = textures.OneHand
 textures.ArmorGlyph = textures.Heavy
 textures.JewelryGlyph = textures.Jewelry
+
+--JEWELRY TRAIT
+textures.JewelryTrait = textures.Jewelry
+
+--JEWELRY CRAFTING
+textures.Plating = textures.Temper
 
 --RUNES
 --TODO

@@ -15,16 +15,18 @@ function AF_FilterBar:Initialize(inventoryName, tradeSkillname, groupName, subfi
 
     --parent for the subfilter bar control
     local parents = {
-        ["PlayerInventory"]         = ZO_PlayerInventory,
-        ["PlayerBank"]              = ZO_PlayerBank,
-        ["GuildBank"]               = ZO_GuildBank,
-        ["VendorBuy"]               = ZO_StoreWindow,
-        ["CraftBag"]                = ZO_CraftBag,
-        ["SmithingDeconstruction"]  = ZO_SmithingTopLevelDeconstructionPanel,
-        ["SmithingImprovement"]     = ZO_SmithingTopLevelImprovementPanel,
-        ["EnchantingCreation"]      = ZO_EnchantingTopLevelInventory,
-        ["EnchantingExtraction"]    = ZO_EnchantingTopLevelInventory,
-        ["HouseBankWithdraw"]       = ZO_HouseBank,
+        ["PlayerInventory"]                 = ZO_PlayerInventory,
+        ["PlayerBank"]                      = ZO_PlayerBank,
+        ["GuildBank"]                       = ZO_GuildBank,
+        ["VendorBuy"]                       = ZO_StoreWindow,
+        ["CraftBag"]                        = ZO_CraftBag,
+        ["SmithingDeconstruction"]          = ZO_SmithingTopLevelDeconstructionPanel,
+        ["SmithingImprovement"]             = ZO_SmithingTopLevelImprovementPanel,
+        ["JewelryCraftingDeconstruction"]   = ZO_SmithingTopLevelDeconstructionPanel,
+        ["JewelryCraftingImprovement"]      = ZO_SmithingTopLevelImprovementPanel,
+        ["EnchantingCreation"]              = ZO_EnchantingTopLevelInventory,
+        ["EnchantingExtraction"]            = ZO_EnchantingTopLevelInventory,
+        ["HouseBankWithdraw"]               = ZO_HouseBank,
     }
     local parent = parents[inventoryName]
     if parent == nil then
@@ -163,12 +165,15 @@ end
 
 function AF_FilterBar:AddSubfilter(groupName, subfilterName)
     local iconPath = AF.textures[subfilterName]
+    if iconPath == nil then
+        d("[AdvancedFilters] ERROR: Texture for subfilter " .. tostring(subfilterName) .. " is missing! Please add textures." .. tostring(subfilterName) .. " to file textures.lua.")
+    end
     local icon = {
         up = string.format(iconPath, "up"),
         down = string.format(iconPath, "down"),
         over = string.format(iconPath, "over"),
     }
-
+    --d("[AF_FilterBar:AddSubfilter]groupName: " ..tostring(groupName) .. ", subfilterName: " ..tostring(subfilterName))
     local callback = AF.subfilterCallbacks[groupName][subfilterName].filterCallback
 
     local anchorX = -116 + #self.subfilterButtons * -32

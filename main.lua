@@ -24,7 +24,8 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_ALL] = {},
             [ITEMFILTERTYPE_WEAPONS] = {},
             [ITEMFILTERTYPE_ARMOR] = {},
-            [ITEMFILTERTYPE_JEWELRY] = {}, -- new with Summersend
+            [ITEMFILTERTYPE_JEWELRY] = {},          -- new with Summersend
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},  -- new with Summersend
             [ITEMFILTERTYPE_CONSUMABLE] = {},
             [ITEMFILTERTYPE_CRAFTING] = {},
             [ITEMFILTERTYPE_FURNISHING] = {},
@@ -38,6 +39,8 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_ALL] = {},
             [ITEMFILTERTYPE_WEAPONS] = {},
             [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_JEWELRY] = {},          -- new with Summersend
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},  -- new with Summersend
             [ITEMFILTERTYPE_CONSUMABLE] = {},
             [ITEMFILTERTYPE_CRAFTING] = {},
             [ITEMFILTERTYPE_FURNISHING] = {},
@@ -51,6 +54,8 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_ALL] = {},
             [ITEMFILTERTYPE_WEAPONS] = {},
             [ITEMFILTERTYPE_ARMOR] = {},
+            [ITEMFILTERTYPE_JEWELRY] = {},          -- new with Summersend
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},  -- new with Summersend
             [ITEMFILTERTYPE_CONSUMABLE] = {},
             [ITEMFILTERTYPE_CRAFTING] = {},
             [ITEMFILTERTYPE_FURNISHING] = {},
@@ -68,6 +73,7 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_ALCHEMY] = {},
             [ITEMFILTERTYPE_ENCHANTING] = {},
             [ITEMFILTERTYPE_PROVISIONING] = {},
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},  -- new with Summersend
             [ITEMFILTERTYPE_STYLE_MATERIALS] = {},
             [ITEMFILTERTYPE_TRAIT_ITEMS] = {},
         },
@@ -104,6 +110,7 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
         },
     },
+
     --Crafting SMITHING: Improvement
     [LF_SMITHING_IMPROVEMENT] = {
         [CRAFTING_TYPE_BLACKSMITHING] = {
@@ -118,7 +125,6 @@ AF.subfilterGroups = {
         },
         [CRAFTING_TYPE_CLOTHIER] = {
             [ITEMFILTERTYPE_ALL] = {},
-            --[ITEMFILTERTYPE_AF_WEAPONS_CLOTHIER] = {},
             [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER] = {},
         },
         [CRAFTING_TYPE_JEWELRYCRAFTING] = {
@@ -126,6 +132,22 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
         },
     },
+
+    --Crafting JEWELRY: Deconstruction
+    [LF_JEWELRY_DECONSTRUCT] = {
+        [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+        },
+    },
+    --Crafting JEWELRY: Improvement
+    [LF_JEWELRY_IMPROVEMENT] = {
+        [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+            [ITEMFILTERTYPE_ALL] = {},
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+        },
+    },
+
     --Crafting ENCHANTING: Creation
     [LF_ENCHANTING_CREATION] = {
         [CRAFTING_TYPE_ENCHANTING] = {
@@ -505,6 +527,8 @@ local function CreateSubfilterBars()
         [INVENTORY_TYPE_VENDOR_BUY] = "VendorBuy",
         [LF_SMITHING_DECONSTRUCT]   = "SmithingDeconstruction",
         [LF_SMITHING_IMPROVEMENT]   = "SmithingImprovement",
+        [LF_JEWELRY_DECONSTRUCT]    = "JewelryCraftingDeconstruction",
+        [LF_JEWELRY_IMPROVEMENT]    = "JewelryCraftingImprovement",
         [LF_ENCHANTING_CREATION]    = "EnchantingCreation",
         [LF_ENCHANTING_EXTRACTION]  = "EnchantingExtraction",
         [INVENTORY_HOUSE_BANK]      = "HouseBankWithdraw",
@@ -533,7 +557,7 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_AF_RUNES_ENCHANTING]    = "Runes",
         [ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING]   = "Glyphs",
         [ITEMFILTERTYPE_JEWELRY]                = "Jewelry",
-        [ITEMFILTERTYPE_JEWELRYCRAFTING]        = "Jewelry",
+        [ITEMFILTERTYPE_JEWELRYCRAFTING]        = "JewelryCrafting",
         [ITEMFILTERTYPE_CONSUMABLE]             = "Consumables",
         [ITEMFILTERTYPE_CRAFTING]               = "Crafting",
         [ITEMFILTERTYPE_FURNISHING]             = "Furnishings",
@@ -592,9 +616,9 @@ local function CreateSubfilterBars()
             "Potion", "Recipe", "Drink", "Food", "Crown", "All",
         },
         [ITEMFILTERTYPE_CRAFTING] = {
-            "FurnishingMat", "WeaponTrait", "ArmorTrait", "Style",
-            "Provisioning", "Enchanting", "Alchemy", "Woodworking", "Clothier",
-            "Blacksmithing", "All",
+            "FurnishingMat", "JewelryTrait", "WeaponTrait", "ArmorTrait", "Style",
+            "JewelryCrafting", "Provisioning", "Enchanting", "Alchemy", "Woodworking",
+            "Clothier", "Blacksmithing", "All",
         },
         [ITEMFILTERTYPE_FURNISHING] = {
             "TargetDummy", "Seating", "Ornamental", "Light", "CraftingStation",
@@ -627,12 +651,15 @@ local function CreateSubfilterBars()
             "FurnishingMat", "Bait", "RareIngredient", "OldIngredient",
             "DrinkIngredient", "FoodIngredient", "All",
         },
+        [ITEMFILTERTYPE_JEWELRYCRAFTING] = {
+            "Plating", "RefinedMaterial", "RawPlating", "All",
+        },
         [ITEMFILTERTYPE_STYLE_MATERIALS] = {
             "CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",
             "NormalStyle", "All",
         },
         [ITEMFILTERTYPE_TRAIT_ITEMS] = {
-            "WeaponTrait", "ArmorTrait", "All",
+            "JewelryTrait", "WeaponTrait", "ArmorTrait", "All",
         },
     }
 

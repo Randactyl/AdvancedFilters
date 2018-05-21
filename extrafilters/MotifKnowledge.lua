@@ -2,8 +2,10 @@ local util = AdvancedFilters.util
 
 local function GetFilterCallbackForCraftableMotif()
     return function(slot, slotIndex)
-        if slotIndex ~= nil and type(slot) ~= "table" then
-            slot = util.prepareSlot(slot, slotIndex)
+        if util.prepareSlot ~= nil then
+            if slotIndex ~= nil and type(slot) ~= "table" then
+                slot = util.prepareSlot(slot, slotIndex)
+            end
         end
         local itemLink = util.GetItemLink(slot)
 
@@ -13,8 +15,10 @@ end
 
 local function GetFilterCallbackForKnownMotif()
     return function(slot, slotIndex)
-        if slotIndex ~= nil and type(slot) ~= "table" then
-            slot = util.prepareSlot(slot, slotIndex)
+        if util.prepareSlot ~= nil then
+            if slotIndex ~= nil and type(slot) ~= "table" then
+                slot = util.prepareSlot(slot, slotIndex)
+            end
         end
         local itemLink = util.GetItemLink(slot)
 

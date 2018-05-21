@@ -40,6 +40,10 @@ LF_JEWELRY_IMPROVEMENT   = 34
 LF_JEWELRY_RESEARCH      = 35
 LF_FILTER_MAX            = LF_JEWELRY_RESEARCH
 
+function LibFilters:GetMaxFilter()
+    return LF_FILTER_MAX
+end
+
 LibFilters.isInitialized = false
 LibFilters.filters = {
     [LF_INVENTORY] = {},
@@ -379,8 +383,4 @@ function LibFilters:UnregisterFilter(filterTag, filterType)
             callbacks[filterTag] = nil
         end
     end
-end
-
-function LibFilters:GetMaxFilter()
-    return LF_FILTER_MAX
 end

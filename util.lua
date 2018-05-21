@@ -145,7 +145,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
             "Crown", "Food", "Drink", "Recipe", "Potion", "Poison", "Motif", "Writ", "Container", "Repair", "Trophy",
         },
         Crafting = {
-            "Blacksmithing", "Clothier", "Woodworking", "Alchemy", "Enchanting", "Provisioning", "Style", "WeaponTrait", "ArmorTrait",
+            "Blacksmithing", "Clothier", "Woodworking", "Alchemy", "Enchanting", "Provisioning", "JewelryCrafting", "Style", "WeaponTrait", "ArmorTrait", "JewelryTrait",
         },
         Furnishings = {
             "CraftingStation", "Light", "Ornamental", "Seating", "TargetDummy",
@@ -187,7 +187,10 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
             "NormalStyle", "RareStyle", "AllianceStyle", "ExoticStyle", "CrownStyle",
         },
         Traits = {
-            "ArmorTrait", "WeaponTrait",
+            "ArmorTrait", "WeaponTrait", "JewelryTrait",
+        },
+        JewelryCrafting = {
+            "RawPlating", "RefinedMaterial", "Plating",
         },
     }
     local craftBagGroups = {
@@ -199,6 +202,7 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         [6] = "Provisioning",
         [7] = "Style",
         [8] = "Traits",
+        [9] = "JewelryCrafting",
     }
 
     local function insertAddon(addonTable, groupName, subfilterName)
@@ -362,7 +366,6 @@ d("->insertAddon addonName: " .. tostring(addonName) ..", groupName: " .. tostri
             --insert all default filters for each subfilter
             for _, subfilterName in ipairs(keys[groupName]) do
                 local currentSubfilterTable = AF.subfilterCallbacks[groupName][subfilterName]
-
                 for _, callbackEntry in ipairs(currentSubfilterTable.dropdownCallbacks) do
                     table.insert(callbackTable, callbackEntry)
                 end
@@ -485,6 +488,8 @@ function AF.util.GetInventoryFromCraftingPanel(libFiltersFilterPanelId)
         [LF_SMITHING_CREATION]      = nil, --SMITHING.creationPanel.inventory,
         [LF_SMITHING_DECONSTRUCT]   = SMITHING.deconstructionPanel.inventory,
         [LF_SMITHING_IMPROVEMENT]   = SMITHING.improvementPanel.inventory,
+        [LF_JEWELRY_DECONSTRUCT]    = SMITHING.deconstructionPanel.inventory,
+        [LF_JEWELRY_IMPROVEMENT]    = SMITHING.improvementPanel.inventory,
         [LF_SMITHING_RESEARCH]      = nil, --SMITHING.researchPanel.inventory,
         [LF_ENCHANTING_CREATION]    = ENCHANTING.inventory,
         [LF_ENCHANTING_EXTRACTION]  = ENCHANTING.inventory,
@@ -496,6 +501,8 @@ function AF.util.IsCraftingStationInventoryType(inventoryType)
     local craftingInventoryTypes = {
         [LF_SMITHING_DECONSTRUCT]   = true,
         [LF_SMITHING_IMPROVEMENT]   = true,
+        [LF_JEWELRY_DECONSTRUCT]    = true,
+        [LF_JEWELRY_IMPROVEMENT]    = true,
         [LF_ENCHANTING_CREATION]    = true,
         [LF_ENCHANTING_EXTRACTION]  = true,
     }
@@ -549,6 +556,17 @@ function AF.util.MapItemFilterType2CraftingStationFilterType(itemFilterType, fil
                 [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING]    = ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_WEAPONS,
                 [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING]      = ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_ARMOR,
             },
+            [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+                [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
+            },
+
+        },
+        [LF_JEWELRY_DECONSTRUCT] = {
+            [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+                [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
+            },
+        },
+        [LF_JEWELRY_IMPROVEMENT] = {
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
                 [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
             },
@@ -618,6 +636,17 @@ function AF.util.MapCraftingStationFilterType2ItemFilterType(craftingStationFilt
                 [ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_WEAPONS]= ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING,
                 [ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_ARMOR]  = ITEMFILTERTYPE_AF_ARMOR_WOODWORKING,
             },
+            [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+                [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
+            },
+        },
+        [LF_JEWELRY_DECONSTRUCT] = {
+            [CRAFTING_TYPE_JEWELRYCRAFTING] = {
+                [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
+            },
+
+        },
+        [LF_JEWELRY_IMPROVEMENT] = {
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
                 [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
             },

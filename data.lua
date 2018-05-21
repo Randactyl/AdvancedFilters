@@ -61,7 +61,7 @@ local function GetFilterCallbackForJewelry(filterTypes, itemTraitType)
         for i=1, #filterTypes do
             if filterTypes[i] == equipType then
                 local checkItemTraitType = GetItemLinkTraitInfo(itemLink)
-                if itemTraitType == checkItemTraitType then d("<same!")return true end
+                if itemTraitType == checkItemTraitType then return true end
             end
         end
     end
@@ -530,6 +530,16 @@ AF.subfilterCallbacks = {
                 {name = "RareIngredient", filterCallback = GetFilterCallbackForSpecializedItemtype({SPECIALIZED_ITEMTYPE_INGREDIENT_RARE})},
             },
         },
+        JewelryCrafting = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_BOOSTER, ITEMTYPE_JEWELRYCRAFTING_MATERIAL, ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER, ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL,
+            }),
+            dropdownCallbacks = {
+                {name = "Plating", filterCallback = GetFilterCallback(ITEMTYPE_JEWELRYCRAFTING_BOOSTER)},
+                {name = "RefinedMaterial", filterCallback = GetFilterCallback(ITEMTYPE_JEWELRYCRAFTING_MATERIAL)},
+                {name = "RawPlating", filterCallback = GetFilterCallback(ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER)},
+                {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL})},
+            },
+        },
         Style = {
             filterCallback = GetFilterCallback({ITEMTYPE_STYLE_MATERIAL, ITEMTYPE_RAW_MATERIAL}),
             dropdownCallbacks = {
@@ -547,6 +557,10 @@ AF.subfilterCallbacks = {
         },
         ArmorTrait = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
+            dropdownCallbacks = {},
+        },
+        JewelryTrait = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT}),
             dropdownCallbacks = {},
         },
         FurnishingMat = {
@@ -908,6 +922,29 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_ARMOR_TRAIT}),
             dropdownCallbacks = {},
         },
+        JewelryTrait = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT}),
+            dropdownCallbacks = {},
+        },
+    },
+    JewelryCrafting = {
+        addonDropdownCallbacks = {},
+        All = {
+            filterCallback = GetFilterCallback(nil),
+            dropdownCallbacks = {},
+        },
+        Plating = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_BOOSTER}),
+            dropdownCallbacks = {},
+        },
+        RawPlating = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL, ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER, ITEMTYPE_JEWELRY_RAW_TRAIT}),
+            dropdownCallbacks = {},
+        },
+        RefinedMaterial = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_MATERIAL}),
+            dropdownCallbacks = {},
+        },
     },
 }
 
@@ -917,7 +954,6 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         [ITEMFILTERTYPE_WEAPONS]            = "Weapons",
         [ITEMFILTERTYPE_ARMOR]              = "Armor",
         [ITEMFILTERTYPE_JEWELRY]            = "Jewelry",
-        [ITEMFILTERTYPE_JEWELRYCRAFTING]    = "Jewelry",
         [ITEMFILTERTYPE_CONSUMABLE]         = "Consumables",
         [ITEMFILTERTYPE_CRAFTING]           = "Crafting",
         [ITEMFILTERTYPE_FURNISHING]         = "Furnishings",
@@ -931,6 +967,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
         [ITEMFILTERTYPE_PROVISIONING]       = "Provisioning",
         [ITEMFILTERTYPE_STYLE_MATERIALS]    = "Style",
         [ITEMFILTERTYPE_TRAIT_ITEMS]        = "Traits",
+        [ITEMFILTERTYPE_JEWELRYCRAFTING]    = "JewelryCrafting",
     }
 
     --make sure all necessary information is present

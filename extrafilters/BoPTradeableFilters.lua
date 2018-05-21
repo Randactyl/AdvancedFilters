@@ -1,8 +1,10 @@
 local util = AdvancedFilters.util
 
 local function BoPCallback(slot, slotIndex)
-    if slotIndex ~= nil and type(slot) ~= "table" then
-        slot = util.prepareSlot(slot, slotIndex)
+    if util.prepareSlot ~= nil then
+        if slotIndex ~= nil and type(slot) ~= "table" then
+            slot = util.prepareSlot(slot, slotIndex)
+        end
     end
     local bagId, slotIndex = slot.bagId, slot.slotIndex
 
