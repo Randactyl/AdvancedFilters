@@ -41,6 +41,18 @@ local strings = {
     Ring = "Ring",
     Neck = "Neck",
 
+    --Jewelry
+    Arcane  = util.Localize(SI_ITEMTRAITTYPE22),
+    Bloodthirsty  = util.Localize(SI_ITEMTRAITTYPE31),
+    Harmony  = util.Localize(SI_ITEMTRAITTYPE29),
+    Healthy  = util.Localize(SI_ITEMTRAITTYPE21),
+    Infused  = util.Localize(SI_ITEMTRAITTYPE33),
+    Intricate  = util.Localize(SI_ITEMTRAITTYPE27),
+    Ornate  = util.Localize(SI_ITEMTRAITTYPE24),
+    Robust  = util.Localize(SI_ITEMTRAITTYPE23),
+    Swift  = util.Localize(SI_ITEMTRAITTYPE28),
+    Triune = util.Localize(SI_ITEMTRAITTYPE30),
+
     --CONSUMABLES
     Crown = util.Localize(SI_ITEMTYPE57),
     Food = util.Localize(SI_ITEMTYPE4),
@@ -63,6 +75,7 @@ local strings = {
     Style = util.Localize(SI_ITEMTYPE44),
     WeaponTrait = util.Localize(SI_ITEMTYPE46),
     ArmorTrait = util.Localize(SI_ITEMTYPE45),
+    JewelryTrait = util.Localize(SI_ITEMTYPE66),
     FurnishingMat = util.Localize(SI_ITEMTYPE62),
 
     Reagent = util.Localize(SI_ITEMTYPE31),
@@ -96,6 +109,8 @@ local strings = {
     JewelryGlyph = util.Localize(SI_ITEMTYPE26),
     WeaponGlyph = util.Localize(SI_ITEMTYPE20),
 
+    Runes = util.Localize(SI_WEAPONMODELTYPE11),
+
     --JUNK
     Weapon = util.Localize(SI_ITEMFILTERTYPE1),
     Apparel = util.Localize(SI_ITEMFILTERTYPE2),
@@ -120,6 +135,12 @@ local strings = {
     RawMaterial = util.Localize(SI_ITEMTYPE17),
     RefinedMaterial = util.Localize(SI_ITEMTYPE36),
     Temper = util.Localize(SI_ITEMTYPE41),
+    RawTemper = util.Localize(SI_ITEMTYPE17),
+
+    --Jewelry Crafting
+    JewelryCrafting = util.Localize(SI_ITEMFILTERTYPE24),
+    Plating = util.Localize(SI_ITEMTYPE65),
+    RawPlating = util.Localize(SI_ITEMTYPE67),
 
     --CLOTHING
     Resin = util.Localize(SI_ITEMTYPE43),
