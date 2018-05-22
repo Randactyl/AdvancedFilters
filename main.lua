@@ -236,18 +236,24 @@ local function InitializeHooks()
         return t
     end
 
+    --As some inventories/opanels use the same parents to anchor the subfilter bars to
+    --the change of the panel won't chnage the parent and thus doesn't hide the subfilter
+    --bars properly.
+    --Example: ENCHANTING creation & extraction, deconstruction/improvement for woodworking/blacksmithing/clothing & jewelry deconstruction/improvement
+    --This function checks the inventory type and hides the old subfilterbar if needed.
     local function hideSubfilterBarSameParent(inventoryType)
 --d("[AF]hideSubfilterBarSameParent - inventoryType: " .. inventoryType)
-        --As some inventories/opanels use the same parents to anchor the subfilter bars to
-        --the change of the panel won't chnage the parent and thus doesn't hide the subfilter
-        --bars properly.
-        --Example: ENCHANTING creation & extraction
-        --This function checks the inventory type and hides the old subfilterbar if needed.
         if not inventoryType then return end
         local mapInvTypeToInvTypeBefore = {
             --Enchanting
-            [LF_ENCHANTING_CREATION]   = LF_ENCHANTING_EXTRACTION,
-            [LF_ENCHANTING_EXTRACTION] = LF_ENCHANTING_CREATION,
+            [LF_ENCHANTING_CREATION]    = LF_ENCHANTING_EXTRACTION,
+            [LF_ENCHANTING_EXTRACTION]  = LF_ENCHANTING_CREATION,
+            --Deconstruction
+            [LF_SMITHING_DECONSTRUCT]   = LF_JEWELRY_DECONSTRUCT,
+            [LF_JEWELRY_DECONSTRUCT]    = LF_SMITHING_DECONSTRUCT,
+            --Improvement
+            [LF_SMITHING_IMPROVEMENT]   = LF_JEWELRY_IMPROVEMENT,
+            [LF_JEWELRY_IMPROVEMENT]    = LF_SMITHING_IMPROVEMENT,
         }
         if mapInvTypeToInvTypeBefore[inventoryType] == nil then return false end
         local invTypeBefore = mapInvTypeToInvTypeBefore[inventoryType]
