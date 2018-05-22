@@ -95,7 +95,7 @@ local textures = {
     ExoticStyle = "esoui/art/icons/progression_tabicon_magma_%s.dds",
 
     --JEWELRY CRAFTING
-    RawPlating = "AdvancedFilters/assets/craftbag/smithing/rawmaterial_%s.dds",
+    RawPlating = "EsoUI/Art/Crafting/smithing_tabIcon_refine_%s.dds",
     RefinedMaterial = "AdvancedFilters/assets/craftbag/smithing/material_%s.dds",
     Plating = "esoui/art/worldmap/map_ava_tabIcon_resourceProduction_%s.dds",
 

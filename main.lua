@@ -2,7 +2,7 @@ if AdvancedFilters == nil then AdvancedFilters = {} end
 local AF = AdvancedFilters
 
 --Get the current maximum itemfiltertye
-AF.maxItemFilterType = ITEMFILTERTYPE_MAX_VALUE or 26 -- 26 is the maximum at API 100021
+AF.maxItemFilterType = ITEMFILTERTYPE_MAX_VALUE or 25 -- 25 is the maximum at API 100023 "Summerset"
 --Build new "virtual" itemfiltertype for weapons + armor at blacksmith station.
 --Needs the normal itemfiltertype_armor/weapon value "on-top" in order to get the change of
 --a tab at the crafting station (ChangeFilter function) working.
@@ -14,6 +14,7 @@ ITEMFILTERTYPE_AF_ARMOR_WOODWORKING     = AF.maxItemFilterType + ITEMFILTERTYPE_
 ITEMFILTERTYPE_AF_ARMOR_CLOTHIER        = AF.maxItemFilterType + ITEMFILTERTYPE_ARMOR + CRAFTING_TYPE_CLOTHIER
 ITEMFILTERTYPE_AF_RUNES_ENCHANTING      = AF.maxItemFilterType + ITEMFILTERTYPE_ENCHANTING + ENCHANTING_MODE_CREATION + CRAFTING_TYPE_ENCHANTING
 ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING     = AF.maxItemFilterType + ITEMFILTERTYPE_ENCHANTING + ENCHANTING_MODE_EXTRACTION + CRAFTING_TYPE_ENCHANTING
+ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING = AF.maxItemFilterType + ITEMFILTERTYPE_JEWELRYCRAFTING + SMITHING_FILTER_TYPE_JEWELRY + CRAFTING_TYPE_JEWELRYCRAFTING
 --Get the current maximum inventory types and add 1 for the vendor buy inv type
 INVENTORY_TYPE_VENDOR_BUY = 100
 
@@ -105,10 +106,12 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_ALL] = {},
             [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER] = {},
         },
+        --[[
         [CRAFTING_TYPE_JEWELRYCRAFTING] = {
             [ITEMFILTERTYPE_ALL] = {},
-            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+            [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
         },
+        ]]
     },
 
     --Crafting SMITHING: Improvement
@@ -127,24 +130,26 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_ALL] = {},
             [ITEMFILTERTYPE_AF_ARMOR_CLOTHIER] = {},
         },
+        --[[
         [CRAFTING_TYPE_JEWELRYCRAFTING] = {
             [ITEMFILTERTYPE_ALL] = {},
-            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+            [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
         },
+        ]]
     },
 
     --Crafting JEWELRY: Deconstruction
     [LF_JEWELRY_DECONSTRUCT] = {
         [CRAFTING_TYPE_JEWELRYCRAFTING] = {
             [ITEMFILTERTYPE_ALL] = {},
-            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+            [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
         },
     },
     --Crafting JEWELRY: Improvement
     [LF_JEWELRY_IMPROVEMENT] = {
         [CRAFTING_TYPE_JEWELRYCRAFTING] = {
             [ITEMFILTERTYPE_ALL] = {},
-            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
+            [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING] = {},
         },
     },
 
@@ -173,6 +178,8 @@ AF.subfilterGroups = {
             [ITEMFILTERTYPE_FURNISHING] = {},
             [ITEMFILTERTYPE_MISCELLANEOUS] = {},
             --[ITEMFILTERTYPE_JUNK] = {},
+            [ITEMFILTERTYPE_JEWELRY] = {},          -- new with Summersend
+            [ITEMFILTERTYPE_JEWELRYCRAFTING] = {},  -- new with Summersend
         },
     },
 }
@@ -402,10 +409,19 @@ local function InitializeHooks()
             SMITHING_MODE_RESEARCH = 5
             SMITHING_MODE_RECIPES = 6
         ]]
+        local craftType = GetCraftingInteractionType()
         if     mode == SMITHING_MODE_DECONSTRUCTION then
-            AF.currentInventoryType = LF_SMITHING_DECONSTRUCT
+            if craftType == CRAFTING_TYPE_JEWELRYCRAFTING then
+                AF.currentInventoryType = LF_JEWELRY_DECONSTRUCT
+            else
+                AF.currentInventoryType = LF_SMITHING_DECONSTRUCT
+            end
         elseif mode == SMITHING_MODE_IMPROVEMENT then
-            AF.currentInventoryType = LF_SMITHING_IMPROVEMENT
+            if craftType == CRAFTING_TYPE_JEWELRYCRAFTING then
+                AF.currentInventoryType = LF_JEWELRY_IMPROVEMENT
+            else
+                AF.currentInventoryType = LF_SMITHING_IMPROVEMENT
+            end
         end
         return false
     end
@@ -558,6 +574,7 @@ local function CreateSubfilterBars()
         [ITEMFILTERTYPE_AF_GLYPHS_ENCHANTING]   = "Glyphs",
         [ITEMFILTERTYPE_JEWELRY]                = "Jewelry",
         [ITEMFILTERTYPE_JEWELRYCRAFTING]        = "JewelryCrafting",
+        [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING] = "JewelryCraftingStation",
         [ITEMFILTERTYPE_CONSUMABLE]             = "Consumables",
         [ITEMFILTERTYPE_CRAFTING]               = "Crafting",
         [ITEMFILTERTYPE_FURNISHING]             = "Furnishings",
@@ -591,9 +608,6 @@ local function CreateSubfilterBars()
             "Heavy", "All",
         },
         [ITEMFILTERTYPE_JEWELRY] = {
-            "Neck", "Ring", "All",
-        },
-        [ITEMFILTERTYPE_JEWELRYCRAFTING] = {
             "Neck", "Ring", "All",
         },
         [ITEMFILTERTYPE_AF_ARMOR_SMITHING] = {
@@ -652,7 +666,10 @@ local function CreateSubfilterBars()
             "DrinkIngredient", "FoodIngredient", "All",
         },
         [ITEMFILTERTYPE_JEWELRYCRAFTING] = {
-            "Plating", "RefinedMaterial", "RawPlating", "All",
+            "FurnishingMat", "Plating", "RefinedMaterial", "RawPlating", "RawMaterial", "All",
+        },
+        [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING] = {
+            "Ring", "Neck", "All",
         },
         [ITEMFILTERTYPE_STYLE_MATERIALS] = {
             "CrownStyle", "ExoticStyle", "AllianceStyle", "RareStyle",

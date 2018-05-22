@@ -299,9 +299,7 @@ local function GetFilterCallback(filterTypes)
             slot = util.prepareSlot(slot, slotIndex)
         end
         local itemLink = util.GetItemLink(slot)
-
         local itemType = GetItemLinkItemType(itemLink)
-
         for i=1, #filterTypes do
             if filterTypes[i] == itemType then return true end
         end
@@ -531,12 +529,16 @@ AF.subfilterCallbacks = {
             },
         },
         JewelryCrafting = {
-            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_BOOSTER, ITEMTYPE_JEWELRYCRAFTING_MATERIAL, ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER, ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL,
+            filterCallback = GetFilterCallback({
+                ITEMTYPE_JEWELRYCRAFTING_BOOSTER,
+                ITEMTYPE_JEWELRYCRAFTING_MATERIAL,
+                ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER,
+                ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL,
             }),
             dropdownCallbacks = {
-                {name = "Plating", filterCallback = GetFilterCallback(ITEMTYPE_JEWELRYCRAFTING_BOOSTER)},
-                {name = "RefinedMaterial", filterCallback = GetFilterCallback(ITEMTYPE_JEWELRYCRAFTING_MATERIAL)},
-                {name = "RawPlating", filterCallback = GetFilterCallback(ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER)},
+                {name = "Plating", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_BOOSTER})},
+                {name = "RefinedMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_MATERIAL})},
+                {name = "RawPlating", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER})},
                 {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL})},
             },
         },
@@ -560,8 +562,11 @@ AF.subfilterCallbacks = {
             dropdownCallbacks = {},
         },
         JewelryTrait = {
-            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT}),
-            dropdownCallbacks = {},
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT, ITEMTYPE_JEWELRY_RAW_TRAIT}),
+            dropdownCallbacks = {
+                {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_RAW_TRAIT})},
+                {name = "RefinedMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT})},
+            },
         },
         FurnishingMat = {
             filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
@@ -923,8 +928,11 @@ AF.subfilterCallbacks = {
             dropdownCallbacks = {},
         },
         JewelryTrait = {
-            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT}),
-            dropdownCallbacks = {},
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT, ITEMTYPE_JEWELRY_RAW_TRAIT}),
+            dropdownCallbacks = {
+                {name = "RawMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_RAW_TRAIT})},
+                {name = "RefinedMaterial", filterCallback = GetFilterCallback({ITEMTYPE_JEWELRY_TRAIT})},
+            },
         },
     },
     JewelryCrafting = {
@@ -937,16 +945,26 @@ AF.subfilterCallbacks = {
             filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_BOOSTER}),
             dropdownCallbacks = {},
         },
-        RawPlating = {
-            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL, ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER, ITEMTYPE_JEWELRY_RAW_TRAIT}),
-            dropdownCallbacks = {},
-        },
         RefinedMaterial = {
             filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_MATERIAL}),
             dropdownCallbacks = {},
         },
+        RawPlating = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_BOOSTER}),
+            dropdownCallbacks = {},
+        },
+        RawMaterial = {
+            filterCallback = GetFilterCallback({ITEMTYPE_JEWELRYCRAFTING_RAW_MATERIAL}),
+            dropdownCallbacks = {},
+        },
+        FurnishingMat = {
+            filterCallback = GetFilterCallback({ITEMTYPE_FURNISHING_MATERIAL}),
+            dropdownCallbacks = {},
+        },
     },
 }
+--Clones of subfilterCallbacks
+AF.subfilterCallbacks.JewelryCraftingStation = AF.subfilterCallbacks.Jewelry
 
 function AdvancedFilters_RegisterFilter(filterInformation)
     local filterTypeToGroupName = {

@@ -138,9 +138,6 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         Armor = {
             "Body", "Shield", "Vanity",
         },
-        Jewelry = {
-            "Neck", "Ring"
-        },
         Consumables = {
             "Crown", "Food", "Drink", "Recipe", "Potion", "Poison", "Motif", "Writ", "Container", "Repair", "Trophy",
         },
@@ -189,8 +186,14 @@ function AF.util.BuildDropdownCallbacks(groupName, subfilterName)
         Traits = {
             "ArmorTrait", "WeaponTrait", "JewelryTrait",
         },
+        Jewelry = {
+            "Neck", "Ring"
+        },
         JewelryCrafting = {
-            "RawPlating", "RefinedMaterial", "Plating",
+            "RawPlating", "RawMaterial", "Plating", "RefinedMaterial",
+        },
+        JewelryCraftingStation = {
+            "Neck", "Ring"
         },
     }
     local craftBagGroups = {
@@ -540,9 +543,11 @@ function AF.util.MapItemFilterType2CraftingStationFilterType(itemFilterType, fil
                 [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING]    = ZO_SMITHING_EXTRACTION_SHARED_FILTER_TYPE_WEAPONS,
                 [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING]      = ZO_SMITHING_EXTRACTION_SHARED_FILTER_TYPE_ARMOR,
             },
+            --[[
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
                 [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
             },
+           ]]
         },
         [LF_SMITHING_IMPROVEMENT] = {
             [CRAFTING_TYPE_BLACKSMITHING] = {
@@ -556,19 +561,21 @@ function AF.util.MapItemFilterType2CraftingStationFilterType(itemFilterType, fil
                 [ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING]    = ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_WEAPONS,
                 [ITEMFILTERTYPE_AF_ARMOR_WOODWORKING]      = ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_ARMOR,
             },
+            --[[
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
                 [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
             },
+            ]]
 
         },
         [LF_JEWELRY_DECONSTRUCT] = {
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
-                [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
+                [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
             },
         },
         [LF_JEWELRY_IMPROVEMENT] = {
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
-                [ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
+                [ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING]           = SMITHING_FILTER_TYPE_JEWELRY,
             },
 
         },
@@ -619,9 +626,11 @@ function AF.util.MapCraftingStationFilterType2ItemFilterType(craftingStationFilt
                 [ZO_SMITHING_EXTRACTION_SHARED_FILTER_TYPE_WEAPONS] = ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING,
                 [ZO_SMITHING_EXTRACTION_SHARED_FILTER_TYPE_ARMOR]   = ITEMFILTERTYPE_AF_ARMOR_WOODWORKING,
             },
+            --[[
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
                 [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
             },
+            ]]
 
         },
         [LF_SMITHING_IMPROVEMENT] = {
@@ -636,19 +645,21 @@ function AF.util.MapCraftingStationFilterType2ItemFilterType(craftingStationFilt
                 [ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_WEAPONS]= ITEMFILTERTYPE_AF_WEAPONS_WOODWORKING,
                 [ZO_SMITHING_IMPROVEMENT_SHARED_FILTER_TYPE_ARMOR]  = ITEMFILTERTYPE_AF_ARMOR_WOODWORKING,
             },
+            --[[
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
                 [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
             },
+            ]]
         },
         [LF_JEWELRY_DECONSTRUCT] = {
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
-                [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
+                [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING,
             },
 
         },
         [LF_JEWELRY_IMPROVEMENT] = {
             [CRAFTING_TYPE_JEWELRYCRAFTING] = {
-                [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_JEWELRYCRAFTING,
+                [SMITHING_FILTER_TYPE_JEWELRY]                      = ITEMFILTERTYPE_AF_ITEMFILTERTYPE_JEWELRYCRAFTING,
             },
         },
         [LF_ENCHANTING_CREATION] = {
