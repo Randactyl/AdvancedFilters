@@ -382,6 +382,9 @@ local function InitializeHooks()
 
         local function onFragmentHiding()
             PLAYER_INVENTORY.isListDirty = untrack(PLAYER_INVENTORY.isListDirty)
+
+            --Reset the current inventory type to the normal inventory
+            AF.currentInventoryType = INVENTORY_BACKPACK
         end
 
         local function onFragmentStateChange(oldState, newState)
@@ -404,7 +407,7 @@ local function InitializeHooks()
     --Hook the crafting station
     --SMITHING
     local function HookSmithingSetMode(self, mode)
-        if not AF.util.IsCraftingPanelShown() then return false end
+        --if not AF.util.IsCraftingPanelShown() then return false end
         --[[
             --Smithing modes
             SMITHING_MODE_ROOT = 0
@@ -441,7 +444,7 @@ local function InitializeHooks()
     --ENCHANTING
     local function HookEnchantingSetEnchantingMode(self, mode)
 --d("[AF]HookEnchantingSetEnchantingMode, mode: " .. tostring(mode))
-        if not AF.util.IsCraftingPanelShown() then return false end
+        --if not AF.util.IsCraftingPanelShown() then return false end
         --[[
             --Enchanting modes
             ENCHANTING_MODE_CREATION = 1
@@ -704,9 +707,17 @@ local function CreateSubfilterBars()
     end
 end
 
+local function endCraftingStationInteract(eventCode, craftSkill)
+    --Reset the current inventory type to the normal inventory
+    AF.currentInventoryType = INVENTORY_BACKPACK
+end
+
 function AdvancedFilters_Loaded(eventCode, addonName)
     if addonName ~= "AdvancedFilters" then return end
     EVENT_MANAGER:UnregisterForEvent("AdvancedFilters_Loaded", EVENT_ADD_ON_LOADED)
+
+    --Register a callback function for crafting stations: If you leave them reseet the current inventory type to INVENTORY_BACKPACK
+    EVENT_MANAGER:RegisterForEvent("AdvancedFilters_CraftingStationLeave", EVENT_END_CRAFTING_STATION_INTERACT, endCraftingStationInteract)
 
     AF.util.LibFilters:InitializeLibFilters()
 
