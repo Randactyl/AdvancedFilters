@@ -1,6 +1,27 @@
 local AF = AdvancedFilters
 local util = AF.util
 
+local filterTypeToGroupName = {
+    [ITEMFILTERTYPE_ALL]                = "All",
+    [ITEMFILTERTYPE_WEAPONS]            = "Weapons",
+    [ITEMFILTERTYPE_ARMOR]              = "Armor",
+    [ITEMFILTERTYPE_JEWELRY]            = "Jewelry",
+    [ITEMFILTERTYPE_CONSUMABLE]         = "Consumables",
+    [ITEMFILTERTYPE_CRAFTING]           = "Crafting",
+    [ITEMFILTERTYPE_FURNISHING]         = "Furnishings",
+    [ITEMFILTERTYPE_MISCELLANEOUS]      = "Miscellaneous",
+    --[ITEMFILTERTYPE_JUNK] = "Junk",
+    [ITEMFILTERTYPE_BLACKSMITHING]      = "Blacksmithing",
+    [ITEMFILTERTYPE_CLOTHING]           = "Clothing",
+    [ITEMFILTERTYPE_WOODWORKING]        = "Woodworking",
+    [ITEMFILTERTYPE_ALCHEMY]            = "Alchemy",
+    [ITEMFILTERTYPE_ENCHANTING]         = "Enchanting",
+    [ITEMFILTERTYPE_PROVISIONING]       = "Provisioning",
+    [ITEMFILTERTYPE_STYLE_MATERIALS]    = "Style",
+    [ITEMFILTERTYPE_TRAIT_ITEMS]        = "Traits",
+    [ITEMFILTERTYPE_JEWELRYCRAFTING]    = "JewelryCrafting",
+}
+
 local function GetFilterCallbackForWeaponType(filterTypes)
     return function(slot, slotIndex)
         if slotIndex ~= nil and type(slot) ~= "table" then
@@ -966,28 +987,61 @@ AF.subfilterCallbacks = {
 --Clones of subfilterCallbacks
 AF.subfilterCallbacks.JewelryCraftingStation = AF.subfilterCallbacks.Jewelry
 
-function AdvancedFilters_RegisterFilter(filterInformation)
-    local filterTypeToGroupName = {
-        [ITEMFILTERTYPE_ALL]                = "All",
-        [ITEMFILTERTYPE_WEAPONS]            = "Weapons",
-        [ITEMFILTERTYPE_ARMOR]              = "Armor",
-        [ITEMFILTERTYPE_JEWELRY]            = "Jewelry",
-        [ITEMFILTERTYPE_CONSUMABLE]         = "Consumables",
-        [ITEMFILTERTYPE_CRAFTING]           = "Crafting",
-        [ITEMFILTERTYPE_FURNISHING]         = "Furnishings",
-        [ITEMFILTERTYPE_MISCELLANEOUS]      = "Miscellaneous",
-        --[ITEMFILTERTYPE_JUNK] = "Junk",
-        [ITEMFILTERTYPE_BLACKSMITHING]      = "Blacksmithing",
-        [ITEMFILTERTYPE_CLOTHING]           = "Clothing",
-        [ITEMFILTERTYPE_WOODWORKING]        = "Woodworking",
-        [ITEMFILTERTYPE_ALCHEMY]            = "Alchemy",
-        [ITEMFILTERTYPE_ENCHANTING]         = "Enchanting",
-        [ITEMFILTERTYPE_PROVISIONING]       = "Provisioning",
-        [ITEMFILTERTYPE_STYLE_MATERIALS]    = "Style",
-        [ITEMFILTERTYPE_TRAIT_ITEMS]        = "Traits",
-        [ITEMFILTERTYPE_JEWELRYCRAFTING]    = "JewelryCrafting",
+local function BuildAddonInformation(filterInformation)
+    if filterInformation == nil then return nil end
+    local addonInformation = {
+        submenuName         = filterInformation.submenuName,
+        callbackTable       = filterInformation.callbackTable,
+        subfilters          = filterInformation.subfilters,
+        excludeSubfilters   = filterInformation.excludeSubfilters,
+        generator           = filterInformation.generator,
+        excludeFilterPanels = filterInformation.excludeFilterPanels,
+        onlyGroups          = filterInformation.onlyGroups,
     }
+    return addonInformation
+end
 
+function AdvancedFilters_RemoveDuplicateAddonPlugin(filterInformation, groupName)
+    if filterInformation == nil then return false end
+    groupName = groupName or filterTypeToGroupName[filterInformation.filterType]
+    local addonInformation = BuildAddonInformation(filterInformation)
+    if addonInformation == nil then return false end
+
+    --Check if the same addon information is already in the callback tables for the filterType
+    --and remove the old one, before adding the same/newer one again
+    local removedDuplicate = false
+    if AF.subfilterCallbacks[groupName].addonDropdownCallbacks ~= nil then
+        local existingAFSubfilterCallbacksInfo = AF.subfilterCallbacks[groupName].addonDropdownCallbacks
+        for index, subfilterCallbacksInfo in pairs(existingAFSubfilterCallbacksInfo) do
+            --FilterInformation got a submenu? Compare the submenu names and remove exisitng before re-adding this
+            if addonInformation.submenuName ~= nil then
+                if subfilterCallbacksInfo.submenuName ~= nil and subfilterCallbacksInfo.submenuName == addonInformation.submenuName then
+                    --Remove this entry from the subfiltercallbacks as the same submenu will be added again
+                    table.remove(existingAFSubfilterCallbacksInfo, index)
+                    removedDuplicate = true
+                end
+            else
+                --No submenu name is given: Compare the callbackTable contents
+                local newPluginCallbackTable = addonInformation.callbackTable
+                local existingSubfilterCallbacksTableAtGroup = subfilterCallbacksInfo.callbackTable
+                if newPluginCallbackTable.name ~= nil and existingSubfilterCallbacksTableAtGroup ~= nil then
+                    --Check each entry of the exisitng addon dropdown plugin callbackTable
+                    for cbTabIndex, cbTabEntry in pairs(existingSubfilterCallbacksTableAtGroup) do
+                        if cbTabEntry ~= nil and cbTabEntry.name ~= nil and cbTabEntry.name == newPluginCallbackTable.name then
+                            --Same name of the callback plugin table was found: Remove the old plugin callbackTable completely
+                            --Remove this entry from the subfiltercallbacks as the same submenu will be added again
+                            table.remove(existingAFSubfilterCallbacksInfo, index)
+                            removedDuplicate = true
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return removedDuplicate
+end
+
+function AdvancedFilters_RegisterFilter(filterInformation)
     --make sure all necessary information is present
     if filterInformation == nil then
         d("No filter information provided. Filter not registered.")
@@ -1011,16 +1065,12 @@ function AdvancedFilters_RegisterFilter(filterInformation)
     end
 
     --get filter information from the calling addon and insert it into our callback table
-    local addonInformation = {
-        submenuName = filterInformation.submenuName,
-        callbackTable = filterInformation.callbackTable,
-        subfilters = filterInformation.subfilters,
-        excludeSubfilters = filterInformation.excludeSubfilters,
-        generator = filterInformation.generator,
-        excludeFilterPanels = filterInformation.excludeFilterPanels,
-        onlyGroups = filterInformation.onlyGroups,
-    }
+    local addonInformation = BuildAddonInformation(filterInformation)
     local groupName = filterTypeToGroupName[filterInformation.filterType]
+
+    --Check if the same addon information is already in the callback tables for the filterType
+    --and remove the old one, before adding the same/newer one again
+    AdvancedFilters_RemoveDuplicateAddonPlugin(filterInformation, groupName)
 
     --insert addon information
     table.insert(AF.subfilterCallbacks[groupName].addonDropdownCallbacks, addonInformation)
@@ -1030,6 +1080,7 @@ function AdvancedFilters_RegisterFilter(filterInformation)
 
     --get string information from the calling addon and insert it into our string table
     --and support setmetatable!
+    --> Overwrite exisiting strings with data from the same AF plugin strings, if re-apllied
     local function addStrings(lang, strings, langStrings)
         for key, string in pairs(strings) do
             AF.strings[key] = langStrings and langStrings[key] or string
